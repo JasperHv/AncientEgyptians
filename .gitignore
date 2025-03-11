@@ -28,3 +28,6 @@ build/
 
 # All contents of the out folder
 out/
+
+.DS_Store
+logs/

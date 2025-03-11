@@ -1,8 +1,9 @@
 plugins {
     id 'java'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group 'org.example'
+group 'nl.vu.cs.softwaredesign'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 11
@@ -11,11 +12,21 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation group: 'junit', name: 'junit', version: '4.13.1'
+javafx {
+    version = "17.0.14"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.13.1'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.4.0-jre'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+    implementation "org.openjfx:javafx-media:17:mac-aarch64"
+    implementation 'com.github.almasb:fxgl:11.17'
+}
 jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
         attributes "Main-Class": "nl.vu.cs.softwaredesign.Main"
     }

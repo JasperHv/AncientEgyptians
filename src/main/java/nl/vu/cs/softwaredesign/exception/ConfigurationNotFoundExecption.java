@@ -1,0 +1,7 @@
+package nl.vu.cs.softwaredesign.exception;
+
+public class ConfigurationNotFoundExecption extends RuntimeException {
+    public ConfigurationNotFoundExecption(String message) {
+            super(message);
+        }
+    }
