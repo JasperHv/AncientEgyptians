@@ -11,7 +11,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import nl.vu.cs.softwaredesign.data.config.ConfigManager;
+import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class PillarView extends StackPane {
     public PillarView(double width, double height) {
         this.height = height;
 
-        this.pillars = ConfigManager.getInstance("Normal Mode").getPillars();
+        this.pillars = ConfigurationLoader.getInstance().getPillars();
 
         for (Pillar pillar : pillars) {
             // Assuming getip returns the progress property for the pillar name

@@ -12,12 +12,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-import nl.vu.cs.softwaredesign.data.config.ConfigManager;
-import nl.vu.cs.softwaredesign.data.config.GameConfig;
+import nl.vu.cs.softwaredesign.data.config.*;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Influence;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.PillarEnding;
+import nl.vu.cs.softwaredesign.data.HandleScore;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -48,7 +48,7 @@ public class GameView extends Parent {
     private Label messageLabel;
     private Label yearLabel;
     private Label scoreLabel;
-
+    ScoreSettings scoreSettings;
 
     public GameView() {
         cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
@@ -57,6 +57,10 @@ public class GameView extends Parent {
         initView();
         initChildren();
         updateCardAndMessage();
+
+        scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
+        FXGL.getip("scoreCount").set(scoreSettings.getInitialScore());
+        FXGL.getip("yearCount").set(scoreSettings.getInitialYearCount());
     }
 
     private void loadPillarImages() {
@@ -66,8 +70,8 @@ public class GameView extends Parent {
         cardPillarToImageMap.put("military", "military-card");
     }
     private void loadGameCards() {
-        ConfigManager configManager =ConfigManager.getInstance("Normal mode");
-        this.gameCards = configManager.getCards();
+        ModeConfiguration modeConfig = ModeConfiguration.getInstance();
+        this.gameCards = modeConfig.getCards();
     }
     private void initView() {
         setLayoutX((FXGL.getAppWidth() - GAME_VIEW_WIDTH) / 2);
@@ -147,7 +151,7 @@ public class GameView extends Parent {
                 Card currentCard = gameCards.get(gameCardIndex);
                 if ("standard".equalsIgnoreCase(currentCard.getType())) {
                     String pillar = currentCard.getPillar().toLowerCase();
-                    String imageName = cardPillarToImageMap.getOrDefault(pillar, "default-card");
+                    String imageName = cardPillarToImageMap.get(pillar);
                     cardView.updateCard(imageName);
                     updateMessage(currentCard.getScenario());
                 } else {
@@ -187,36 +191,13 @@ public class GameView extends Parent {
         fadeIn.play();
     }
 
-    private boolean isBalanced(String pillar) {
-        int value = FXGL.getip(pillar).get();
-        return value >= 25 && value <= 75;
-    }
 
-    private void updateScore() {
-        int yearCount = FXGL.getip("yearCount").get();
-        int scoreIncrease = 5;
-
-        int[] thresholds = {10, 20, 30};
-        int[] bonusScores = {10, 20, 30};
-
-        for (int i = 0; i < thresholds.length; i++) {
-            if (yearCount > thresholds[i]) {
-                scoreIncrease += bonusScores[i];
-            }
-        }
-
-        if (isBalanced("priests") && isBalanced("farmers") && isBalanced("nobles") && isBalanced("military")) {
-            scoreIncrease += 5;
-        }
-
-        FXGL.inc("scoreCount", scoreIncrease);
-    }
 
     public void onCardSwiped(boolean isSwipeLeft) {
-
         if (!isIntroPhase) {
-            FXGL.inc("yearCount", 1);
-            updateScore();
+            FXGL.inc("yearCount", scoreSettings.getYearCountIncrease());
+            HandleScore handleScore = new HandleScore();
+            handleScore.updateScore();
         }
 
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), messageLabel);
@@ -232,17 +213,18 @@ public class GameView extends Parent {
         });
         fadeOut.play();
     }
+
     private void handleIntroPhase(boolean isSwipeLeft) {
         String currentCard = introCards.get(introCardIndex);
         if ("choose-pharaoh".equals(currentCard)) {
-            GameConfig config = ConfigManager.getInstance("Normal mode").getGameConfig();
+            GameConfiguration config = ModeConfiguration.getInstance().getGameConfig();
             if (isSwipeLeft) {
                 config.setSelectedCharacter("Cleopatra");
             } else {
                 config.setSelectedCharacter("Tutankhamun");
             }
             introCardIndex = introCards.indexOf(isSwipeLeft ? "cleopatra-card" : "tutankhamun-card");
-            ConfigManager.getInstance("Normal mode").updatePillarValues();
+            ModeConfiguration.getInstance().updatePillarValues();
         } else if ("tutankhamun-card".equals(currentCard) || "cleopatra-card".equals(currentCard)) {
             isIntroPhase = false;
         } else {
@@ -275,7 +257,7 @@ public class GameView extends Parent {
         boolean gameOverTriggered = false;
         boolean winTriggered = false;
         Pillar triggeredPillar = null;
-        List<Pillar> pillars = ConfigManager.getInstance("Normal Mode").getPillars();
+        List<Pillar> pillars = ConfigurationLoader.getInstance().getPillars();
 
         for (Influence influence : adjustedInfluences) {
             String pillarName = influence.getPillar();
@@ -312,7 +294,7 @@ public class GameView extends Parent {
     }
 
     private void triggerEndScreen(Pillar pillar, boolean isWin) {
-        PillarEnding goldenAgeEnding = ConfigManager.getInstance("Normal Mode").getGoldenAgeEnding();
+        PillarEnding goldenAgeEnding = ConfigurationLoader.getInstance().getGoldenAgeEnding();
         PillarEnding ending = isWin ? goldenAgeEnding : (pillar.getEnding() != null ? pillar.getEnding() : goldenAgeEnding);
 
         String formattedDescription = ending.getDescription().replaceAll("([.!])", "$1\n");
@@ -328,5 +310,4 @@ public class GameView extends Parent {
         screen.setPrefSize(FXGL.getAppWidth(), FXGL.getAppHeight());
         FXGL.getGameScene().addUINode(screen);
     }
-
 }

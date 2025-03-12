@@ -1,13 +1,15 @@
 package nl.vu.cs.softwaredesign;
 
 import com.almasb.fxgl.app.GameSettings;
+import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
+import nl.vu.cs.softwaredesign.data.config.ModeConfiguration;
+import nl.vu.cs.softwaredesign.data.config.ScoreSettings;
 import nl.vu.cs.softwaredesign.ui.scenes.GameSceneFactory;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.almasb.fxgl.app.GameApplication;
 import java.util.Map;
-import nl.vu.cs.softwaredesign.data.config.ConfigManager;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
@@ -40,19 +42,17 @@ public class AncientEgyptiansApp extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         try {
-            ConfigManager config = ConfigManager.getInstance(""); // Should be initialized after menu selection
+            ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
+            vars.put("scoreCount", scoreConfig.getInitialScore());
+            vars.put("yearCount", scoreConfig.getInitialYearCount());
+            vars.put("threshold", scoreConfig.getYearThreshold());
+
+            ModeConfiguration config = ModeConfiguration.getInstance();
             Map<String, Integer> pillarValues = config.getPillarValues();
-
-            for (Map.Entry<String, Integer> entry : pillarValues.entrySet()) {
-                vars.put(entry.getKey(), entry.getValue());
-            }
+            vars.putAll(pillarValues);
         } catch (IllegalStateException e) {
-            logger.error("ConfigManager not initialized before initGameVars. Game mode must be selected first!");
-            throw e;
+            logger.warn("ModeConfiguration not initialized yet. Pillar values will be set later.");
         }
-
-        vars.put("yearCount", 0);
-        vars.put("scoreCount", 0);
-        vars.put("threshold", 60);
     }
+
 }

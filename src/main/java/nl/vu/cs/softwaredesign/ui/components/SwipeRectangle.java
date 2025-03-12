@@ -6,9 +6,6 @@ import javafx.animation.RotateTransition;
 import javafx.animation.ParallelTransition;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import javafx.beans.property.IntegerProperty;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class SwipeRectangle extends Rectangle {
 
