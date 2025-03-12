@@ -1,0 +1,153 @@
+{
+  "initial_value": 30,
+  "cards": [
+    {
+      "name": "card-1",
+      "image": "farmers-card.png",
+      "effects": [
+        {
+          "pillar": "priests",
+          "factor": -10
+        },
+        {
+          "pillar": "farmers",
+          "factor": 25
+        }
+      ]
+    },
+    {
+      "name": "card-2",
+      "image": "military-card.png",
+      "effects": [
+        {
+          "pillar": "military",
+          "factor": 15
+        },
+        {
+          "pillar": "nobles",
+          "factor": -5
+        }
+      ]
+    },
+    {
+      "name": "card-3",
+      "image": "military-card.png",
+      "effects": [
+        {
+          "pillar": "priests",
+          "factor": 20
+        },
+        {
+          "pillar": "military",
+          "factor": -15
+        }
+      ]
+    },
+    {
+      "name": "card-4",
+      "image": "nobles-card.png",
+      "effects": [
+        {
+          "pillar": "farmers",
+          "factor": 10
+        },
+        {
+          "pillar": "nobles",
+          "factor": -20
+        }
+      ]
+    },
+    {
+      "name": "card-5",
+      "image": "nobles-card.png",
+      "effects": [
+        {
+          "pillar": "priests",
+          "factor": -5
+        },
+        {
+          "pillar": "farmers",
+          "factor": 15
+        },
+        {
+          "pillar": "military",
+          "factor": -10
+        }
+      ]
+    },
+    {
+      "name": "card-6",
+      "image": "priests-card.png",
+      "effects": [
+        {
+          "pillar": "nobles",
+          "factor": 30
+        },
+        {
+          "pillar": "priests",
+          "factor": -10
+        }
+      ]
+    },
+    {
+      "name": "card-7",
+      "image": "nobles-card.png",
+      "effects": [
+        {
+          "pillar": "military",
+          "factor": -25
+        },
+        {
+          "pillar": "farmers",
+          "factor": 20
+        }
+      ]
+    },
+    {
+      "name": "card-8",
+      "image": "farmers-card.png",
+      "effects": [
+        {
+          "pillar": "priests",
+          "factor": 10
+        },
+        {
+          "pillar": "military",
+          "factor": 5
+        }
+      ]
+    },
+    {
+      "name": "card-9",
+      "image": "priests-card.png",
+      "effects": [
+        {
+          "pillar": "nobles",
+          "factor": -15
+        },
+        {
+          "pillar": "farmers",
+          "factor": 25
+        }
+      ]
+    },
+    {
+      "name": "card-10",
+      "image": "farmers-card.png",
+      "effects": [
+        {
+          "pillar": "military",
+          "factor": 20
+        },
+        {
+          "pillar": "nobles",
+          "factor": 10
+        },
+        {
+          "pillar": "farmers",
+          "factor": -5
+        }
+      ]
+    }
+  ]
+}
