@@ -1,7 +1,6 @@
 package nl.vu.cs.softwaredesign.ui.menus;
 
-import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
-import nl.vu.cs.softwaredesign.data.config.ModeConfiguration;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;

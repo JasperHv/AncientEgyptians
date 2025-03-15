@@ -1,14 +1,14 @@
-package nl.vu.cs.softwaredesign.data.config;
+package nl.vu.cs.softwaredesign.data.config.gamesettings;
 
 import nl.vu.cs.softwaredesign.data.model.Card;
 import java.util.List;
 import java.util.Map;
 
-public class GameConfig {
+public class GameConfiguration {
     private Map<String, Map<String, Integer>> characterInitialValues;
     private List<Card> cards;
-    public String gameMode = "";
     private String selectedCharacter = "";
+    private String gameMode = "";
 
     // Getters
     public Map<String, Map<String, Integer>> getCharacterInitialValues() {
@@ -17,14 +17,6 @@ public class GameConfig {
 
     public List<Card> getCards() {
         return cards;
-    }
-
-    public String getGameMode() {
-        return gameMode;
-    }
-
-    public void setGameMode(String mode) {
-        this.gameMode = mode;
     }
 
     public String getSelectedCharacter() {
@@ -37,5 +29,13 @@ public class GameConfig {
 
     public Map<String, Integer> getInitialValuesForCharacter(String character) {
         return characterInitialValues.getOrDefault(character, Map.of());
+    }
+
+    public String getGameMode() {
+        return gameMode;
+    }
+
+    public void setGameMode(String mode) {
+        this.gameMode = mode;
     }
 }
