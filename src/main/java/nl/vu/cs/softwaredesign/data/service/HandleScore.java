@@ -1,8 +1,8 @@
-package nl.vu.cs.softwaredesign.data;
+package nl.vu.cs.softwaredesign.data.service;
 
 import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
-import nl.vu.cs.softwaredesign.data.config.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 
 import java.util.List;
 

@@ -3,6 +3,7 @@ package nl.vu.cs.softwaredesign.data.config;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.PillarEnding;
@@ -16,7 +17,7 @@ public class ConfigManager {
     private static final String CONFIG_PATH = "/configuration/config.json";
     private static ConfigManager instance;
 
-    private GameConfig gameConfig;
+    private GameConfiguration gameConfiguration;
     private List<Pillar> pillars;
     private Map<String, Integer> pillarValues;
     private PillarEnding goldenAgeEnding;
@@ -66,11 +67,11 @@ public class ConfigManager {
                 throw new RuntimeException("Mode config file not found: " + modeConfigPath);
             }
             ObjectMapper mapper = new ObjectMapper();
-            gameConfig = mapper.readValue(input, GameConfig.class);
+            gameConfiguration = mapper.readValue(input, GameConfiguration.class);
 
             pillarValues = new HashMap<>();
-            String character = gameConfig.getSelectedCharacter();
-            Map<String, Integer> initialValues = gameConfig.getInitialValuesForCharacter(character);
+            String character = gameConfiguration.getSelectedCharacter();
+            Map<String, Integer> initialValues = gameConfiguration.getInitialValuesForCharacter(character);
             for (Pillar pillar : pillars) {
                 String key = pillar.getName().toLowerCase();
                 int value = initialValues.getOrDefault(pillar.getName(), 0);
@@ -82,8 +83,8 @@ public class ConfigManager {
         }
     }
 
-    public GameConfig getGameConfig() {
-        return gameConfig;
+    public GameConfiguration getGameConfiguration() {
+        return gameConfiguration;
     }
 
     public List<Pillar> getPillars() {
@@ -95,7 +96,7 @@ public class ConfigManager {
     }
 
     public List<Card> getCards() {
-        return gameConfig != null ? gameConfig.getCards() : Collections.emptyList();
+        return gameConfiguration != null ? gameConfiguration.getCards() : Collections.emptyList();
     }
 
     public PillarEnding getGoldenAgeEnding() {
@@ -103,8 +104,8 @@ public class ConfigManager {
     }
 
     public void updatePillarValues() {
-        String character = gameConfig.getSelectedCharacter();
-        Map<String, Integer> initialValues = gameConfig.getInitialValuesForCharacter(character);
+        String character = gameConfiguration.getSelectedCharacter();
+        Map<String, Integer> initialValues = gameConfiguration.getInitialValuesForCharacter(character);
         pillarValues.clear();
         pillarValues.putAll(initialValues);
         for (Map.Entry<String, Integer> entry : initialValues.entrySet()) {

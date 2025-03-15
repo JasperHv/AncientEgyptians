@@ -3,6 +3,7 @@ package nl.vu.cs.softwaredesign.data.config;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.PillarEnding;
 import nl.vu.cs.softwaredesign.data.model.Mode;

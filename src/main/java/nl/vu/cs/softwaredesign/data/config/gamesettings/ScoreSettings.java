@@ -1,4 +1,4 @@
-package nl.vu.cs.softwaredesign.data.config;
+package nl.vu.cs.softwaredesign.data.config.gamesettings;
 
 import java.util.List;
 
