@@ -1,5 +1,4 @@
 package nl.vu.cs.softwaredesign.ui.components;
-import nl.vu.cs.softwaredesign.data.model.Influence;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.TranslateTransition;
 import javafx.animation.RotateTransition;
