@@ -43,9 +43,7 @@ public class AncientEgyptiansApp extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
         try {
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
-            vars.put("scoreCount", scoreConfig.getInitialScore());
-            vars.put("yearCount", scoreConfig.getInitialYearCount());
-            vars.put("threshold", scoreConfig.getYearThreshold());
+            vars.putAll(scoreConfig.getInitialValues());
 
             ModeConfiguration config = ModeConfiguration.getInstance();
             Map<String, Integer> pillarValues = config.getPillarValues();

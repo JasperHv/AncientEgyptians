@@ -252,7 +252,7 @@ public class GameView extends Parent {
                 .collect(Collectors.toList());
 
         IntegerProperty yearCount = FXGL.getip("yearCount");
-        IntegerProperty threshold = FXGL.getip("threshold");
+        int threshold = scoreSettings.getYearThreshold();
 
         boolean gameOverTriggered = false;
         boolean winTriggered = false;
@@ -265,7 +265,7 @@ public class GameView extends Parent {
 
             IntegerProperty pillarProgress = FXGL.getip(pillarName);
             int currentValue = pillarProgress.get();
-            int newValue = Math.max(currentValue + valueChange, 0);
+            int newValue = Math.min(Math.max(currentValue + valueChange, 0), 100);
 
             pillarProgress.set(newValue);
 
@@ -275,7 +275,7 @@ public class GameView extends Parent {
                         .filter(p -> p.getName().equalsIgnoreCase(pillarName))
                         .findFirst()
                         .orElse(null);
-            } else if (newValue >= 100) {
+            } else if (newValue == 100 && yearCount.get() >= threshold) {
                 winTriggered = true;
                 triggeredPillar = pillars.stream()
                         .filter(p -> p.getName().equalsIgnoreCase(pillarName))
@@ -284,9 +284,7 @@ public class GameView extends Parent {
             }
         }
 
-        if (winTriggered && gameOverTriggered) {
-            triggerEndScreen(triggeredPillar, yearCount.get() >= threshold.get());
-        } else if (winTriggered) {
+        if (winTriggered) {
             triggerEndScreen(triggeredPillar, true);
         } else if (gameOverTriggered) {
             triggerEndScreen(triggeredPillar, false);

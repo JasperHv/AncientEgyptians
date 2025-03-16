@@ -1,5 +1,7 @@
 package nl.vu.cs.softwaredesign.data.config;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 public class ScoreSettings {
@@ -17,6 +19,14 @@ public class ScoreSettings {
     }
 
     public int getInitialYearCount() { return initialYearCount; }
+
+    public Map<String, Integer> getInitialValues() {
+        Map<String, Integer> values = new HashMap<>();
+        values.put("scoreCount", initialScore);
+        values.put("yearCount", initialYearCount);
+        values.put("threshold", yearThreshold);
+        return values;
+    }
 
     public int getYearThreshold() { return yearThreshold; }
 
@@ -41,4 +51,5 @@ public class ScoreSettings {
     public int getBalancedBonus() {
         return balancedBonus;
     }
+
 }

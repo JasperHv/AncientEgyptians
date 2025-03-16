@@ -21,7 +21,7 @@
       "image": "priests.png",
       "ending": {
         "description": "The gods abandon us, Pharaoh! Your neglect of religious rites and offerings angers the temple priests. They declare you a false Pharaoh, and civil unrest splits Egypt into rival factions.",
-        "image": "endings/priests-ending.png"
+        "image": "endings/temple-priest-ending.png"
       }
     },
     {
