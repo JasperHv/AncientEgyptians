@@ -32,3 +32,5 @@ out/
 .DS_Store
 logs/
 *.Zone.Identifier
+
+.qodo

@@ -3,10 +3,13 @@ package nl.vu.cs.softwaredesign.data.service;
 import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
-
+import javafx.beans.property.IntegerProperty;
 import java.util.List;
 
 public class HandleScore {
+    private final IntegerProperty scoreCount = FXGL.getip("scoreCount");
+    private final List<String> pillars = List.of("priests", "farmers", "nobles", "military");
+
     private boolean isBalanced(String pillar) {
         int value = FXGL.getip(pillar).get();
         return value >= 25 && value <= 75;
@@ -26,10 +29,11 @@ public class HandleScore {
             }
         }
 
-        if (isBalanced("priests") && isBalanced("farmers") && isBalanced("nobles") && isBalanced("military")) {
+        boolean allBalanced = pillars.stream().allMatch(this::isBalanced);
+        if (allBalanced) {
             scoreIncrease += scoreSettings.getBalancedBonus();
         }
 
-        FXGL.inc("scoreCount", scoreIncrease);
+        scoreCount.set(scoreCount.get() + scoreIncrease);
     }
 }

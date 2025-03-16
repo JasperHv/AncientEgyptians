@@ -3,9 +3,13 @@ package nl.vu.cs.softwaredesign.ui.views;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -19,22 +23,17 @@ import nl.vu.cs.softwaredesign.data.model.Influence;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.PillarEnding;
 import nl.vu.cs.softwaredesign.data.service.HandleScore;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.stream.Collectors;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.geometry.Pos;
 
 public class GameView extends Parent {
 
     private static final double GAME_VIEW_WIDTH = FXGL.getAppWidth() / 2.5;
     private static final double GAME_VIEW_HEIGHT = FXGL.getAppHeight();
+
     private final PillarView pillarView = new PillarView(GAME_VIEW_WIDTH, 100);
     private final CardView cardView;
     private final Map<String, String> cardPillarToImageMap = new HashMap<>();
@@ -42,14 +41,19 @@ public class GameView extends Parent {
     private final List<String> introCards = List.of(
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
     );
+
     private List<Card> gameCards;
     private int introCardIndex = 0;
     private int gameCardIndex = 0;
     private boolean isIntroPhase = true;
+
     private Label messageLabel;
     private Label yearLabel;
     private Label scoreLabel;
-    ScoreSettings scoreSettings;
+
+    private final IntegerProperty yearCount = new SimpleIntegerProperty();
+    private final IntegerProperty scoreCount = new SimpleIntegerProperty();
+    private final ScoreSettings scoreSettings;
 
     public GameView() {
         cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
@@ -60,8 +64,8 @@ public class GameView extends Parent {
         updateCardAndMessage();
 
         scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        FXGL.getip("scoreCount").set(scoreSettings.getInitialScore());
-        FXGL.getip("yearCount").set(scoreSettings.getInitialYearCount());
+        yearCount.set(scoreSettings.getInitialYearCount());
+        scoreCount.set(scoreSettings.getInitialScore());
     }
 
     private void loadPillarImages() {
@@ -70,10 +74,12 @@ public class GameView extends Parent {
         cardPillarToImageMap.put("nobles", "nobles-card");
         cardPillarToImageMap.put("military", "military-card");
     }
+
     private void loadGameCards() {
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
         this.gameCards = modeConfig.getCards();
     }
+
     private void initView() {
         setLayoutX((FXGL.getAppWidth() - GAME_VIEW_WIDTH) / 2);
         setLayoutY(0);
@@ -91,21 +97,18 @@ public class GameView extends Parent {
     private void initChildren() {
         var vBox = new VBox();
 
-        yearLabel = createBoxLabel("Years in Power: " + FXGL.getip("yearCount").get());
-        scoreLabel = createBoxLabel("Score: " + FXGL.getip("scoreCount").get());
+        yearLabel = createBoxLabel("Years in Power: " + yearCount.get());
+        scoreLabel = createBoxLabel("Score: " + scoreCount.get());
 
         HBox yearBox = createBox(yearLabel);
         HBox scoreBox = createBox(scoreLabel);
 
-
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-
 
         HBox statsBox = new HBox(10, yearBox, spacer, scoreBox);
         statsBox.setAlignment(Pos.TOP_CENTER);
         statsBox.setMaxWidth(Double.MAX_VALUE);
-
 
         messageLabel = new Label();
         messageLabel.setFont(Font.font("Papyrus", FontWeight.EXTRA_BOLD, 25));
@@ -137,8 +140,14 @@ public class GameView extends Parent {
     }
 
     private void updateScoreAndYearBoxes() {
-        yearLabel.setText("Years in Power: " + FXGL.getip("yearCount").get());
-        scoreLabel.setText("Score: " + FXGL.getip("scoreCount").get());
+        yearLabel.setText("Years in Power: " + yearCount.get());
+        scoreLabel.setText("Score: " + scoreCount.get());
+    }
+
+    private void updateScore() {
+        HandleScore handleScore = new HandleScore();
+        handleScore.updateScore();
+        scoreCount.set(FXGL.getip("scoreCount").get());
     }
 
     private void updateCardAndMessage() {
@@ -192,15 +201,7 @@ public class GameView extends Parent {
         fadeIn.play();
     }
 
-
-
     public void onCardSwiped(boolean isSwipeLeft) {
-        if (!isIntroPhase) {
-            FXGL.inc("yearCount", scoreSettings.getYearCountIncrease());
-            HandleScore handleScore = new HandleScore();
-            handleScore.updateScore();
-        }
-
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), messageLabel);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);
@@ -234,9 +235,11 @@ public class GameView extends Parent {
     }
 
     private void handleGamePhase(boolean isSwipeLeft) {
+        yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
         if (gameCardIndex < gameCards.size()) {
             Card currentCard = gameCards.get(gameCardIndex);
             applyInfluence(isSwipeLeft, currentCard.getInfluence());
+            updateScore();
             updateScoreAndYearBoxes();
         }
         gameCardIndex = (gameCardIndex >= gameCards.size() - 1) ? 0 : gameCardIndex + 1;
@@ -293,13 +296,13 @@ public class GameView extends Parent {
     }
 
     private void triggerEndScreen(Pillar pillar, boolean isWin) {
-        PillarEnding goldenAgeEnding = ConfigurationLoader.getInstance().getGoldenAgeEnding();
-        PillarEnding ending = isWin ? goldenAgeEnding : (pillar.getEnding() != null ? pillar.getEnding() : goldenAgeEnding);
+        PillarEnding ending = isWin
+                ? ConfigurationLoader.getInstance().getGoldenAgeEnding()
+                : pillar.getEnding();
 
         String formattedDescription = ending.getDescription().replaceAll("([.!])", "$1\n");
         FXGL.getDialogService().showMessageBox(formattedDescription);
 
-        // Display the ending image
         Image image = FXGL.image(ending.getImage());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(FXGL.getAppWidth());
