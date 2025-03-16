@@ -2,8 +2,8 @@ package nl.vu.cs.softwaredesign;
 
 import com.almasb.fxgl.app.GameSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
-import nl.vu.cs.softwaredesign.data.config.ModeConfiguration;
-import nl.vu.cs.softwaredesign.data.config.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.ui.scenes.GameSceneFactory;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import org.slf4j.Logger;

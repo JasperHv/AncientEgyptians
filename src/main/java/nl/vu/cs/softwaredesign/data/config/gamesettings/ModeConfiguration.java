@@ -1,7 +1,8 @@
-package nl.vu.cs.softwaredesign.data.config;
+package nl.vu.cs.softwaredesign.data.config.gamesettings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.almasb.fxgl.dsl.FXGL;
+import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.Mode;
