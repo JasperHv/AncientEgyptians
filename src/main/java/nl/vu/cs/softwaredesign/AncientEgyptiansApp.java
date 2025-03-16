@@ -36,7 +36,7 @@ public class AncientEgyptiansApp extends GameApplication {
     protected void initUI() {
         getGameScene().setBackgroundRepeat("background.png");
         getGameScene().addUINodes(
-                new GameView()
+                GameView.getInstance()
         );
     }
     @Override

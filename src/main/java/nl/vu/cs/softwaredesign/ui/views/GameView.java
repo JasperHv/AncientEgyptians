@@ -3,7 +3,6 @@ package nl.vu.cs.softwaredesign.ui.views;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -19,15 +18,13 @@ import javafx.util.Duration;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
 import nl.vu.cs.softwaredesign.data.model.Card;
-import nl.vu.cs.softwaredesign.data.model.Influence;
-import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.PillarEnding;
 import nl.vu.cs.softwaredesign.data.service.HandleScore;
+import nl.vu.cs.softwaredesign.data.service.InfluencePillars;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GameView extends Parent {
 
@@ -50,13 +47,16 @@ public class GameView extends Parent {
     private Label messageLabel;
     private Label yearLabel;
     private Label scoreLabel;
+    private static GameView instance;
+    IntegerProperty yearCount = FXGL.getip("yearCount");
+    IntegerProperty scoreCount = FXGL.getip("scoreCount");
 
-    private final IntegerProperty yearCount = new SimpleIntegerProperty();
-    private final IntegerProperty scoreCount = new SimpleIntegerProperty();
     private final ScoreSettings scoreSettings;
+    InfluencePillars InfluencePillars;
 
     public GameView() {
         cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
+        this.InfluencePillars = new InfluencePillars(this);
         loadPillarImages();
         loadGameCards();
         initView();
@@ -66,6 +66,13 @@ public class GameView extends Parent {
         scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
         yearCount.set(scoreSettings.getInitialYearCount());
         scoreCount.set(scoreSettings.getInitialScore());
+    }
+
+    public static GameView getInstance() {
+        if (instance == null) {
+            instance = new GameView();
+        }
+        return instance;
     }
 
     private void loadPillarImages() {
@@ -235,71 +242,19 @@ public class GameView extends Parent {
     }
 
     private void handleGamePhase(boolean isSwipeLeft) {
+        System.out.println("Year Count before update: " + yearCount.get());
         yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
+        System.out.println("Year Count after update: " + yearCount.get());
         if (gameCardIndex < gameCards.size()) {
             Card currentCard = gameCards.get(gameCardIndex);
-            applyInfluence(isSwipeLeft, currentCard.getInfluence());
+            InfluencePillars.applyInfluence(isSwipeLeft, currentCard.getInfluence());
             updateScore();
             updateScoreAndYearBoxes();
         }
         gameCardIndex = (gameCardIndex >= gameCards.size() - 1) ? 0 : gameCardIndex + 1;
     }
 
-    private void applyInfluence(boolean isSwipeLeft, List<Influence> influences) {
-        if (influences == null || influences.isEmpty()) return;
-
-        List<Influence> adjustedInfluences = influences.stream()
-                .map(influence -> new Influence(
-                        influence.getPillar(),
-                        isSwipeLeft ? -influence.getValue() : influence.getValue()
-                ))
-                .collect(Collectors.toList());
-
-        IntegerProperty yearCount = FXGL.getip("yearCount");
-        int threshold = scoreSettings.getYearThreshold();
-
-        boolean gameOverTriggered = false;
-        boolean winTriggered = false;
-        Pillar triggeredPillar = null;
-        List<Pillar> pillars = ConfigurationLoader.getInstance().getPillars();
-
-        for (Influence influence : adjustedInfluences) {
-            String pillarName = influence.getPillar();
-            int valueChange = influence.getValue();
-
-            IntegerProperty pillarProgress = FXGL.getip(pillarName);
-            int currentValue = pillarProgress.get();
-            int newValue = Math.min(Math.max(currentValue + valueChange, 0), 100);
-
-            pillarProgress.set(newValue);
-
-            if (newValue == 0) {
-                gameOverTriggered = true;
-                triggeredPillar = pillars.stream()
-                        .filter(p -> p.getName().equalsIgnoreCase(pillarName))
-                        .findFirst()
-                        .orElse(null);
-            } else if (newValue == 100 && yearCount.get() >= threshold) {
-                winTriggered = true;
-                triggeredPillar = pillars.stream()
-                        .filter(p -> p.getName().equalsIgnoreCase(pillarName))
-                        .findFirst()
-                        .orElse(null);
-            }
-        }
-
-        if (winTriggered) {
-            triggerEndScreen(triggeredPillar, true);
-        } else if (gameOverTriggered) {
-            triggerEndScreen(triggeredPillar, false);
-        }
-    }
-
-    private void triggerEndScreen(Pillar pillar, boolean isWin) {
-        PillarEnding ending = isWin
-                ? ConfigurationLoader.getInstance().getGoldenAgeEnding()
-                : pillar.getEnding();
-
+    public void showEndScreen(PillarEnding ending) {
         String formattedDescription = ending.getDescription().replaceAll("([.!])", "$1\n");
         FXGL.getDialogService().showMessageBox(formattedDescription);
 
@@ -310,6 +265,7 @@ public class GameView extends Parent {
 
         StackPane screen = new StackPane(imageView);
         screen.setPrefSize(FXGL.getAppWidth(), FXGL.getAppHeight());
+
         FXGL.getGameScene().addUINode(screen);
     }
 }
