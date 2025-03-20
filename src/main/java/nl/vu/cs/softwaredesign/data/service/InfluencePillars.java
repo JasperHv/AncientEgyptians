@@ -1,13 +1,13 @@
 package nl.vu.cs.softwaredesign.data.service;
 
 import com.almasb.fxgl.dsl.FXGL;
+import javafx.beans.property.IntegerProperty;
+import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Influence;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.PillarEnding;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
-import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
-import javafx.beans.property.IntegerProperty;
 
 import java.util.List;
 import java.util.stream.Collectors;
