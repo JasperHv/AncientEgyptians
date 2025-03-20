@@ -22,10 +22,8 @@ import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
 import nl.vu.cs.softwaredesign.data.model.*;
 import nl.vu.cs.softwaredesign.data.handlers.HandleScore;
-import nl.vu.cs.softwaredesign.data.GameStateManager;
-import nl.vu.cs.softwaredesign.data.CardController;
-
-import java.util.List;
+import nl.vu.cs.softwaredesign.data.controller.GameStateController;
+import nl.vu.cs.softwaredesign.data.controller.CardController;
 
 public class GameView extends Parent {
 
@@ -48,7 +46,7 @@ public class GameView extends Parent {
     IntegerProperty scoreCount = FXGL.getip("scoreCount");
 
     HandleInfluencePillars handleInfluencePillars;
-    GameStateManager gameStateManager;
+    GameStateController gameStateController;
 
     public GameView() {
         cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
@@ -62,8 +60,8 @@ public class GameView extends Parent {
         scoreCount.set(scoreSettings.getInitialScore());
 
         cardController = new CardController(cardView, this, yearCount);
-        gameStateManager = cardController.getGameStateManager();
-        swipeHandler = new SwipeHandler(this, gameStateManager);
+        gameStateController = cardController.getGameStateManager();
+        swipeHandler = new SwipeHandler(this, gameStateController);
         updateCardAndMessage();
     }
 
@@ -147,7 +145,7 @@ public class GameView extends Parent {
     }
 
     public void updateCardAndMessage() {
-        if (gameStateManager.isIntroPhase()) {
+        if (gameStateController.isIntroPhase()) {
             cardController.handleIntroPhase(messageLabel);
         } else {
             cardController.handleGamePhase(messageLabel);

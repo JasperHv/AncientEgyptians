@@ -5,7 +5,7 @@ import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
-import nl.vu.cs.softwaredesign.data.GameStateManager;
+import nl.vu.cs.softwaredesign.data.controller.GameStateController;
 import javafx.beans.property.IntegerProperty;
 
 public class GameSwipeCommand implements Command {
@@ -14,16 +14,16 @@ public class GameSwipeCommand implements Command {
     private final ScoreSettings scoreSettings;
     private final IntegerProperty yearCount;
     private final GameView gameView;
-    private final GameStateManager gameStateManager;
+    private final GameStateController gameStateController;
     private final HandleInfluencePillars handleInfluencePillars;
 
-    public GameSwipeCommand(SwipeSide side, Card card, ScoreSettings scoreSettings, IntegerProperty yearCount, GameView gameView, GameStateManager gameStateManager, HandleInfluencePillars handleInfluencePillars) {
+    public GameSwipeCommand(SwipeSide side, Card card, ScoreSettings scoreSettings, IntegerProperty yearCount, GameView gameView, GameStateController gameStateController, HandleInfluencePillars handleInfluencePillars) {
         this.side = side;
         this.card = card;
         this.scoreSettings = scoreSettings;
         this.yearCount = yearCount;
         this.gameView = gameView;
-        this.gameStateManager = gameStateManager;
+        this.gameStateController = gameStateController;
         this.handleInfluencePillars = handleInfluencePillars;
     }
 
@@ -35,6 +35,6 @@ public class GameSwipeCommand implements Command {
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
 
-        gameStateManager.advanceGameCard();
+        gameStateController.advanceGameCard();
     }
 }

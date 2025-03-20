@@ -5,31 +5,31 @@ import nl.vu.cs.softwaredesign.data.commands.GameSwipeCommand;
 import nl.vu.cs.softwaredesign.data.commands.IntroSwipeCommand;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
-import nl.vu.cs.softwaredesign.data.GameStateManager;
+import nl.vu.cs.softwaredesign.data.controller.GameStateController;
 
 public class SwipeHandler {
 
     private final GameView gameView;
-    private final GameStateManager gameStateManager;
+    private final GameStateController gameStateController;
 
-    public SwipeHandler(GameView gameView, GameStateManager gameStateManager) {
+    public SwipeHandler(GameView gameView, GameStateController gameStateController) {
         this.gameView = gameView;
-        this.gameStateManager = gameStateManager;
+        this.gameStateController = gameStateController;
     }
 
     public void onSwipe(SwipeSide side) {
-        if (gameStateManager.isIntroPhase()) {
-            Command command = new IntroSwipeCommand(side, gameStateManager, gameView);
+        if (gameStateController.isIntroPhase()) {
+            Command command = new IntroSwipeCommand(side, gameStateController, gameView);
             command.execute();
         } else {
             Command command = new GameSwipeCommand(
                     side,
-                    gameStateManager.getCurrentGameCard(),
-                    gameStateManager.getScoreSettings(),
-                    gameStateManager.getYearCount(),
+                    gameStateController.getCurrentGameCard(),
+                    gameStateController.getScoreSettings(),
+                    gameStateController.getYearCount(),
                     gameView,
-                    gameStateManager,
-                    gameStateManager.getInfluencePillars()
+                    gameStateController,
+                    gameStateController.getInfluencePillars()
             );
             command.execute();
         }

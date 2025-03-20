@@ -4,24 +4,22 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
-import nl.vu.cs.softwaredesign.data.GameStateManager;
-
-import java.util.List;
+import nl.vu.cs.softwaredesign.data.controller.GameStateController;
 
 public class IntroSwipeCommand implements Command {
     private final SwipeSide side;
-    private final GameStateManager gameStateManager;
+    private final GameStateController gameStateController;
     private final GameView gameView;
 
-    public IntroSwipeCommand(SwipeSide side, GameStateManager gameStateManager, GameView gameView) {
+    public IntroSwipeCommand(SwipeSide side, GameStateController gameStateController, GameView gameView) {
         this.side = side;
-        this.gameStateManager = gameStateManager;
+        this.gameStateController = gameStateController;
         this.gameView = gameView;
     }
 
     @Override
     public void execute() {
-        String currentCard = gameStateManager.getIntroCards().get(gameStateManager.getIntroCardIndex());
+        String currentCard = gameStateController.getIntroCards().get(gameStateController.getIntroCardIndex());
 
         if ("choose-pharaoh".equals(currentCard)) {
             GameConfiguration config = ModeConfiguration.getInstance().getGameConfig();
@@ -29,13 +27,13 @@ public class IntroSwipeCommand implements Command {
             config.setSelectedCharacter(chosenPharaoh);
             ModeConfiguration.getInstance().updatePillarValues();
 
-            gameStateManager.setIntroCardIndex(gameStateManager.getIntroCards().indexOf(chosenPharaoh.toLowerCase() + "-card"));
+            gameStateController.setIntroCardIndex(gameStateController.getIntroCards().indexOf(chosenPharaoh.toLowerCase() + "-card"));
         }
         else if ("tutankhamun-card".equals(currentCard) || "cleopatra-card".equals(currentCard)) {
-            gameStateManager.setIntroPhase(false);
+            gameStateController.setIntroPhase(false);
         }
         else {
-            gameStateManager.advanceIntroCard();
+            gameStateController.advanceIntroCard();
         }
     }
 }

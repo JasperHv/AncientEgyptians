@@ -1,4 +1,4 @@
-package nl.vu.cs.softwaredesign.data;
+package nl.vu.cs.softwaredesign.data.controller;
 
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
@@ -7,7 +7,7 @@ import javafx.beans.property.IntegerProperty;
 
 import java.util.List;
 
-public class GameStateManager {
+public class GameStateController {
 
     private boolean isIntroPhase;
     private int introCardIndex = 0;
@@ -18,7 +18,7 @@ public class GameStateManager {
     private final IntegerProperty yearCount;
     private final HandleInfluencePillars handleInfluencePillars;
 
-    public GameStateManager(List<Card> gameCards, List<String> introCards, ScoreSettings scoreSettings, IntegerProperty yearCount, HandleInfluencePillars handleInfluencePillars) {
+    public GameStateController(List<Card> gameCards, List<String> introCards, ScoreSettings scoreSettings, IntegerProperty yearCount, HandleInfluencePillars handleInfluencePillars) {
         this.isIntroPhase = true;
         this.gameCards = gameCards;
         this.introCards = introCards;

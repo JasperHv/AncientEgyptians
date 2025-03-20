@@ -1,4 +1,4 @@
-package nl.vu.cs.softwaredesign.data;
+package nl.vu.cs.softwaredesign.data.controller;
 
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
@@ -7,7 +7,6 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.ui.views.CardView;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
-import nl.vu.cs.softwaredesign.data.GameStateManager;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Label;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
@@ -16,13 +15,12 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Map;
 
 public class CardController {
 
     private final CardView cardView;
     private final GameView gameView;
-    private final GameStateManager gameStateManager;
+    private final GameStateController gameStateController;
     private final ScoreSettings scoreSettings;
     HandleInfluencePillars handleInfluencePillars;
 
@@ -43,7 +41,7 @@ public class CardController {
         this.cardPillarToImageMap = new HashMap<>();
         loadPillarImages();
 
-        this.gameStateManager = new GameStateManager(gameCards, introCards, scoreSettings, yearCount, handleInfluencePillars);
+        this.gameStateController = new GameStateController(gameCards, introCards, scoreSettings, yearCount, handleInfluencePillars);
     }
 
 
@@ -93,7 +91,7 @@ public class CardController {
     }
 
     public void updateCardAndMessage(Label messageLabel) {
-        if (gameStateManager.isIntroPhase()) {
+        if (gameStateController.isIntroPhase()) {
             handleIntroPhase(messageLabel);
         } else {
             handleGamePhase(messageLabel);
@@ -102,26 +100,26 @@ public class CardController {
 
 
     public void handleIntroPhase(Label messageLabel) {
-        int introCardIndex = gameStateManager.getIntroCardIndex();
-        String cardName = gameStateManager.getIntroCards().get(introCardIndex);
+        int introCardIndex = gameStateController.getIntroCardIndex();
+        String cardName = gameStateController.getIntroCards().get(introCardIndex);
         cardView.updateCard(cardName);
         updateMessage(messageLabel, cardName);
     }
 
     public void handleGamePhase(Label messageLabel) {
-        Card currentCard = gameStateManager.getCurrentGameCard();
+        Card currentCard = gameStateController.getCurrentGameCard();
         if ("standard".equalsIgnoreCase(currentCard.getType())) {
             String pillar = currentCard.getPillar().toLowerCase();
             String imageName = cardPillarToImageMap.get(pillar);
             cardView.updateCard(imageName);
             updateMessage(messageLabel, currentCard.getScenario());
         } else {
-            gameStateManager.advanceGameCard();
+            gameStateController.advanceGameCard();
             updateCardAndMessage(messageLabel);
         }
     }
 
-    public GameStateManager getGameStateManager() {
-        return gameStateManager;
+    public GameStateController getGameStateManager() {
+        return gameStateController;
     }
 }
