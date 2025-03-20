@@ -17,15 +17,16 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.handlers.SwipeHandler;
+import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
-import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.model.*;
 import nl.vu.cs.softwaredesign.data.handlers.HandleScore;
+import nl.vu.cs.softwaredesign.data.GameStateManager;
+import nl.vu.cs.softwaredesign.data.CardController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class GameView extends Parent {
 
@@ -34,17 +35,11 @@ public class GameView extends Parent {
 
     private final PillarView pillarView = new PillarView(GAME_VIEW_WIDTH, 100);
     private final CardView cardView;
-    private final Map<String, String> cardPillarToImageMap = new HashMap<>();
-
     private final List<String> introCards = List.of(
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
     );
 
     private List<Card> gameCards;
-    private int introCardIndex = 0;
-    private int gameCardIndex = 0;
-    private boolean isIntroPhase = true;
-
     private Label messageLabel;
     private Label yearLabel;
     private Label scoreLabel;
@@ -53,35 +48,36 @@ public class GameView extends Parent {
     IntegerProperty scoreCount = FXGL.getip("scoreCount");
 
     private final ScoreSettings scoreSettings;
-    HandleInfluencePillars HandleInfluencePillars;
-    private final SwipeHandler swipeHandler = new SwipeHandler(this);
+    HandleInfluencePillars handleInfluencePillars;
+    GameStateManager gameStateManager;
+    private final SwipeHandler swipeHandler;
+
+    private final CardController cardController;
 
     public GameView() {
         cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
-        this.HandleInfluencePillars = new HandleInfluencePillars(this);
-        loadPillarImages();
         loadGameCards();
         initView();
         initChildren();
-        updateCardAndMessage();
 
+        cardController = new CardController(cardView, this);
         scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
+        handleInfluencePillars = new HandleInfluencePillars(this);
         yearCount.set(scoreSettings.getInitialYearCount());
         scoreCount.set(scoreSettings.getInitialScore());
+
+        List<String> introCards = List.of("welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card");
+        gameStateManager = new GameStateManager(gameCards, introCards, scoreSettings, yearCount, handleInfluencePillars);
+        swipeHandler = new SwipeHandler(this, gameStateManager);
+        updateCardAndMessage();
     }
+
 
     public static GameView getInstance() {
         if (instance == null) {
             instance = new GameView();
         }
         return instance;
-    }
-
-    private void loadPillarImages() {
-        cardPillarToImageMap.put("priests", "priests-card");
-        cardPillarToImageMap.put("farmers", "farmers-card");
-        cardPillarToImageMap.put("nobles", "nobles-card");
-        cardPillarToImageMap.put("military", "military-card");
     }
 
     private void loadGameCards() {
@@ -160,55 +156,23 @@ public class GameView extends Parent {
     }
 
     private void updateCardAndMessage() {
-        if (isIntroPhase) {
-            String cardName = introCards.get(introCardIndex);
-            cardView.updateCard(cardName);
-            updateMessage(cardName);
+        if (gameStateManager.isIntroPhase()) {
+            String cardName = introCards.get(gameStateManager.getIntroCardIndex());
+            cardController.updateCard(gameCards.get(gameStateManager.getIntroCardIndex()));
+            cardController.updateMessage(messageLabel, cardName);
         } else {
-            if (gameCardIndex < gameCards.size()) {
-                // This goes in the order of the json file for now... will change later
-                Card currentCard = gameCards.get(gameCardIndex);
-                if ("standard".equalsIgnoreCase(currentCard.getType())) {
-                    String pillar = currentCard.getPillar().toLowerCase();
-                    String imageName = cardPillarToImageMap.get(pillar);
-                    cardView.updateCard(imageName);
-                    updateMessage(currentCard.getScenario());
-                } else {
-                    // Skip "legacy" cards for now
-                    gameCardIndex = (gameCardIndex >= gameCards.size() - 1) ? 0 : gameCardIndex + 1;
-                    updateCardAndMessage();
-                }
+            Card currentCard = gameStateManager.getCurrentGameCard();
+            if ("standard".equalsIgnoreCase(currentCard.getType())) {
+                cardController.updateCard(currentCard);
+                cardController.updateMessage(messageLabel, currentCard.getScenario());
             } else {
-                // Empty for now --> endless loop
+
+                gameStateManager.advanceGameCard();
+                updateCardAndMessage();
             }
         }
     }
 
-
-    private void updateMessage(String cardName) {
-        switch (cardName) {
-            case "welcome-card":
-                messageLabel.setText("Welcome to Reigns - Ancient Egypt \n Are you ready to start the adventure? \n Swipe right or left!");
-                break;
-            case "choose-pharaoh":
-                messageLabel.setText("Choose your Pharaoh:\n Swipe right for Tutankhamun \n Swipe left for Cleopatra");
-                break;
-            case "tutankhamun-card":
-                messageLabel.setText("Great! You have chosen Tutankhamun, \n also known as the Young Pharaoh. \n Swipe right or left to continue.");
-                break;
-            case "cleopatra-card":
-                messageLabel.setText("Great! You have chosen Cleopatra, \n also known as the Cunning Queen. \n Swipe right or left to continue.");
-                break;
-            default:
-                messageLabel.setPrefWidth(GAME_VIEW_WIDTH * 0.8);
-                messageLabel.setText(cardName);
-        }
-
-        FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), messageLabel); // fade in the new message
-        fadeIn.setFromValue(0.0);
-        fadeIn.setToValue(1.0);
-        fadeIn.play();
-    }
 
     public void onCardSwiped(SwipeSide side) {
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), messageLabel);
@@ -218,61 +182,11 @@ public class GameView extends Parent {
         fadeOut.setOnFinished(event -> {
             swipeHandler.onSwipe(side);
             updateCardAndMessage();
-
         });
 
         fadeOut.play();
     }
 
-    public boolean getIntroPhase() {
-        return getInstance().isIntroPhase;
-    }
-
-    public static void setIntroPhase(boolean isIntroPhase) {
-        getInstance().isIntroPhase = isIntroPhase;
-    }
-
-    public List<String> getIntroCards() {
-        return introCards;
-    }
-
-
-    public Card getCurrentGameCard() {
-        return gameCards.get(gameCardIndex);
-    }
-
-
-    public int getGameCardIndex() {
-        return gameCardIndex;
-    }
-
-    public ScoreSettings getScoreSettings() {
-        return scoreSettings;
-    }
-
-    public IntegerProperty getYearCount() {
-        return yearCount;
-    }
-
-    public HandleInfluencePillars getInfluencePillars() {
-        return HandleInfluencePillars;
-    }
-
-    public int getIntroCardIndex() {
-        return introCardIndex;
-    }
-
-    public void setIntroCardIndex(int index) {
-        this.introCardIndex = index;
-    }
-
-    public static void setGameCardIndex(int newGameCardIndex) {
-        getInstance().gameCardIndex = newGameCardIndex;
-    }
-
-    public static List<Card> getGameCards() {
-        return getInstance().gameCards;
-    }
 
     public void showEndScreen(PillarEnding ending) {
         String formattedDescription = ending.getDescription().replaceAll("([.!])", "$1\n");

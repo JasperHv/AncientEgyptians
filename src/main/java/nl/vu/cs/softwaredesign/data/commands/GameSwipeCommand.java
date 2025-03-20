@@ -5,43 +5,36 @@ import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
+import nl.vu.cs.softwaredesign.data.GameStateManager;
 import javafx.beans.property.IntegerProperty;
-
 
 public class GameSwipeCommand implements Command {
     private final SwipeSide side;
     private final Card card;
-    private final int gameCardIndex;
     private final ScoreSettings scoreSettings;
     private final IntegerProperty yearCount;
     private final GameView gameView;
-    private final HandleInfluencePillars handleInfluencePillars; // Store instance
+    private final GameStateManager gameStateManager;
+    private final HandleInfluencePillars handleInfluencePillars;
 
-    public GameSwipeCommand(SwipeSide side, Card card, int gameCardIndex, ScoreSettings scoreSettings, IntegerProperty yearCount, GameView gameView, HandleInfluencePillars handleInfluencePillars) {
+    public GameSwipeCommand(SwipeSide side, Card card, ScoreSettings scoreSettings, IntegerProperty yearCount, GameView gameView, GameStateManager gameStateManager, HandleInfluencePillars handleInfluencePillars) {
         this.side = side;
         this.card = card;
-        this.gameCardIndex = gameCardIndex;
         this.scoreSettings = scoreSettings;
         this.yearCount = yearCount;
         this.gameView = gameView;
-        this.handleInfluencePillars = handleInfluencePillars; // Store it
+        this.gameStateManager = gameStateManager;
+        this.handleInfluencePillars = handleInfluencePillars;
     }
 
     @Override
     public void execute() {
-        System.out.println("Year Count before update: " + yearCount.get());
         yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
-        System.out.println("Year Count after update: " + yearCount.get());
-
-        // Call applyInfluence using the instance of HandleInfluencePillars
         handleInfluencePillars.applyInfluence(side == SwipeSide.LEFT, card.getInfluence());
 
-        // Update score and UI elements via gameView
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
 
-        // Move to the next card
-        int newGameCardIndex = (gameCardIndex >= gameView.getGameCards().size() - 1) ? 0 : gameCardIndex + 1;
-        gameView.setGameCardIndex(newGameCardIndex);
+        gameStateManager.advanceGameCard();
     }
 }

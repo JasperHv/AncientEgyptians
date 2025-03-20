@@ -5,28 +5,31 @@ import nl.vu.cs.softwaredesign.data.commands.GameSwipeCommand;
 import nl.vu.cs.softwaredesign.data.commands.IntroSwipeCommand;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
+import nl.vu.cs.softwaredesign.data.GameStateManager;
 
 public class SwipeHandler {
 
     private final GameView gameView;
+    private final GameStateManager gameStateManager;
 
-    public SwipeHandler(GameView gameView) {
+    public SwipeHandler(GameView gameView, GameStateManager gameStateManager) {
         this.gameView = gameView;
+        this.gameStateManager = gameStateManager;
     }
 
     public void onSwipe(SwipeSide side) {
-        if (gameView.getIntroPhase()) {
-            Command command = new IntroSwipeCommand(side, gameView.getIntroCards(), gameView);
+        if (gameStateManager.isIntroPhase()) {
+            Command command = new IntroSwipeCommand(side, gameStateManager, gameView);
             command.execute();
         } else {
             Command command = new GameSwipeCommand(
                     side,
-                    gameView.getCurrentGameCard(),
-                    gameView.getGameCardIndex(),
-                    gameView.getScoreSettings(),
-                    gameView.getYearCount(),
+                    gameStateManager.getCurrentGameCard(),
+                    gameStateManager.getScoreSettings(),
+                    gameStateManager.getYearCount(),
                     gameView,
-                    gameView.getInfluencePillars()
+                    gameStateManager,
+                    gameStateManager.getInfluencePillars()
             );
             command.execute();
         }

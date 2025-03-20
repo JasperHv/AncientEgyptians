@@ -16,7 +16,6 @@ public class HandleInfluencePillars {
     private final ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
     private final GameView gameView;
 
-    // Constructor to inject GameView
     public HandleInfluencePillars(GameView gameView) {
         this.gameView = gameView;
     }

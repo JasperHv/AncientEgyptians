@@ -4,42 +4,38 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
+import nl.vu.cs.softwaredesign.data.GameStateManager;
 
 import java.util.List;
 
 public class IntroSwipeCommand implements Command {
     private final SwipeSide side;
-    private final List<String> introCards;
+    private final GameStateManager gameStateManager;
     private final GameView gameView;
 
-    public IntroSwipeCommand(SwipeSide side, List<String> introCards, GameView gameView) {
+    public IntroSwipeCommand(SwipeSide side, GameStateManager gameStateManager, GameView gameView) {
         this.side = side;
-        this.introCards = introCards;
+        this.gameStateManager = gameStateManager;
         this.gameView = gameView;
     }
 
     @Override
     public void execute() {
-        int introCardIndex = gameView.getIntroCardIndex(); // Get current index from GameView
-        System.out.println("introCardIndex before: " + introCardIndex);
-        String currentCard = introCards.get(introCardIndex);
+        String currentCard = gameStateManager.getIntroCards().get(gameStateManager.getIntroCardIndex());
 
         if ("choose-pharaoh".equals(currentCard)) {
             GameConfiguration config = ModeConfiguration.getInstance().getGameConfig();
-            if (side == SwipeSide.LEFT) {
-                config.setSelectedCharacter("Cleopatra");
-            } else {
-                config.setSelectedCharacter("Tutankhamun");
-            }
-            introCardIndex = introCards.indexOf(side == SwipeSide.LEFT ? "cleopatra-card" : "tutankhamun-card");
+            String chosenPharaoh = (side == SwipeSide.LEFT) ? "Cleopatra" : "Tutankhamun";
+            config.setSelectedCharacter(chosenPharaoh);
             ModeConfiguration.getInstance().updatePillarValues();
-        } else if ("tutankhamun-card".equals(currentCard) || "cleopatra-card".equals(currentCard)) {
-            GameView.setIntroPhase(false);
-        } else {
-            introCardIndex++;
-        }
 
-        gameView.setIntroCardIndex(introCardIndex);  // Update GameView
-        System.out.println("introCardIndex after: " + introCardIndex);
+            gameStateManager.setIntroCardIndex(gameStateManager.getIntroCards().indexOf(chosenPharaoh.toLowerCase() + "-card"));
+        }
+        else if ("tutankhamun-card".equals(currentCard) || "cleopatra-card".equals(currentCard)) {
+            gameStateManager.setIntroPhase(false);
+        }
+        else {
+            gameStateManager.advanceIntroCard();
+        }
     }
 }
