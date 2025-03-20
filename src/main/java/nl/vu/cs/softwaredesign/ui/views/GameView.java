@@ -32,39 +32,37 @@ public class GameView extends Parent {
     private static final double GAME_VIEW_WIDTH = FXGL.getAppWidth() / 2.5;
     private static final double GAME_VIEW_HEIGHT = FXGL.getAppHeight();
 
+    private static GameView instance;
+
     private final PillarView pillarView = new PillarView(GAME_VIEW_WIDTH, 100);
     private final CardView cardView;
-    private final List<String> introCards = List.of(
-            "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
-    );
-
-    private List<Card> gameCards;
-    private Label messageLabel;
-    private Label yearLabel;
-    private Label scoreLabel;
-    private static GameView instance;
-    IntegerProperty yearCount = FXGL.getip("yearCount");
-    IntegerProperty scoreCount = FXGL.getip("scoreCount");
-
     private final ScoreSettings scoreSettings;
-    HandleInfluencePillars handleInfluencePillars;
-    GameStateManager gameStateManager;
     private final SwipeHandler swipeHandler;
     private final CardController cardController;
 
+    private Label messageLabel;
+    private Label yearLabel;
+    private Label scoreLabel;
+
+    IntegerProperty yearCount = FXGL.getip("yearCount");
+    IntegerProperty scoreCount = FXGL.getip("scoreCount");
+
+    HandleInfluencePillars handleInfluencePillars;
+    GameStateManager gameStateManager;
+
     public GameView() {
         cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
-        loadGameCards();
+
         initView();
         initChildren();
 
-        cardController = new CardController(cardView, this);
         scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
         handleInfluencePillars = new HandleInfluencePillars(this);
         yearCount.set(scoreSettings.getInitialYearCount());
         scoreCount.set(scoreSettings.getInitialScore());
 
-        gameStateManager = new GameStateManager(gameCards, introCards, scoreSettings, yearCount, handleInfluencePillars);
+        cardController = new CardController(cardView, this, yearCount);
+        gameStateManager = cardController.getGameStateManager();
         swipeHandler = new SwipeHandler(this, gameStateManager);
         updateCardAndMessage();
     }
@@ -76,10 +74,6 @@ public class GameView extends Parent {
         return instance;
     }
 
-    private void loadGameCards() {
-        ModeConfiguration modeConfig = ModeConfiguration.getInstance();
-        this.gameCards = modeConfig.getCards();
-    }
 
     private void initView() {
         setLayoutX((FXGL.getAppWidth() - GAME_VIEW_WIDTH) / 2);
@@ -152,22 +146,14 @@ public class GameView extends Parent {
         scoreCount.set(FXGL.getip("scoreCount").get());
     }
 
-    private void updateCardAndMessage() {
+    public void updateCardAndMessage() {
         if (gameStateManager.isIntroPhase()) {
-            String cardName = introCards.get(gameStateManager.getIntroCardIndex());
-            cardController.updateCard(gameCards.get(gameStateManager.getIntroCardIndex()));
-            cardController.updateMessage(messageLabel, cardName);
+            cardController.handleIntroPhase(messageLabel);
         } else {
-            Card currentCard = gameStateManager.getCurrentGameCard();
-            if ("standard".equalsIgnoreCase(currentCard.getType())) {
-                cardController.updateCard(currentCard);
-                cardController.updateMessage(messageLabel, currentCard.getScenario());
-            } else {
-                gameStateManager.advanceGameCard();
-                updateCardAndMessage();
-            }
+            cardController.handleGamePhase(messageLabel);
         }
     }
+
 
     public void onCardSwiped(SwipeSide side) {
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), messageLabel);
