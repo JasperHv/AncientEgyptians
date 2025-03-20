@@ -53,7 +53,6 @@ public class CardController {
                 messageLabel.setText("Great! You have chosen Cleopatra, \n also known as the Cunning Queen. \n Swipe right or left to continue.");
                 break;
             default:
-                messageLabel.setMaxWidth(Double.MAX_VALUE);
                 messageLabel.setText(cardName);
         }
 

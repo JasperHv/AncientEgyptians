@@ -27,7 +27,6 @@ import nl.vu.cs.softwaredesign.data.CardController;
 
 import java.util.List;
 
-
 public class GameView extends Parent {
 
     private static final double GAME_VIEW_WIDTH = FXGL.getAppWidth() / 2.5;
@@ -51,7 +50,6 @@ public class GameView extends Parent {
     HandleInfluencePillars handleInfluencePillars;
     GameStateManager gameStateManager;
     private final SwipeHandler swipeHandler;
-
     private final CardController cardController;
 
     public GameView() {
@@ -66,12 +64,10 @@ public class GameView extends Parent {
         yearCount.set(scoreSettings.getInitialYearCount());
         scoreCount.set(scoreSettings.getInitialScore());
 
-        List<String> introCards = List.of("welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card");
         gameStateManager = new GameStateManager(gameCards, introCards, scoreSettings, yearCount, handleInfluencePillars);
         swipeHandler = new SwipeHandler(this, gameStateManager);
         updateCardAndMessage();
     }
-
 
     public static GameView getInstance() {
         if (instance == null) {
@@ -124,6 +120,7 @@ public class GameView extends Parent {
         var messageContainer = new VBox(messageLabel);
         messageContainer.setAlignment(Pos.CENTER);
 
+        vBox.setMaxWidth(GAME_VIEW_WIDTH);
         vBox.getChildren().addAll(statsBox, pillarView, messageContainer, cardView);
 
         getChildren().add(vBox);
@@ -166,13 +163,11 @@ public class GameView extends Parent {
                 cardController.updateCard(currentCard);
                 cardController.updateMessage(messageLabel, currentCard.getScenario());
             } else {
-
                 gameStateManager.advanceGameCard();
                 updateCardAndMessage();
             }
         }
     }
-
 
     public void onCardSwiped(SwipeSide side) {
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), messageLabel);
@@ -186,7 +181,6 @@ public class GameView extends Parent {
 
         fadeOut.play();
     }
-
 
     public void showEndScreen(PillarEnding ending) {
         String formattedDescription = ending.getDescription().replaceAll("([.!])", "$1\n");
