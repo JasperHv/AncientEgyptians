@@ -21,11 +21,7 @@ import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.PillarEnding;
 import nl.vu.cs.softwaredesign.data.service.HandleScore;
 import nl.vu.cs.softwaredesign.data.service.InfluencePillars;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class GameView extends Parent {
 
@@ -40,7 +36,7 @@ public class GameView extends Parent {
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
     );
 
-    private PriorityQueue<Card> gameCardsQueue;
+    private List<Card> gameCardsList;
     private int introCardIndex = 0;
     private Card currentCard = null;
     private boolean isIntroPhase = true;
@@ -86,9 +82,26 @@ public class GameView extends Parent {
     private void loadGameCards() {
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
         List<Card> cards = modeConfig.getCards();
-        gameCardsQueue = new PriorityQueue<Card>((c1, c2) -> Integer.compare(c2.getFrequency(), c1.getFrequency()));
-        gameCardsQueue.addAll(cards);
+
+        // Sort by frequency (highest first)
+        cards.sort((c1, c2) -> Integer.compare(c2.getFrequency(), c1.getFrequency()));
+
+        // Group by frequency and shuffle within each frequency group
+        Map<Integer, List<Card>> frequencyGroups = new HashMap<>();
+        for (Card card : cards) {
+            frequencyGroups.computeIfAbsent(card.getFrequency(), k -> new ArrayList<>()).add(card);
+        }
+
+        gameCardsList = new ArrayList<>();
+        frequencyGroups.keySet().stream()
+                .sorted(Comparator.reverseOrder()) // Highest frequency first
+                .forEach(freq -> {
+                    List<Card> group = frequencyGroups.get(freq);
+                    Collections.shuffle(group); // Shuffle each frequency group
+                    gameCardsList.addAll(group);
+                });
     }
+
 
     private void initView() {
         setLayoutX((FXGL.getAppWidth() - GAME_VIEW_WIDTH) / 2);
@@ -166,10 +179,10 @@ public class GameView extends Parent {
             cardView.updateCard(cardName);
             updateMessage(cardName);
         } else {
-            if (!gameCardsQueue.isEmpty()) {
+            if (!gameCardsList.isEmpty()) {
                 currentCard = null;
-                while (!gameCardsQueue.isEmpty()) {
-                    currentCard = gameCardsQueue.poll();
+                while (!gameCardsList.isEmpty()) {
+                    currentCard = gameCardsList.remove(0);
                     if ("standard".equalsIgnoreCase(currentCard.getType())) {
                         break;
                     } else {
@@ -185,8 +198,10 @@ public class GameView extends Parent {
                     currentCard.decrementFrequency();
                     System.out.println("Card " + currentCard.getTitle() + " frequency now: " + currentCard.getFrequency());
                     if (currentCard.getFrequency() > 0) {
-                        gameCardsQueue.offer(currentCard);
+                        gameCardsList.add(currentCard);
+                        reshuffleList();
                     }
+
                 } else {
                     // No standard card found
                 }
@@ -195,6 +210,27 @@ public class GameView extends Parent {
             }
         }
     }
+
+    private void reshuffleList() {
+        // Sort by frequency again
+        gameCardsList.sort((c1, c2) -> Integer.compare(c2.getFrequency(), c1.getFrequency()));
+
+        // Shuffle within each frequency tier
+        Map<Integer, List<Card>> frequencyGroups = new HashMap<>();
+        for (Card card : gameCardsList) {
+            frequencyGroups.computeIfAbsent(card.getFrequency(), k -> new ArrayList<>()).add(card);
+        }
+
+        gameCardsList.clear();
+        frequencyGroups.keySet().stream()
+                .sorted(Comparator.reverseOrder()) // Highest frequency first
+                .forEach(freq -> {
+                    List<Card> group = frequencyGroups.get(freq);
+                    Collections.shuffle(group);
+                    gameCardsList.addAll(group);
+                });
+    }
+
 
     private void updateMessage(String cardName) {
         switch (cardName) {
