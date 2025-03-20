@@ -25,6 +25,7 @@ import nl.vu.cs.softwaredesign.data.service.InfluencePillars;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 public class GameView extends Parent {
 
@@ -39,9 +40,9 @@ public class GameView extends Parent {
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
     );
 
-    private List<Card> gameCards;
+    private PriorityQueue<Card> gameCardsQueue;
     private int introCardIndex = 0;
-    private int gameCardIndex = 0;
+    private Card currentCard = null;
     private boolean isIntroPhase = true;
 
     private Label messageLabel;
@@ -84,7 +85,9 @@ public class GameView extends Parent {
 
     private void loadGameCards() {
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
-        this.gameCards = modeConfig.getCards();
+        List<Card> cards = modeConfig.getCards();
+        gameCardsQueue = new PriorityQueue<Card>((c1, c2) -> Integer.compare(c2.getFrequency(), c1.getFrequency()));
+        gameCardsQueue.addAll(cards);
     }
 
     private void initView() {
@@ -163,25 +166,35 @@ public class GameView extends Parent {
             cardView.updateCard(cardName);
             updateMessage(cardName);
         } else {
-            if (gameCardIndex < gameCards.size()) {
-                // This goes in the order of the json file for now... will change later
-                Card currentCard = gameCards.get(gameCardIndex);
-                if ("standard".equalsIgnoreCase(currentCard.getType())) {
+            if (!gameCardsQueue.isEmpty()) {
+                currentCard = null;
+                while (!gameCardsQueue.isEmpty()) {
+                    currentCard = gameCardsQueue.poll();
+                    if ("standard".equalsIgnoreCase(currentCard.getType())) {
+                        break;
+                    } else {
+                        // If not standard, skip it (for now)
+                        currentCard = null;
+                    }
+                }
+                if (currentCard != null) {
                     String pillar = currentCard.getPillar().toLowerCase();
                     String imageName = cardPillarToImageMap.get(pillar);
                     cardView.updateCard(imageName);
                     updateMessage(currentCard.getScenario());
+                    currentCard.decrementFrequency();
+                    System.out.println("Card " + currentCard.getTitle() + " frequency now: " + currentCard.getFrequency());
+                    if (currentCard.getFrequency() > 0) {
+                        gameCardsQueue.offer(currentCard);
+                    }
                 } else {
-                    // Skip "legacy" cards for now
-                    gameCardIndex = (gameCardIndex >= gameCards.size() - 1) ? 0 : gameCardIndex + 1;
-                    updateCardAndMessage();
+                    // No standard card found
                 }
             } else {
-                // Empty for now --> endless loop
+                // No cards remaining -> lose game
             }
         }
     }
-
 
     private void updateMessage(String cardName) {
         switch (cardName) {
@@ -242,16 +255,12 @@ public class GameView extends Parent {
     }
 
     private void handleGamePhase(boolean isSwipeLeft) {
-        System.out.println("Year Count before update: " + yearCount.get());
         yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
-        System.out.println("Year Count after update: " + yearCount.get());
-        if (gameCardIndex < gameCards.size()) {
-            Card currentCard = gameCards.get(gameCardIndex);
+        if (currentCard != null) {
             InfluencePillars.applyInfluence(isSwipeLeft, currentCard.getInfluence());
-            updateScore();
-            updateScoreAndYearBoxes();
         }
-        gameCardIndex = (gameCardIndex >= gameCards.size() - 1) ? 0 : gameCardIndex + 1;
+        updateScore();
+        updateScoreAndYearBoxes();
     }
 
     public void showEndScreen(PillarEnding ending) {
