@@ -15,12 +15,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
+import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
+import nl.vu.cs.softwaredesign.data.handlers.SwipeHandler;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
-import nl.vu.cs.softwaredesign.data.model.Card;
-import nl.vu.cs.softwaredesign.data.model.PillarEnding;
-import nl.vu.cs.softwaredesign.data.service.HandleScore;
-import nl.vu.cs.softwaredesign.data.service.InfluencePillars;
+import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
+import nl.vu.cs.softwaredesign.data.model.*;
+import nl.vu.cs.softwaredesign.data.handlers.HandleScore;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,11 +53,12 @@ public class GameView extends Parent {
     IntegerProperty scoreCount = FXGL.getip("scoreCount");
 
     private final ScoreSettings scoreSettings;
-    InfluencePillars InfluencePillars;
+    HandleInfluencePillars HandleInfluencePillars;
+    private final SwipeHandler swipeHandler = new SwipeHandler(this);
 
     public GameView() {
         cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
-        this.InfluencePillars = new InfluencePillars(this);
+        this.HandleInfluencePillars = new HandleInfluencePillars(this);
         loadPillarImages();
         loadGameCards();
         initView();
@@ -146,12 +148,12 @@ public class GameView extends Parent {
         return label;
     }
 
-    private void updateScoreAndYearBoxes() {
+    public void updateScoreAndYearBoxes() {
         yearLabel.setText("Years in Power: " + yearCount.get());
         scoreLabel.setText("Score: " + scoreCount.get());
     }
 
-    private void updateScore() {
+    public void updateScore() {
         HandleScore handleScore = new HandleScore();
         handleScore.updateScore();
         scoreCount.set(FXGL.getip("scoreCount").get());
@@ -208,50 +210,68 @@ public class GameView extends Parent {
         fadeIn.play();
     }
 
-    public void onCardSwiped(boolean isSwipeLeft) {
+    public void onCardSwiped(SwipeSide side) {
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), messageLabel);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);
+
         fadeOut.setOnFinished(event -> {
-            if (isIntroPhase) {
-                handleIntroPhase(isSwipeLeft);
-            } else {
-                handleGamePhase(isSwipeLeft);
-            }
+            swipeHandler.onSwipe(side);
             updateCardAndMessage();
+
         });
+
         fadeOut.play();
     }
 
-    private void handleIntroPhase(boolean isSwipeLeft) {
-        String currentCard = introCards.get(introCardIndex);
-        if ("choose-pharaoh".equals(currentCard)) {
-            GameConfiguration config = ModeConfiguration.getInstance().getGameConfig();
-            if (isSwipeLeft) {
-                config.setSelectedCharacter("Cleopatra");
-            } else {
-                config.setSelectedCharacter("Tutankhamun");
-            }
-            introCardIndex = introCards.indexOf(isSwipeLeft ? "cleopatra-card" : "tutankhamun-card");
-            ModeConfiguration.getInstance().updatePillarValues();
-        } else if ("tutankhamun-card".equals(currentCard) || "cleopatra-card".equals(currentCard)) {
-            isIntroPhase = false;
-        } else {
-            introCardIndex++;
-        }
+    public boolean getIntroPhase() {
+        return getInstance().isIntroPhase;
     }
 
-    private void handleGamePhase(boolean isSwipeLeft) {
-        System.out.println("Year Count before update: " + yearCount.get());
-        yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
-        System.out.println("Year Count after update: " + yearCount.get());
-        if (gameCardIndex < gameCards.size()) {
-            Card currentCard = gameCards.get(gameCardIndex);
-            InfluencePillars.applyInfluence(isSwipeLeft, currentCard.getInfluence());
-            updateScore();
-            updateScoreAndYearBoxes();
-        }
-        gameCardIndex = (gameCardIndex >= gameCards.size() - 1) ? 0 : gameCardIndex + 1;
+    public static void setIntroPhase(boolean isIntroPhase) {
+        getInstance().isIntroPhase = isIntroPhase;
+    }
+
+    public List<String> getIntroCards() {
+        return introCards;
+    }
+
+
+    public Card getCurrentGameCard() {
+        return gameCards.get(gameCardIndex);
+    }
+
+
+    public int getGameCardIndex() {
+        return gameCardIndex;
+    }
+
+    public ScoreSettings getScoreSettings() {
+        return scoreSettings;
+    }
+
+    public IntegerProperty getYearCount() {
+        return yearCount;
+    }
+
+    public HandleInfluencePillars getInfluencePillars() {
+        return HandleInfluencePillars;
+    }
+
+    public int getIntroCardIndex() {
+        return introCardIndex;
+    }
+
+    public void setIntroCardIndex(int index) {
+        this.introCardIndex = index;
+    }
+
+    public static void setGameCardIndex(int newGameCardIndex) {
+        getInstance().gameCardIndex = newGameCardIndex;
+    }
+
+    public static List<Card> getGameCards() {
+        return getInstance().gameCards;
     }
 
     public void showEndScreen(PillarEnding ending) {

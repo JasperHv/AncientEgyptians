@@ -1,4 +1,7 @@
-package nl.vu.cs.softwaredesign.data.model;
+package nl.vu.cs.softwaredesign.data.commands;
+
+import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
+import nl.vu.cs.softwaredesign.data.model.Card;
 
 public class SwipeCommand implements Command {
     private final Card card;

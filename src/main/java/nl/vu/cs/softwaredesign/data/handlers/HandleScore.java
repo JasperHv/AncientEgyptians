@@ -1,4 +1,4 @@
-package nl.vu.cs.softwaredesign.data.service;
+package nl.vu.cs.softwaredesign.data.handlers;
 
 import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;

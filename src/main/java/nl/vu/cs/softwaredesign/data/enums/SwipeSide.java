@@ -1,4 +1,4 @@
-package nl.vu.cs.softwaredesign.data.model;
+package nl.vu.cs.softwaredesign.data.enums;
 
 public enum SwipeSide {
     LEFT,
