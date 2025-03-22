@@ -164,24 +164,19 @@ public class GameView extends Parent {
             updateMessage(cardName);
         } else {
             if (gameCardIndex < gameCards.size()) {
-                // This goes in the order of the json file for now... will change later
                 Card currentCard = gameCards.get(gameCardIndex);
                 if ("standard".equalsIgnoreCase(currentCard.getType())) {
                     String pillar = currentCard.getPillar().toLowerCase();
                     String imageName = cardPillarToImageMap.get(pillar);
                     cardView.updateCard(imageName);
                     updateMessage(currentCard.getScenario());
-                } else {
-                    // Skip "legacy" cards for now
-                    gameCardIndex = (gameCardIndex >= gameCards.size() - 1) ? 0 : gameCardIndex + 1;
-                    updateCardAndMessage();
                 }
             } else {
-                // Empty for now --> endless loop
+
             }
+
         }
     }
-
 
     private void updateMessage(String cardName) {
         switch (cardName) {
@@ -218,7 +213,6 @@ public class GameView extends Parent {
             } else {
                 handleGamePhase(isSwipeLeft);
             }
-            updateCardAndMessage();
         });
         fadeOut.play();
     }
@@ -239,19 +233,28 @@ public class GameView extends Parent {
         } else {
             introCardIndex++;
         }
+        updateCardAndMessage();
     }
 
     private void handleGamePhase(boolean isSwipeLeft) {
         System.out.println("Year Count before update: " + yearCount.get());
         yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
         System.out.println("Year Count after update: " + yearCount.get());
-        if (gameCardIndex < gameCards.size()) {
-            Card currentCard = gameCards.get(gameCardIndex);
-            InfluencePillars.applyInfluence(isSwipeLeft, currentCard.getInfluence());
-            updateScore();
-            updateScoreAndYearBoxes();
+
+        Card currentCard = gameCards.get(gameCardIndex);
+        InfluencePillars.applyInfluence(isSwipeLeft, currentCard.getInfluence());
+        updateScore();
+        updateScoreAndYearBoxes();
+        gameCardIndex++;
+
+        if (gameCardIndex >= gameCards.size()) {
+            PillarEnding badEnding = ConfigurationLoader.getInstance().getBadEnding();
+            if (badEnding != null) {
+                showEndScreen(badEnding);
+            }
+        } else {
+            updateCardAndMessage();
         }
-        gameCardIndex = (gameCardIndex >= gameCards.size() - 1) ? 0 : gameCardIndex + 1;
     }
 
     public void showEndScreen(PillarEnding ending) {
