@@ -7,7 +7,7 @@ import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import nl.vu.cs.softwaredesign.data.controller.GameStateController;
 import nl.vu.cs.softwaredesign.data.logging.CommandLogger;
-import nl.vu.cs.softwaredesign.data.logging.CommandLogEntry;
+import nl.vu.cs.softwaredesign.data.logging.GameCommandLogEntry;
 import javafx.beans.property.IntegerProperty;
 
 public class GameSwipeCommand implements Command {
@@ -31,25 +31,19 @@ public class GameSwipeCommand implements Command {
 
     @Override
     public void execute() {
-        // Update the year count
         yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
 
-        // Apply influence: if left swipe then multiply by -1
-        boolean isLeftSwipe = (side == SwipeSide.LEFT);
-        int rawInfluence = card.getInfluence().get(0).getValue();
-        handleInfluencePillars.applyInfluence(isLeftSwipe, card.getInfluence());
+        handleInfluencePillars.applyInfluence(side == SwipeSide.LEFT, card.getInfluence());
 
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
 
         gameStateController.advanceGameCard();
 
-        // Log the command with raw data
-        CommandLogEntry entry = new CommandLogEntry(
-                "GameSwipeCommand",
-                card.getTitle(), // Assuming Card has a getTitle() method
+        GameCommandLogEntry entry = new GameCommandLogEntry(
+                card.getTitle(),
                 side.toString(),
-                rawInfluence,
+                card.getInfluence(),
                 System.currentTimeMillis()
         );
         CommandLogger.logCommand(entry);

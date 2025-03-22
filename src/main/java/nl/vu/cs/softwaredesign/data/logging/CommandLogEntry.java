@@ -1,21 +1,26 @@
 package nl.vu.cs.softwaredesign.data.logging;
 
-public class CommandLogEntry {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public abstract class CommandLogEntry {
+    @JsonProperty("commandType")
     private final String commandType;
+
+    @JsonProperty("cardTitle")
     private final String cardTitle;
+
+    @JsonProperty("swipeDirection")
     private final String swipeDirection;
-    private final int rawInfluenceValue; // For commands that affect influence (default 0 if not applicable)
+
+    @JsonProperty("timestamp")
     private final long timestamp;
 
-    public CommandLogEntry(String commandType, String cardTitle, String swipeDirection, int rawInfluenceValue, long timestamp) {
+    public CommandLogEntry(String commandType, String cardTitle, String swipeDirection, long timestamp) {
         this.commandType = commandType;
         this.cardTitle = cardTitle;
         this.swipeDirection = swipeDirection;
-        this.rawInfluenceValue = rawInfluenceValue;
         this.timestamp = timestamp;
     }
-
-    // Getters and setters if needed
 
     public String getCommandType() {
         return commandType;
@@ -27,10 +32,6 @@ public class CommandLogEntry {
 
     public String getSwipeDirection() {
         return swipeDirection;
-    }
-
-    public int getRawInfluenceValue() {
-        return rawInfluenceValue;
     }
 
     public long getTimestamp() {
