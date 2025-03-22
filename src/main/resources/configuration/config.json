@@ -15,40 +15,6 @@
 
     }
   ],
-  "pillars": [
-    {
-      "name": "priests",
-      "image": "priests.png",
-      "ending": {
-        "description": "The gods abandon us, Pharaoh! Your neglect of religious rites and offerings angers the temple priests. They declare you a false Pharaoh, and civil unrest splits Egypt into rival factions.",
-        "image": "endings/temple-priest-ending.png"
-      }
-    },
-    {
-      "name": "farmers",
-      "image": "farmers.png",
-      "ending": {
-        "description": "The nobles rule in all but name, great Pharaoh. By granting them too much power, you create a system where they control the wealth and land. Eventually, they overthrow your rule, and Egypt fractures.",
-        "image": "endings/farmers-ending.png"
-      }
-    },
-    {
-      "name": "nobles",
-      "image": "nobles.png",
-      "ending": {
-        "description": "The fields are empty, and the monuments crumble. Overworking the farmers and laborers breaks their spirits, leading to revolt. Egypt enters a dark age of ruin and famine.",
-        "image": "endings/nobles-ending.png"
-      }
-    },
-    {
-      "name": "military",
-      "image": "military.png",
-      "ending": {
-        "description": "The generals no longer answer to you. Discontent among the commanders leads to a military coup, and a warlord-king takes your place. Egypt enters an age of martial law and unrest.",
-        "image": "endings/military-ending.png"
-      }
-    }
-  ],
   "golden_age ending": {
     "description": "Glorious Pharaoh, your rule is unmatched! Through wisdom, balance, and strong leadership, you have ushered in a Golden Age for Egypt. The people prosper, the temples shine, and your name will be spoken with reverence for centuries to come. Your dynasty stands eternal, a beacon of prosperity and order.",
     "image": "endings/golden-age-ending.png"

@@ -5,6 +5,7 @@ import javafx.util.Duration;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.model.Card;
+import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.views.CardView;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import javafx.beans.property.IntegerProperty;
@@ -28,7 +29,6 @@ public class CardController {
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
     );
     private List<Card> gameCards;
-    private final Map<String, String> cardPillarToImageMap;
 
     // Modified constructor to accept yearCount as parameter
     public CardController(CardView cardView, GameView gameView, IntegerProperty yearCount) {
@@ -38,8 +38,6 @@ public class CardController {
         handleInfluencePillars = new HandleInfluencePillars(this.gameView);
 
         loadGameCards();
-        this.cardPillarToImageMap = new HashMap<>();
-        loadPillarImages();
 
         this.gameStateController = new GameStateController(gameCards, introCards, scoreSettings, yearCount, handleInfluencePillars);
     }
@@ -50,21 +48,12 @@ public class CardController {
         this.gameCards = modeConfig.getCards();
     }
 
-    private void loadPillarImages() {
-        cardPillarToImageMap.put("priests", "priests-card");
-        cardPillarToImageMap.put("farmers", "farmers-card");
-        cardPillarToImageMap.put("nobles", "nobles-card");
-        cardPillarToImageMap.put("military", "military-card");
-    }
-
     public void updateCard(Card card) {
         if ("standard".equalsIgnoreCase(card.getType())) {
-            String pillar = card.getPillar().toLowerCase();
-            String imageName = cardPillarToImageMap.get(pillar);
+            String imageName = Pillar.fromName(card.getPillar()).getImage();
             cardView.updateCard(imageName);
         }
     }
-
 
     public void updateMessage(Label messageLabel, String cardName) {
         switch (cardName) {
@@ -109,15 +98,14 @@ public class CardController {
     public void handleGamePhase(Label messageLabel) {
         Card currentCard = gameStateController.getCurrentGameCard();
         if ("standard".equalsIgnoreCase(currentCard.getType())) {
-            String pillar = currentCard.getPillar().toLowerCase();
-            String imageName = cardPillarToImageMap.get(pillar);
-            cardView.updateCard(imageName);
+            updateCard(currentCard);
             updateMessage(messageLabel, currentCard.getScenario());
         } else {
             gameStateController.advanceGameCard();
             updateCardAndMessage(messageLabel);
         }
     }
+
 
     public GameStateController getGameStateManager() {
         return gameStateController;

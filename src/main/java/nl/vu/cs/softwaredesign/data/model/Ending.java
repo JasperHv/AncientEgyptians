@@ -1,11 +1,11 @@
 package nl.vu.cs.softwaredesign.data.model;
 
-public class PillarEnding {
+public class Ending {
     private String description;
     private String image;
 
-    public PillarEnding() {}
-    public PillarEnding(String description, String image) {
+    public Ending() {}
+    public Ending(String description, String image) {
         this.description = description;
         this.image = image;
     }

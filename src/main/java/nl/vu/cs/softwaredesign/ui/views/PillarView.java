@@ -11,7 +11,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ public class PillarView extends StackPane {
     public PillarView(double width, double height) {
         this.height = height;
 
-        this.pillars = ConfigurationLoader.getInstance().getPillars();
+        this.pillars = List.of(Pillar.values());
 
         for (Pillar pillar : pillars) {
             // Assuming getip returns the progress property for the pillar name
@@ -92,8 +91,7 @@ public class PillarView extends StackPane {
     private Texture generateProgressImage(String pillarName, Texture originalImage) {
         logger.debug("Generating progress image for {}", pillarName);
         var progressImage = originalImage.copy();
-        IntegerProperty pillarProgressProp = getip(pillarName.toLowerCase()); // Ensure lowercase consistency
-
+        IntegerProperty pillarProgressProp = getip(pillarName.toLowerCase());
         progressImage.setFitWidth(originalImage.getFitWidth());
         adjustProgressImageSize(progressImage, pillarProgressProp.doubleValue());
 

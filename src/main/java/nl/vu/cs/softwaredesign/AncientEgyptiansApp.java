@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.GameSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.scenes.GameSceneFactory;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import org.slf4j.Logger;
@@ -46,11 +47,11 @@ public class AncientEgyptiansApp extends GameApplication {
             vars.putAll(scoreConfig.getInitialValues());
 
             ModeConfiguration config = ModeConfiguration.getInstance();
-            Map<String, Integer> pillarValues = config.getPillarValues();
-            vars.putAll(pillarValues);
+            Map<Pillar, Integer> pillarValues = config.getPillarValues();
+            pillarValues.forEach((pillar, value) -> vars.put(pillar.getName().toLowerCase(), value));
+
         } catch (IllegalStateException e) {
             logger.warn("ModeConfiguration not initialized yet. Pillar values will be set later.");
         }
     }
-
 }
