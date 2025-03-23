@@ -293,9 +293,8 @@ public class GameView extends Parent {
         }
         updateScore();
         updateScoreAndYearBoxes();
-        gameCardIndex++;
 
-        if (gameCardIndex >= gameCards.size()) {
+        if (gameCardsList.isEmpty()) {
             PillarEnding badEnding = ConfigurationLoader.getInstance().getBadEnding();
             if (badEnding != null) {
                 showEndScreen(badEnding);
