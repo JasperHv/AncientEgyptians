@@ -48,13 +48,6 @@ public class CardController {
         this.gameCards = modeConfig.getCards();
     }
 
-    public void updateCard(Card card) {
-        if ("standard".equalsIgnoreCase(card.getType())) {
-            String imageName = Pillar.fromName(card.getPillar()).getImage();
-            cardView.updateCard(imageName);
-        }
-    }
-
     public void updateMessage(Label messageLabel, String cardName) {
         switch (cardName) {
             case "welcome-card":
@@ -91,14 +84,15 @@ public class CardController {
     public void handleIntroPhase(Label messageLabel) {
         int introCardIndex = gameStateController.getIntroCardIndex();
         String cardName = gameStateController.getIntroCards().get(introCardIndex);
-        cardView.updateCard(cardName);
+        cardView.updateCard(cardName + ".png");
         updateMessage(messageLabel, cardName);
     }
 
     public void handleGamePhase(Label messageLabel) {
         Card currentCard = gameStateController.getCurrentGameCard();
         if ("standard".equalsIgnoreCase(currentCard.getType())) {
-            updateCard(currentCard);
+            String imageName = Pillar.fromName(currentCard.getPillar()).getCardImage();
+            cardView.updateCard(imageName);
             updateMessage(messageLabel, currentCard.getScenario());
         } else {
             gameStateController.advanceGameCard();
