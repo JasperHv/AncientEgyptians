@@ -204,8 +204,6 @@ public class GameView extends Parent {
                 } else {
                     // No standard card found
                 }
-            } else {
-                // No cards remaining -> lose game
             }
         }
     }
@@ -229,7 +227,6 @@ public class GameView extends Parent {
                     gameCardsList.addAll(group);
                 });
     }
-
 
     private void updateMessage(String cardName) {
         switch (cardName) {
@@ -286,6 +283,7 @@ public class GameView extends Parent {
         } else {
             introCardIndex++;
         }
+        updateCardAndMessage();
     }
 
     private void handleGamePhase(boolean isSwipeLeft) {
@@ -295,6 +293,16 @@ public class GameView extends Parent {
         }
         updateScore();
         updateScoreAndYearBoxes();
+        gameCardIndex++;
+
+        if (gameCardIndex >= gameCards.size()) {
+            PillarEnding badEnding = ConfigurationLoader.getInstance().getBadEnding();
+            if (badEnding != null) {
+                showEndScreen(badEnding);
+            }
+        } else {
+            updateCardAndMessage();
+        }
     }
 
     public void showEndScreen(PillarEnding ending) {
