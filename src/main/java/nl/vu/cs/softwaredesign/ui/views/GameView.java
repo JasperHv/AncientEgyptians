@@ -171,10 +171,7 @@ public class GameView extends Parent {
                     cardView.updateCard(imageName);
                     updateMessage(currentCard.getScenario());
                 }
-            } else {
-
             }
-
         }
     }
 
