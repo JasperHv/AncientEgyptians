@@ -178,41 +178,54 @@ public class GameView extends Parent {
             cardView.updateCard(cardName);
             updateMessage(cardName);
         } else {
-            if (!gameCardsList.isEmpty()) {
-                currentCard = null;
-                while (!gameCardsList.isEmpty()) {
-                    currentCard = gameCardsList.remove(0);
-                    if ("standard".equalsIgnoreCase(currentCard.getType())) {
-                        break;
-                    } else {
-                        // If not standard, skip it (for now)
-                        currentCard = null;
-                    }
-                }
-                if (currentCard != null) {
-                    String pillar = currentCard.getPillar().toLowerCase();
-                    String imageName = cardPillarToImageMap.get(pillar);
-                    cardView.updateCard(imageName);
-                    updateMessage(currentCard.getScenario());
-                    currentCard.decrementFrequency();
-                    System.out.println("Card " + currentCard.getTitle() + " frequency now: " + currentCard.getFrequency());
-                    if (currentCard.getFrequency() > 0) {
-                        gameCardsList.add(currentCard);
-                        reshuffleList();
-                    }
-
-                } else {
-                    // No standard card found
+            Card nextCard = getNextCard();
+            if (nextCard != null) {
+                currentCard = nextCard;
+                String pillar = currentCard.getPillar().toLowerCase();
+                String imageName = cardPillarToImageMap.get(pillar);
+                cardView.updateCard(imageName);
+                updateMessage(currentCard.getScenario());
+            } else {
+                // Handle case when no more cards are available
+                PillarEnding badEnding = ConfigurationLoader.getInstance().getBadEnding();
+                if (badEnding != null) {
+                    showEndScreen(badEnding);
                 }
             }
         }
     }
 
+    private Card getNextCard() {
+        if (gameCardsList.isEmpty()) {
+            return null;
+        }
+
+        // Find the next standard card
+        Card selectedCard = null;
+        while (!gameCardsList.isEmpty()) {
+            selectedCard = gameCardsList.remove(0);
+            if ("standard".equalsIgnoreCase(selectedCard.getType())) {
+                break;
+            } else {
+                selectedCard = null;
+            }
+        }
+
+        if (selectedCard != null) {
+            selectedCard.decrementFrequency();
+            System.out.println("Card " + selectedCard.getTitle() + " frequency now: " + selectedCard.getFrequency());
+            if (selectedCard.getFrequency() > 0) {
+                gameCardsList.add(selectedCard);
+                reshuffleList();
+            }
+        }
+
+        return selectedCard;
+    }
+
     private void reshuffleList() {
-        // Sort by frequency again
         gameCardsList.sort((c1, c2) -> Integer.compare(c2.getFrequency(), c1.getFrequency()));
 
-        // Shuffle within each frequency tier
         Map<Integer, List<Card>> frequencyGroups = new HashMap<>();
         for (Card card : gameCardsList) {
             frequencyGroups.computeIfAbsent(card.getFrequency(), k -> new ArrayList<>()).add(card);
@@ -220,7 +233,7 @@ public class GameView extends Parent {
 
         gameCardsList.clear();
         frequencyGroups.keySet().stream()
-                .sorted(Comparator.reverseOrder()) // Highest frequency first
+                .sorted(Comparator.reverseOrder())
                 .forEach(freq -> {
                     List<Card> group = frequencyGroups.get(freq);
                     Collections.shuffle(group);
@@ -288,20 +301,14 @@ public class GameView extends Parent {
 
     private void handleGamePhase(boolean isSwipeLeft) {
         yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
+
         if (currentCard != null) {
             InfluencePillars.applyInfluence(isSwipeLeft, currentCard.getInfluence());
         }
+
         updateScore();
         updateScoreAndYearBoxes();
-
-        if (gameCardsList.isEmpty()) {
-            PillarEnding badEnding = ConfigurationLoader.getInstance().getBadEnding();
-            if (badEnding != null) {
-                showEndScreen(badEnding);
-            }
-        } else {
-            updateCardAndMessage();
-        }
+        updateCardAndMessage();
     }
 
     public void showEndScreen(PillarEnding ending) {
