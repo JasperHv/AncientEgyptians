@@ -102,7 +102,6 @@ public class GameView extends Parent {
                 });
     }
 
-
     private void initView() {
         setLayoutX((FXGL.getAppWidth() - GAME_VIEW_WIDTH) / 2);
         setLayoutY(0);
@@ -287,7 +286,6 @@ public class GameView extends Parent {
         } else {
             introCardIndex++;
         }
-        updateCardAndMessage();
     }
 
     private void handleGamePhase(boolean isSwipeLeft) {
@@ -297,22 +295,6 @@ public class GameView extends Parent {
         }
         updateScore();
         updateScoreAndYearBoxes();
-        System.out.println("Year Count after update: " + yearCount.get());
-
-        Card currentCard = gameCards.get(gameCardIndex);
-        InfluencePillars.applyInfluence(isSwipeLeft, currentCard.getInfluence());
-        updateScore();
-        updateScoreAndYearBoxes();
-        gameCardIndex++;
-
-        if (gameCardIndex >= gameCards.size()) {
-            PillarEnding badEnding = ConfigurationLoader.getInstance().getBadEnding();
-            if (badEnding != null) {
-                showEndScreen(badEnding);
-            }
-        } else {
-            updateCardAndMessage();
-        }
     }
 
     public void showEndScreen(PillarEnding ending) {
