@@ -1,46 +1,7 @@
 [ {
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742641089948,
-  "chosenCharacter" : "Cleopatra"
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Divine Harvest",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742641091836,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 1
-  }, {
-    "pillar" : "farmers",
-    "value" : 1
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Restoration of the Temple",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742641092676,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : -1
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Sacred Offerings",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742641093437,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
-  } ]
+  "timestamp" : 1742806692430,
+  "chosenCharacter" : "Tutankhamun"
 } ]
