@@ -6,6 +6,7 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.data.model.Mode;
+import nl.vu.cs.softwaredesign.data.model.Monarch;
 import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundExecption;
 
 import java.io.InputStream;
@@ -18,6 +19,7 @@ public class ConfigurationLoader {
     private Ending goldenAgeEnding;
     private ScoreSettings scoreSettings;
     private List<Mode> modes;
+    private List<String> monarchs;
 
     private ConfigurationLoader() {
         loadMainConfig();
@@ -41,6 +43,7 @@ public class ConfigurationLoader {
             goldenAgeEnding = mapper.convertValue(root.get("golden_age ending"), Ending.class);
             scoreSettings = mapper.convertValue(root.get("scoreSettings"), ScoreSettings.class);
             modes = mapper.convertValue(root.get("modes"), mapper.getTypeFactory().constructCollectionType(List.class, Mode.class));
+            monarchs = mapper.convertValue(root.get("monarchs"), mapper.getTypeFactory().constructCollectionType(List.class, String.class));
             loadPillarEndings(mapper, root);
 
         } catch (Exception e) {
@@ -74,5 +77,9 @@ public class ConfigurationLoader {
 
     public List<Mode> getModes() {
         return modes;
+    }
+
+    public List<String> getMonarchs() {
+        return monarchs;
     }
 }

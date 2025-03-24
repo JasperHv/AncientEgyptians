@@ -5,30 +5,30 @@ import java.util.List;
 import java.util.Map;
 
 public class GameConfiguration {
-    private Map<String, Map<String, Integer>> characterInitialValues;
+    private Map<String, Map<String, Integer>> monarchInitialValues;
     private List<Card> cards;
-    private String selectedCharacter = "";
+    private String selectedMonarch = "";
     private String gameMode = "";
 
     // Getters
-    public Map<String, Map<String, Integer>> getCharacterInitialValues() {
-        return characterInitialValues;
+    public Map<String, Map<String, Integer>> getMonarchInitialValues() {
+        return monarchInitialValues;
     }
 
     public List<Card> getCards() {
         return cards;
     }
 
-    public String getSelectedCharacter() {
-        return selectedCharacter;
+    public String getSelectedMonarch() {
+        return selectedMonarch;
     }
 
-    public void setSelectedCharacter(String character) {
-        selectedCharacter = character;
+    public void setSelectedMonarch(String monarch) {
+        selectedMonarch = monarch;
     }
 
-    public Map<String, Integer> getInitialValuesForCharacter(String character) {
-        return characterInitialValues.getOrDefault(character, Map.of());
+    public Map<String, Integer> getInitialValuesForMonarch(String monarch) {
+        return monarchInitialValues.getOrDefault(monarch, Map.of());
     }
 
     public String getGameMode() {
