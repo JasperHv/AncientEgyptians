@@ -2,13 +2,13 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742812032579,
+  "timestamp" : 1742842443862,
   "chosenCharacter" : "Tutankhamun"
 }, {
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Divine Harvest",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742812034866,
+  "timestamp" : 1742842445653,
   "influence" : [ {
     "pillar" : "priests",
     "value" : 1
@@ -23,24 +23,12 @@
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Restoration of the Temple",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1742812036558,
+  "timestamp" : 1742842446525,
   "influence" : [ {
     "pillar" : "priests",
     "value" : 2
   }, {
     "pillar" : "military",
-    "value" : -1
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Sacred Offerings",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742812037603,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "nobles",
     "value" : -1
   } ]
 } ]

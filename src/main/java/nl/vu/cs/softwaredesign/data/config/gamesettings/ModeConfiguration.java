@@ -1,9 +1,10 @@
 package nl.vu.cs.softwaredesign.data.config.gamesettings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
+import nl.vu.cs.softwaredesign.data.handlers.PillarValueInitializer;
 import nl.vu.cs.softwaredesign.data.model.Card;
+import nl.vu.cs.softwaredesign.data.model.Monarch;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.Mode;
 
@@ -18,11 +19,9 @@ public class ModeConfiguration {
     private GameConfiguration gameConfig;
     private Map<Pillar, Integer> pillarValues;
 
-    // Private constructor: use initialize() to set up the configuration
     private ModeConfiguration(String modeName) {
         ConfigurationLoader mainLoader = ConfigurationLoader.getInstance();
 
-        // Find the desired mode from the global modes list
         Mode selectedMode = mainLoader.getModes().stream()
                 .filter(m -> m.getName().equalsIgnoreCase(modeName))
                 .findFirst()
@@ -44,8 +43,7 @@ public class ModeConfiguration {
     }
 
     /**
-     * Initializes the mode configuration. This should be called once when the user selects a mode
-     * (for example, in the menu view).
+     * Initializes the mode configuration. Call this once when the user selects a mode.
      */
     public static void initialize(String modeName) {
         if (instance == null) {
@@ -56,7 +54,7 @@ public class ModeConfiguration {
     /**
      * Returns the initialized ModeConfiguration instance.
      *
-     * @throws IllegalStateException if the configuration has not been initialized.
+     * @throws IllegalStateException if not yet initialized.
      */
     public static ModeConfiguration getInstance() {
         if (instance == null) {
@@ -65,7 +63,6 @@ public class ModeConfiguration {
         return instance;
     }
 
-    // Getters
     public GameConfiguration getGameConfig() {
         return gameConfig;
     }
@@ -74,18 +71,21 @@ public class ModeConfiguration {
         return pillarValues;
     }
 
-    public void updatePillarValues() {
-        String monarchName = ModeConfiguration.getInstance().getGameConfig().getSelectedMonarch();
-        Map<String, Integer> initialValues = ModeConfiguration.getInstance().getGameConfig().getMonarchInitialValues().get(monarchName);
-
-        pillarValues.clear();
-        for (Pillar pillar : Pillar.values()) {
-            String key = pillar.getName().toLowerCase();
-            int value = initialValues.getOrDefault(key, 0);
-            pillarValues.put(pillar, value);
-            FXGL.set(pillar.name(), value);
+    /**
+     * Updates pillar values for the selected monarch using the initial values from the mode configuration.
+     */
+   public void updatePillarValues() {
+        Monarch selectedMonarch = gameConfig.getSelectedMonarch();
+        if (selectedMonarch == null) {
+            throw new IllegalStateException("Selected monarch is not set in game configuration.");
         }
+
+        pillarValues = PillarValueInitializer.initializePillarValues(
+                selectedMonarch,
+                gameConfig.getMonarchInitialValues()
+        );
     }
+
 
     public List<Card> getCards() {
         return gameConfig != null ? gameConfig.getCards() : List.of();

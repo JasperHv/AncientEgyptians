@@ -9,9 +9,12 @@ import nl.vu.cs.softwaredesign.ui.views.GameView;
 import nl.vu.cs.softwaredesign.data.controller.GameStateController;
 import nl.vu.cs.softwaredesign.data.model.Monarch;
 
+import java.util.Map;
+
 public class IntroSwipeCommand implements Command {
     private final SwipeSide side;
     private final GameStateController gameStateController;
+
     public IntroSwipeCommand(SwipeSide side, GameStateController gameStateController, GameView gameView) {
         this.side = side;
         this.gameStateController = gameStateController;
@@ -20,17 +23,16 @@ public class IntroSwipeCommand implements Command {
     @Override
     public void execute() {
         String currentCard = gameStateController.getIntroCards().get(gameStateController.getIntroCardIndex());
-        Monarch chosenMonarch = null;
 
         if ("choose-pharaoh".equals(currentCard)) {
-            GameConfiguration config = ModeConfiguration.getInstance().getGameConfig();
-            String monarchName = (side == SwipeSide.LEFT) ? "Cleopatra" : "Tutankhamun";
+            GameConfiguration gameConfig = ModeConfiguration.getInstance().getGameConfig();
 
-            chosenMonarch = new Monarch(monarchName, config.getMonarchInitialValues().get(monarchName));
-            config.setSelectedMonarch(monarchName);
+            String monarchName = (side == SwipeSide.LEFT) ? "Cleopatra" : "Tutankhamun";
+            gameConfig.setSelectedMonarch(monarchName);
             ModeConfiguration.getInstance().updatePillarValues();
 
-            gameStateController.setIntroCardIndex(gameStateController.getIntroCards().indexOf(monarchName.toLowerCase() + "-card"));
+            int nextIndex = gameStateController.getIntroCards().indexOf(monarchName.toLowerCase() + "-card");
+            gameStateController.setIntroCardIndex(nextIndex);
 
             IntroCommandLogEntry entry = new IntroCommandLogEntry(
                     currentCard,
@@ -38,7 +40,6 @@ public class IntroSwipeCommand implements Command {
                     monarchName,
                     System.currentTimeMillis()
             );
-
             CommandLogger.logCommand(entry);
         } else if ("tutankhamun-card".equals(currentCard) || "cleopatra-card".equals(currentCard)) {
             gameStateController.setIntroPhase(false);

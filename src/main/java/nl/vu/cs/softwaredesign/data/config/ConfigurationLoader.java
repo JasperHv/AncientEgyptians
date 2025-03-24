@@ -3,10 +3,8 @@ package nl.vu.cs.softwaredesign.data.config;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
-import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.data.model.Mode;
-import nl.vu.cs.softwaredesign.data.model.Monarch;
 import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundExecption;
 
 import java.io.InputStream;
@@ -40,10 +38,16 @@ public class ConfigurationLoader {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(input);
 
-            goldenAgeEnding = mapper.convertValue(root.get("golden_age ending"), Ending.class);
+            goldenAgeEnding = mapper.convertValue(root.get("goldenAgeEnding"), Ending.class);
             scoreSettings = mapper.convertValue(root.get("scoreSettings"), ScoreSettings.class);
-            modes = mapper.convertValue(root.get("modes"), mapper.getTypeFactory().constructCollectionType(List.class, Mode.class));
-            monarchs = mapper.convertValue(root.get("monarchs"), mapper.getTypeFactory().constructCollectionType(List.class, String.class));
+            modes = mapper.convertValue(
+                    root.get("modes"),
+                    mapper.getTypeFactory().constructCollectionType(List.class, Mode.class)
+            );
+            monarchs = mapper.convertValue(
+                    root.get("monarchs"),
+                    mapper.getTypeFactory().constructCollectionType(List.class, String.class)
+            );
             loadPillarEndings(mapper, root);
 
         } catch (Exception e) {
@@ -56,12 +60,10 @@ public class ConfigurationLoader {
         if (pillarsNode != null && pillarsNode.isArray()) {
             for (JsonNode pillarNode : pillarsNode) {
                 String name = pillarNode.get("name").asText().toLowerCase();
-                Pillar pillarEnum = Pillar.fromName(name);
-
-                if (pillarEnum != null) {
-                    Ending ending = mapper.convertValue(pillarNode.get("ending"), Ending.class);
-                } else {
-                    throw new RuntimeException("Unknown pillar name in configuration: " + name);
+                try {
+                    mapper.convertValue(pillarNode.get("ending"), Ending.class);
+                } catch (IllegalArgumentException e) {
+                    throw new RuntimeException("Unknown pillar name in configuration: " + name, e);
                 }
             }
         }
