@@ -3,10 +3,11 @@ package nl.vu.cs.softwaredesign.data.config.scoresettings;
 import java.util.List;
 
 public class BonusConfig {
-    private final List<Integer> thresholds;
-    private final List<Integer> bonusScores;
-    private final int balancedBonus;
+    private List<Integer> thresholds;
+    private List<Integer> bonusScores;
+    private int balancedBonus;
 
+    public BonusConfig() {}
     public BonusConfig(List<Integer> thresholds, List<Integer> bonusScores, int balancedBonus) {
         this.thresholds = thresholds;
         this.bonusScores = bonusScores;

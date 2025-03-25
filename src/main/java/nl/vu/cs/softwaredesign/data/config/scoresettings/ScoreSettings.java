@@ -1,11 +1,11 @@
 package nl.vu.cs.softwaredesign.data.config.scoresettings;
 
 public class ScoreSettings {
-    private final ScoreConfig scoreConfig;
-    private final BonusConfig bonusConfig;
-    private final int yearCountIncrease;
-    private final int baseScoreIncrease;
-
+    private ScoreConfig scoreConfig;
+    private BonusConfig bonusConfig;
+    private int yearCountIncrease;
+    private int baseScoreIncrease;
+    public ScoreSettings() {}
     public ScoreSettings(ScoreConfig scoreConfig, BonusConfig bonusConfig, int yearCountIncrease, int baseScoreIncrease) {
         this.scoreConfig = scoreConfig;
         this.bonusConfig = bonusConfig;

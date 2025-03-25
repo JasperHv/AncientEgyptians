@@ -25,13 +25,19 @@
     "image": "endings/bad-ending.png"
   },
   "scoreSettings": {
-    "initialScore": 0,
-    "initialYearCount": 0,
-    "yearThreshold": 60,
+    "scoreConfig": {
+      "initialScore": 0,
+      "initialYearCount": 0,
+      "yearThreshold": 60
+    },
+    "bonusConfig": {
+      "thresholds": [10, 20, 30],
+      "bonusScores": [10, 20, 30],
+      "balancedBonus": 5
+    },
     "yearCountIncrease": 1,
-    "baseScoreIncrease": 5,
-    "thresholds": [10, 20, 30],
-    "bonusScores": [10, 20, 30],
-    "balancedBonus": 5
+    "baseScoreIncrease": 5
   }
+}
+
 }

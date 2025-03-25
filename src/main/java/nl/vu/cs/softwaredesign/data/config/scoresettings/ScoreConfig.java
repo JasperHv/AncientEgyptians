@@ -1,10 +1,11 @@
 package nl.vu.cs.softwaredesign.data.config.scoresettings;
 
 public class ScoreConfig {
-    private final int initialScore;
-    private final int initialYearCount;
-    private final int yearThreshold;
+    private int initialScore;
+    private int initialYearCount;
+    private int yearThreshold;
 
+    public ScoreConfig() {}
     public ScoreConfig(int initialScore, int initialYearCount, int yearThreshold) {
         this.initialScore = initialScore;
         this.initialYearCount = initialYearCount;

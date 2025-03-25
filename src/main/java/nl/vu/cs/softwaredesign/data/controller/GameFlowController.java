@@ -8,6 +8,7 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
+import nl.vu.cs.softwaredesign.data.model.CardDeck;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.views.CardView;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
@@ -19,8 +20,7 @@ public class GameFlowController {
 
     private final CardView cardView;
     private final GameStateController gameStateController;
-
-    private List<Card> gameCardsList;
+    private CardDeck cardDeck;
 
 
     public GameFlowController(CardView cardView, GameView gameView, GameConfiguration gameConfiguration) {
@@ -35,7 +35,7 @@ public class GameFlowController {
         );
 
         this.gameStateController = new GameStateController(
-                gameCardsList,
+                cardDeck,
                 introCards,
                 scoreSettings,
                 gameConfiguration,
@@ -46,24 +46,7 @@ public class GameFlowController {
     private void loadGameCards() {
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
         List<Card> cards = modeConfig.getCards();
-
-        // Sort by frequency (highest first)
-        cards.sort((c1, c2) -> Integer.compare(c2.getFrequency(), c1.getFrequency()));
-
-        // Group by frequency and shuffle within each frequency group
-        Map<Integer, List<Card>> frequencyGroups = new HashMap<>();
-        for (Card card : cards) {
-            frequencyGroups.computeIfAbsent(card.getFrequency(), k -> new ArrayList<>()).add(card);
-        }
-
-        gameCardsList = new ArrayList<>();
-        frequencyGroups.keySet().stream()
-                .sorted(Comparator.reverseOrder()) // Highest frequency first
-                .forEach(freq -> {
-                    List<Card> group = frequencyGroups.get(freq);
-                    Collections.shuffle(group); // Shuffle each frequency group
-                    gameCardsList.addAll(group);
-                });
+        cardDeck = new CardDeck(cards);
     }
 
     public void updateMessage(Label messageLabel, String cardName) {

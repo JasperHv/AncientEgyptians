@@ -5,6 +5,7 @@ import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
+import nl.vu.cs.softwaredesign.data.model.CardDeck;
 import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 
@@ -14,26 +15,23 @@ public class GameStateController {
 
     private boolean isIntroPhase;
     private int introCardIndex = 0;
-    private final List<Card> gameCards;
     private Card currentCard;
+    private final CardDeck cardDeck;
     private final List<String> introCards;
     private final ScoreSettings scoreSettings;
 
     private final GameConfiguration gameConfiguration;
     private final HandleInfluencePillars handleInfluencePillars;
-
-    /**
-     * Updated constructor: we now accept a GameConfiguration instead of an IntegerProperty.
-     */
+    
     public GameStateController(
-            List<Card> gameCards,
+            CardDeck cardDeck,
             List<String> introCards,
             ScoreSettings scoreSettings,
             GameConfiguration gameConfiguration,
             HandleInfluencePillars handleInfluencePillars
     ) {
         this.isIntroPhase = true;
-        this.gameCards = gameCards;
+        this.cardDeck = cardDeck;
         this.introCards = introCards;
         this.scoreSettings = scoreSettings;
         this.gameConfiguration = gameConfiguration;
@@ -76,51 +74,15 @@ public class GameStateController {
     }
 
     public Card getNextCard() {
-        if (gameCards.isEmpty()) {
+        if (cardDeck.isEmpty()) {
             Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
             if (badEnding != null) {
                 GameView.getInstance().showEndScreen(badEnding);
             }
+            return null;
         }
-
-        Card selectedCard = null;
-        while (!gameCards.isEmpty()) {
-            selectedCard = gameCards.remove(0);
-            if ("standard".equalsIgnoreCase(selectedCard.getType())) {
-                break;
-            } else {
-                selectedCard = null;
-            }
-        }
-
-        if (selectedCard != null) {
-            Card updatedCard = selectedCard.decrementFrequency();
-            if (updatedCard.getFrequency() > 0) {
-                gameCards.add(updatedCard);
-                reshuffleList();
-            }
-            currentCard = updatedCard;
-        }
-
-        return selectedCard;
-    }
-
-    private void reshuffleList() {
-        gameCards.sort((c1, c2) -> Integer.compare(c2.getFrequency(), c1.getFrequency()));
-
-        Map<Integer, List<Card>> frequencyGroups = new HashMap<>();
-        for (Card card : gameCards) {
-            frequencyGroups.computeIfAbsent(card.getFrequency(), k -> new ArrayList<>()).add(card);
-        }
-
-        gameCards.clear();
-        frequencyGroups.keySet().stream()
-                .sorted(Comparator.reverseOrder())
-                .forEach(freq -> {
-                    List<Card> group = frequencyGroups.get(freq);
-                    Collections.shuffle(group);
-                    gameCards.addAll(group);
-                });
+        currentCard = cardDeck.drawCard();
+        return currentCard;
     }
 
     public ScoreSettings getScoreSettings() {

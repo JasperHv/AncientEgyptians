@@ -1,14 +1,14 @@
 [ {
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742931633888,
-  "chosenCharacter" : "Tutankhamun"
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742935664365,
+  "chosenCharacter" : "Cleopatra"
 }, {
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Trade Expedition",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1742931636095,
+  "timestamp" : 1742935666218,
   "influence" : [ {
     "pillar" : "nobles",
     "value" : 2
@@ -23,27 +23,38 @@
   "scoreCount" : 1
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Worker’s Day",
+  "cardTitle" : "Rural Reforms",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742931637056,
+  "timestamp" : 1742935667074,
   "influence" : [ {
     "pillar" : "farmers",
-    "value" : 3
+    "value" : 2
   } ],
   "yearsInPower" : 20,
   "scoreCount" : 2
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Temple Expansion",
+  "cardTitle" : "Worker’s Day",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1742931637535,
+  "timestamp" : 1742935667946,
   "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
+    "pillar" : "farmers",
+    "value" : 3
   } ],
   "yearsInPower" : 30,
   "scoreCount" : 3
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Monument Construction",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742935668313,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 1
+  }, {
+    "pillar" : "farmers",
+    "value" : -1
+  } ],
+  "yearsInPower" : 40,
+  "scoreCount" : 4
 } ]
