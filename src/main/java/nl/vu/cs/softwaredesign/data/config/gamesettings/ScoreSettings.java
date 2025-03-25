@@ -1,7 +1,5 @@
 package nl.vu.cs.softwaredesign.data.config.gamesettings;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 
 public class ScoreSettings {
@@ -18,19 +16,17 @@ public class ScoreSettings {
         return initialScore;
     }
 
-    public int getInitialYearCount() { return initialYearCount; }
-
-    public Map<String, Integer> getInitialValues() {
-        Map<String, Integer> values = new HashMap<>();
-        values.put("scoreCount", initialScore);
-        values.put("yearCount", initialYearCount);
-        values.put("threshold", yearThreshold);
-        return values;
+    public int getInitialYearCount() {
+        return initialYearCount;
     }
 
-    public int getYearThreshold() { return yearThreshold; }
+    public int getYearThreshold() {
+        return yearThreshold;
+    }
 
-    public int getYearCountIncrease() { return yearCountIncrease; }
+    public int getYearCountIncrease() {
+        return yearCountIncrease;
+    }
 
     public int getBaseScoreIncrease() {
         return baseScoreIncrease;
@@ -51,5 +47,4 @@ public class ScoreSettings {
     public int getBalancedBonus() {
         return balancedBonus;
     }
-
 }

@@ -2,7 +2,6 @@ package nl.vu.cs.softwaredesign.ui.views;
 
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.FadeTransition;
-import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -19,8 +18,9 @@ import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.handlers.SwipeHandler;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
-import nl.vu.cs.softwaredesign.data.model.*;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.data.handlers.HandleScore;
 import nl.vu.cs.softwaredesign.data.controller.GameStateController;
 import nl.vu.cs.softwaredesign.data.controller.CardController;
@@ -35,6 +35,7 @@ public class GameView extends Parent {
     private final PillarView pillarView = new PillarView(GAME_VIEW_WIDTH, 100);
     private final CardView cardView;
     private final ScoreSettings scoreSettings;
+    private final GameConfiguration gameConfiguration;
     private final SwipeHandler swipeHandler;
     private final CardController cardController;
 
@@ -42,26 +43,23 @@ public class GameView extends Parent {
     private Label yearLabel;
     private Label scoreLabel;
 
-    IntegerProperty yearCount = FXGL.getip("yearCount");
-    IntegerProperty scoreCount = FXGL.getip("scoreCount");
-
     HandleInfluencePillars handleInfluencePillars;
     GameStateController gameStateController;
 
     public GameView() {
-        cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
+        this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
+        this.gameConfiguration = ConfigurationLoader.getInstance().getGameConfiguration();
 
+        this.cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
         initView();
         initChildren();
 
-        scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        handleInfluencePillars = new HandleInfluencePillars(this);
-        yearCount.set(scoreSettings.getInitialYearCount());
-        scoreCount.set(scoreSettings.getInitialScore());
 
-        cardController = new CardController(cardView, this, yearCount);
-        gameStateController = cardController.getGameStateManager();
-        swipeHandler = new SwipeHandler(this, gameStateController);
+        this.handleInfluencePillars = new HandleInfluencePillars(this);
+        this.cardController = new CardController(cardView, this, gameConfiguration);
+        this.gameStateController = cardController.getGameStateManager();
+        this.swipeHandler = new SwipeHandler(this, gameStateController);
+
         updateCardAndMessage();
     }
 
@@ -71,7 +69,6 @@ public class GameView extends Parent {
         }
         return instance;
     }
-
 
     private void initView() {
         setLayoutX((FXGL.getAppWidth() - GAME_VIEW_WIDTH) / 2);
@@ -90,8 +87,8 @@ public class GameView extends Parent {
     private void initChildren() {
         var vBox = new VBox();
 
-        yearLabel = createBoxLabel("Years in Power: " + yearCount.get());
-        scoreLabel = createBoxLabel("Score: " + scoreCount.get());
+        yearLabel = createBoxLabel("Years in Power: " + gameConfiguration.getYearCount());
+        scoreLabel = createBoxLabel("Score: " + gameConfiguration.getScoreCount());
 
         HBox yearBox = createBox(yearLabel);
         HBox scoreBox = createBox(scoreLabel);
@@ -134,14 +131,13 @@ public class GameView extends Parent {
     }
 
     public void updateScoreAndYearBoxes() {
-        yearLabel.setText("Years in Power: " + yearCount.get());
-        scoreLabel.setText("Score: " + scoreCount.get());
+        yearLabel.setText("Years in Power: " + gameConfiguration.getYearCount());
+        scoreLabel.setText("Score: " + gameConfiguration.getScoreCount());
     }
 
     public void updateScore() {
         HandleScore handleScore = new HandleScore();
-        handleScore.updateScore();
-        scoreCount.set(FXGL.getip("scoreCount").get());
+        handleScore.updateScore(gameConfiguration, scoreSettings);
     }
 
     public void updateCardAndMessage() {
@@ -151,7 +147,6 @@ public class GameView extends Parent {
             cardController.handleGamePhase(messageLabel);
         }
     }
-
 
     public void onCardSwiped(SwipeSide side) {
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), messageLabel);

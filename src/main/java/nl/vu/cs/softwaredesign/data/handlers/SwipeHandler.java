@@ -22,11 +22,12 @@ public class SwipeHandler {
             Command command = new IntroSwipeCommand(side, gameStateController, gameView);
             command.execute();
         } else {
+            // Remove the explicit IntegerProperty parameter (yearCount).
+            // GameSwipeCommand can fetch/update year info through GameStateController.
             Command command = new GameSwipeCommand(
                     side,
                     gameStateController.getCurrentGameCard(),
                     gameStateController.getScoreSettings(),
-                    gameStateController.getYearCount(),
                     gameView,
                     gameStateController,
                     gameStateController.getInfluencePillars()

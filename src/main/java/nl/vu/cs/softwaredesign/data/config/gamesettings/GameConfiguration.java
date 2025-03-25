@@ -12,6 +12,8 @@ public class GameConfiguration {
     private List<Card> cards;
     private Monarch selectedMonarch;
     private String gameMode;
+    private int scoreCount;
+    private int yearCount;
 
     public List<Card> getCards() {
         return cards;
@@ -36,5 +38,34 @@ public class GameConfiguration {
 
     public String getGameMode() {
         return gameMode;
+    }
+
+    public void initializeScoreAndYear(ScoreSettings scoreSettings) {
+        this.scoreCount = scoreSettings.getInitialScore();
+        this.yearCount = scoreSettings.getInitialYearCount();
+    }
+
+    public int getScoreCount() {
+        return scoreCount;
+    }
+
+    public void setScoreCount(int scoreCount) {
+        this.scoreCount = scoreCount;
+    }
+
+    public int getYearCount() {
+        return yearCount;
+    }
+
+    public void setYearCount(int yearCount) {
+        this.yearCount = yearCount;
+    }
+
+    public void incrementYearCount(int increment) {
+        this.yearCount += increment;
+    }
+
+    public void incrementScoreCount(int increment) {
+        this.scoreCount += increment;
     }
 }

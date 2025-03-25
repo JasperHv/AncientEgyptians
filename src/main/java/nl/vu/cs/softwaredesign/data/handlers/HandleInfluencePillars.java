@@ -3,6 +3,7 @@ package nl.vu.cs.softwaredesign.data.handlers;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.beans.property.IntegerProperty;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Influence;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class HandleInfluencePillars {
     private final ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
+    private final GameConfiguration gameConfiguration = ConfigurationLoader.getInstance().getGameConfiguration();
     private final GameView gameView;
 
     public HandleInfluencePillars(GameView gameView) {
@@ -31,7 +33,7 @@ public class HandleInfluencePillars {
                 ))
                 .collect(Collectors.toList());
 
-        IntegerProperty yearCount = FXGL.getip("yearCount");
+        int yearCount = gameConfiguration.getYearCount();
         int threshold = scoreSettings.getYearThreshold();
 
         boolean gameOverTriggered = false;
@@ -51,7 +53,7 @@ public class HandleInfluencePillars {
             if (newValue == 0) {
                 gameOverTriggered = true;
                 triggeredPillar = pillarEnum;
-            } else if (newValue == 100 && yearCount.get() >= threshold) {
+            } else if (newValue == 100 && yearCount >= threshold) {
                 winTriggered = true;
                 triggeredPillar = pillarEnum;
             }

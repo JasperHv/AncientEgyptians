@@ -8,22 +8,27 @@ import nl.vu.cs.softwaredesign.ui.views.GameView;
 import nl.vu.cs.softwaredesign.data.controller.GameStateController;
 import nl.vu.cs.softwaredesign.data.logging.CommandLogger;
 import nl.vu.cs.softwaredesign.data.logging.GameCommandLogEntry;
-import javafx.beans.property.IntegerProperty;
 
 public class GameSwipeCommand implements Command {
+
     private final SwipeSide side;
     private final Card card;
     private final ScoreSettings scoreSettings;
-    private final IntegerProperty yearCount;
     private final GameView gameView;
     private final GameStateController gameStateController;
     private final HandleInfluencePillars handleInfluencePillars;
 
-    public GameSwipeCommand(SwipeSide side, Card card, ScoreSettings scoreSettings, IntegerProperty yearCount, GameView gameView, GameStateController gameStateController, HandleInfluencePillars handleInfluencePillars) {
+    public GameSwipeCommand(
+            SwipeSide side,
+            Card card,
+            ScoreSettings scoreSettings,
+            GameView gameView,
+            GameStateController gameStateController,
+            HandleInfluencePillars handleInfluencePillars
+    ) {
         this.side = side;
         this.card = card;
         this.scoreSettings = scoreSettings;
-        this.yearCount = yearCount;
         this.gameView = gameView;
         this.gameStateController = gameStateController;
         this.handleInfluencePillars = handleInfluencePillars;
@@ -31,7 +36,10 @@ public class GameSwipeCommand implements Command {
 
     @Override
     public void execute() {
-        yearCount.set(yearCount.get() + scoreSettings.getYearCountIncrease());
+        int currentYear = gameStateController.getYearCount();
+        int newYear = currentYear + scoreSettings.getYearCountIncrease();
+        gameStateController.setYearCount(newYear);
+
 
         handleInfluencePillars.applyInfluence(side == SwipeSide.LEFT, card.getInfluence());
 

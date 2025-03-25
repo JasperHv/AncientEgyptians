@@ -3,19 +3,17 @@ package nl.vu.cs.softwaredesign.data.controller;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.views.CardView;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Label;
-import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 public class CardController {
 
@@ -23,25 +21,33 @@ public class CardController {
     private final GameView gameView;
     private final GameStateController gameStateController;
     private final ScoreSettings scoreSettings;
-    HandleInfluencePillars handleInfluencePillars;
+    private final HandleInfluencePillars handleInfluencePillars;
 
     private final List<String> introCards = List.of(
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
     );
     private List<Card> gameCards;
 
-    // Modified constructor to accept yearCount as parameter
-    public CardController(CardView cardView, GameView gameView, IntegerProperty yearCount) {
+    /**
+     * Updated constructor to accept GameConfiguration instead of yearCount property.
+     */
+    public CardController(CardView cardView, GameView gameView, GameConfiguration gameConfiguration) {
         this.cardView = cardView;
         this.gameView = gameView;
-        scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        handleInfluencePillars = new HandleInfluencePillars(this.gameView);
+        this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
+        this.handleInfluencePillars = new HandleInfluencePillars(this.gameView);
 
         loadGameCards();
 
-        this.gameStateController = new GameStateController(gameCards, introCards, scoreSettings, yearCount, handleInfluencePillars);
+        // Pass the GameConfiguration to GameStateController
+        this.gameStateController = new GameStateController(
+                gameCards,
+                introCards,
+                scoreSettings,
+                gameConfiguration,       // Use the configuration directly
+                handleInfluencePillars
+        );
     }
-
 
     private void loadGameCards() {
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
@@ -80,7 +86,6 @@ public class CardController {
         }
     }
 
-
     public void handleIntroPhase(Label messageLabel) {
         int introCardIndex = gameStateController.getIntroCardIndex();
         String cardName = gameStateController.getIntroCards().get(introCardIndex);
@@ -99,7 +104,6 @@ public class CardController {
             updateCardAndMessage(messageLabel);
         }
     }
-
 
     public GameStateController getGameStateManager() {
         return gameStateController;

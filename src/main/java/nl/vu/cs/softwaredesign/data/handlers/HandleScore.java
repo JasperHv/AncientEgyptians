@@ -2,14 +2,14 @@ package nl.vu.cs.softwaredesign.data.handlers;
 
 import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
-import javafx.beans.property.IntegerProperty;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
+import javafx.beans.property.IntegerProperty;
 
 import java.util.List;
 
 public class HandleScore {
-    private final IntegerProperty scoreCount = FXGL.getip("scoreCount");
     private final List<Pillar> pillars = List.of(Pillar.PRIESTS, Pillar.FARMERS, Pillar.NOBLES, Pillar.MILITARY);
 
     private boolean isBalanced(Pillar pillar) {
@@ -18,9 +18,10 @@ public class HandleScore {
         return value >= 25 && value <= 75;
     }
 
-    public void updateScore() {
-        int yearCount = FXGL.getip("yearCount").get();
-        ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
+    public void updateScore(GameConfiguration gameConfiguration,  ScoreSettings scoreSettings) {
+        int yearCount = gameConfiguration.getYearCount();
+        int currentScore = gameConfiguration.getScoreCount();
+
         int scoreIncrease = scoreSettings.getBaseScoreIncrease();
 
         List<Integer> thresholds = scoreSettings.getThresholds();
@@ -39,7 +40,6 @@ public class HandleScore {
             scoreIncrease += scoreSettings.getBalancedBonus();
         }
 
-        // Update score
-        scoreCount.set(scoreCount.get() + scoreIncrease);
+        gameConfiguration.setScoreCount(currentScore + scoreIncrease);
     }
 }
