@@ -36,8 +36,7 @@ public class GameSwipeCommand implements Command {
 
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
-
-        gameStateController.advanceGameCard();
+        gameStateController.getNextCard();
 
         GameCommandLogEntry entry = new GameCommandLogEntry(
                 card.getTitle(),
@@ -46,6 +45,6 @@ public class GameSwipeCommand implements Command {
                 System.currentTimeMillis()
         );
         CommandLogger.logCommand(entry);
-        gameStateController.getNextCard();
+
     }
 }

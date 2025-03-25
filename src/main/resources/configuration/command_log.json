@@ -1,65 +1,71 @@
 [ {
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742760240506,
-  "chosenCharacter" : "Tutankhamun"
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742927801745,
+  "chosenCharacter" : "Cleopatra"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Divine Harvest",
+  "cardTitle" : "Lavish Tombs",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742760242304,
+  "timestamp" : 1742927803549,
   "influence" : [ {
-    "pillar" : "priests",
-    "value" : 1
+    "pillar" : "nobles",
+    "value" : 2
   }, {
     "pillar" : "farmers",
-    "value" : 1
+    "value" : -1
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Courtly Intrigue",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742927804399,
+  "influence" : [ {
+    "pillar" : "military",
+    "value" : 2
   }, {
     "pillar" : "nobles",
     "value" : -1
   } ]
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Restoration of the Temple",
+  "cardTitle" : "Land Grants",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742760243284,
+  "timestamp" : 1742927805245,
   "influence" : [ {
-    "pillar" : "priests",
+    "pillar" : "nobles",
+    "value" : 2
+  }, {
+    "pillar" : "farmers",
+    "value" : -2
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Royal Banquet",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742927806794,
+  "influence" : [ {
+    "pillar" : "nobles",
     "value" : 2
   }, {
     "pillar" : "military",
-    "value" : -1
+    "value" : -2
   } ]
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Sacred Offerings",
+  "cardTitle" : "Rural Reforms",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742760244280,
+  "timestamp" : 1742927807408,
   "influence" : [ {
-    "pillar" : "priests",
+    "pillar" : "farmers",
     "value" : 2
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Oracle’s Vision",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742760245262,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
   } ]
 }, {
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Priestly Reforms",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742760246257,
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742927808356,
   "influence" : [ {
     "pillar" : "priests",
     "value" : 2
@@ -69,26 +75,62 @@
   } ]
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Mystical Ritual",
+  "cardTitle" : "Conscription",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742760247441,
+  "timestamp" : 1742927809220,
   "influence" : [ {
-    "pillar" : "priests",
+    "pillar" : "military",
     "value" : 2
   }, {
     "pillar" : "farmers",
+    "value" : -2
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Chariot Innovation",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742927810217,
+  "influence" : [ {
+    "pillar" : "military",
+    "value" : -2
+  }, {
+    "pillar" : "farmers",
+    "value" : 2
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Warlord’s Challenge",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742927811020,
+  "influence" : [ {
+    "pillar" : "military",
+    "value" : 1
+  }, {
+    "pillar" : "priests",
     "value" : -1
   } ]
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Temple Expansion",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742760248659,
+  "cardTitle" : "Irrigation Projects",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742927811863,
   "influence" : [ {
-    "pillar" : "priests",
+    "pillar" : "farmers",
     "value" : 2
   }, {
+    "pillar" : "military",
+    "value" : -2
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Legal Dispute",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742927812275,
+  "influence" : [ {
     "pillar" : "nobles",
-    "value" : -1
+    "value" : 1
+  }, {
+    "pillar" : "priests",
+    "value" : -2
   } ]
 } ]

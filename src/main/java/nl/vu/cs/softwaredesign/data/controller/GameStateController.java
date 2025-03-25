@@ -5,7 +5,7 @@ import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import javafx.beans.property.IntegerProperty;
-import nl.vu.cs.softwaredesign.data.model.PillarEnding;
+import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 
 import java.util.*;
@@ -67,7 +67,7 @@ public class GameStateController {
 
     public Card getNextCard() {
         if (gameCards.isEmpty()) {
-            PillarEnding badEnding = ConfigurationLoader.getInstance().getBadEnding();
+            Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
             if (badEnding != null) {
                 GameView.getInstance().showEndScreen(badEnding);
             }

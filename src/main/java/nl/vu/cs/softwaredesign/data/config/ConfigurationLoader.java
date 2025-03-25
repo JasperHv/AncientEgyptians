@@ -16,6 +16,7 @@ public class ConfigurationLoader {
     private static ConfigurationLoader instance;
 
     private Ending goldenAgeEnding;
+    private Ending badEnding;
     private ScoreSettings scoreSettings;
     private List<Mode> modes;
 
@@ -39,6 +40,7 @@ public class ConfigurationLoader {
             JsonNode root = mapper.readTree(input);
 
             goldenAgeEnding = mapper.convertValue(root.get("golden_age ending"), Ending.class);
+            badEnding = mapper.convertValue(root.get("bad ending"), Ending.class);
             scoreSettings = mapper.convertValue(root.get("scoreSettings"), ScoreSettings.class);
             modes = mapper.convertValue(root.get("modes"), mapper.getTypeFactory().constructCollectionType(List.class, Mode.class));
             loadPillarEndings(mapper, root);
@@ -68,7 +70,7 @@ public class ConfigurationLoader {
         return goldenAgeEnding;
     }
 
-    public PillarEnding getBadEnding() {
+    public Ending getBadEnding() {
         return badEnding;
     }
 

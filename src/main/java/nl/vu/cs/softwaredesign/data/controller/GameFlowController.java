@@ -27,7 +27,6 @@ public class GameFlowController {
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
     );
     private List<Card> gameCardsList;
-    private final Map<String, String> cardPillarToImageMap;
 
 
     public GameFlowController(CardView cardView, GameView gameView, IntegerProperty yearCount) {
@@ -63,13 +62,6 @@ public class GameFlowController {
                     Collections.shuffle(group); // Shuffle each frequency group
                     gameCardsList.addAll(group);
                 });
-    }
-
-    private void loadPillarImages() {
-        cardPillarToImageMap.put("priests", "priests-card");
-        cardPillarToImageMap.put("farmers", "farmers-card");
-        cardPillarToImageMap.put("nobles", "nobles-card");
-        cardPillarToImageMap.put("military", "military-card");
     }
 
     public void updateMessage(Label messageLabel, String cardName) {
