@@ -61,7 +61,9 @@ public class ConfigurationLoader {
         return goldenAgeEnding;
     }
 
-    public PillarEnding getBadEnding() { return badEnding; }
+    public PillarEnding getBadEnding() {
+        return badEnding;
+    }
 
     public ScoreSettings getScoreSettings() {
         return scoreSettings;

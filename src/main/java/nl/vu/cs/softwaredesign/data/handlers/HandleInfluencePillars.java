@@ -1,4 +1,4 @@
-package nl.vu.cs.softwaredesign.data.service;
+package nl.vu.cs.softwaredesign.data.handlers;
 
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.beans.property.IntegerProperty;
@@ -12,12 +12,11 @@ import nl.vu.cs.softwaredesign.ui.views.GameView;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InfluencePillars {
+public class HandleInfluencePillars {
     private final ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
     private final GameView gameView;
 
-    // Constructor to inject GameView
-    public InfluencePillars(GameView gameView) {
+    public HandleInfluencePillars(GameView gameView) {
         this.gameView = gameView;
     }
 
