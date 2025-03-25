@@ -23,7 +23,7 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
 import nl.vu.cs.softwaredesign.data.model.*;
 import nl.vu.cs.softwaredesign.data.handlers.HandleScore;
 import nl.vu.cs.softwaredesign.data.controller.GameStateController;
-import nl.vu.cs.softwaredesign.data.controller.CardController;
+import nl.vu.cs.softwaredesign.data.controller.GameFlowController;
 
 public class GameView extends Parent {
 
@@ -36,7 +36,7 @@ public class GameView extends Parent {
     private final CardView cardView;
     private final ScoreSettings scoreSettings;
     private final SwipeHandler swipeHandler;
-    private final CardController cardController;
+    private final GameFlowController gameFlowController;
 
     private Label messageLabel;
     private Label yearLabel;
@@ -59,8 +59,8 @@ public class GameView extends Parent {
         yearCount.set(scoreSettings.getInitialYearCount());
         scoreCount.set(scoreSettings.getInitialScore());
 
-        cardController = new CardController(cardView, this, yearCount);
-        gameStateController = cardController.getGameStateManager();
+        gameFlowController = new GameFlowController(cardView, this, yearCount);
+        gameStateController = gameFlowController.getGameStateManager();
         swipeHandler = new SwipeHandler(this, gameStateController);
         updateCardAndMessage();
     }
@@ -146,9 +146,9 @@ public class GameView extends Parent {
 
     public void updateCardAndMessage() {
         if (gameStateController.isIntroPhase()) {
-            cardController.handleIntroPhase(messageLabel);
+            gameFlowController.handleIntroPhase(messageLabel);
         } else {
-            cardController.handleGamePhase(messageLabel);
+            gameFlowController.handleGamePhase(messageLabel);
         }
     }
 

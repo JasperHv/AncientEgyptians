@@ -35,6 +35,6 @@ public class GameSwipeCommand implements Command {
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
 
-        gameStateController.advanceGameCard();
+        gameStateController.getNextCard();
     }
 }

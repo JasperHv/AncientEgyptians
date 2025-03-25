@@ -22,9 +22,10 @@
       "type": "standard",
       "influence": [
         { "pillar": "priests", "value": 1 },
-        { "pillar": "farmers", "value": 1},
+        { "pillar": "farmers", "value": 1 },
         { "pillar": "nobles", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 2,
@@ -35,7 +36,8 @@
       "influence": [
         { "pillar": "priests", "value": 2 },
         { "pillar": "military", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 3,
@@ -46,7 +48,8 @@
       "influence": [
         { "pillar": "priests", "value": 2 },
         { "pillar": "nobles", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 4,
@@ -57,7 +60,8 @@
       "influence": [
         { "pillar": "priests", "value": 2 },
         { "pillar": "nobles", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 5,
@@ -68,7 +72,8 @@
       "influence": [
         { "pillar": "priests", "value": 2 },
         { "pillar": "nobles", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 6,
@@ -79,7 +84,8 @@
       "influence": [
         { "pillar": "priests", "value": 2 },
         { "pillar": "farmers", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 7,
@@ -90,7 +96,8 @@
       "influence": [
         { "pillar": "priests", "value": 2 },
         { "pillar": "nobles", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 8,
@@ -100,7 +107,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "priests", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 9,
@@ -110,7 +118,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "priests", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 10,
@@ -120,7 +129,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "priests", "value": 1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 11,
@@ -131,7 +141,8 @@
       "influence": [
         { "pillar": "nobles", "value": 2 },
         { "pillar": "military", "value": -2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 12,
@@ -142,7 +153,8 @@
       "influence": [
         { "pillar": "nobles", "value": 2 },
         { "pillar": "farmers", "value": -2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 13,
@@ -154,7 +166,8 @@
         { "pillar": "nobles", "value": 2 },
         { "pillar": "military", "value": 2 },
         { "pillar": "military", "value": -2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 14,
@@ -165,7 +178,8 @@
       "influence": [
         { "pillar": "nobles", "value": 1 },
         { "pillar": "priests", "value": -2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 15,
@@ -176,7 +190,8 @@
       "influence": [
         { "pillar": "nobles", "value": 2 },
         { "pillar": "farmers", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 16,
@@ -187,7 +202,8 @@
       "influence": [
         { "pillar": "military", "value": 2 },
         { "pillar": "nobles", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 17,
@@ -198,7 +214,8 @@
       "influence": [
         { "pillar": "nobles", "value": 2 },
         { "pillar": "priests", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 18,
@@ -208,7 +225,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "nobles", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 19,
@@ -218,7 +236,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "nobles", "value": 1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 20,
@@ -228,7 +247,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "nobles", "value": 4 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 21,
@@ -238,8 +258,9 @@
       "type": "standard",
       "influence": [
         { "pillar": "military", "value": 1 },
-        { "pillar": "farmers", "value":  1 }
-      ]
+        { "pillar": "farmers", "value": 1 }
+      ],
+      "frequency": 3
     },
     {
       "id": 22,
@@ -249,8 +270,9 @@
       "type": "standard",
       "influence": [
         { "pillar": "military", "value": 2 },
-        { "pillar": "farmers", "value": -2}
-      ]
+        { "pillar": "farmers", "value": -2 }
+      ],
+      "frequency": 3
     },
     {
       "id": 23,
@@ -261,7 +283,8 @@
       "influence": [
         { "pillar": "military", "value": 1 },
         { "pillar": "priests", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 24,
@@ -272,7 +295,8 @@
       "influence": [
         { "pillar": "military", "value": -2 },
         { "pillar": "farmers", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 25,
@@ -283,7 +307,8 @@
       "influence": [
         { "pillar": "military", "value": 1 },
         { "pillar": "nobles", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 26,
@@ -294,7 +319,8 @@
       "influence": [
         { "pillar": "military", "value": 2 },
         { "pillar": "farmers", "value": -2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 27,
@@ -305,7 +331,8 @@
       "influence": [
         { "pillar": "military", "value": 2 },
         { "pillar": "priests", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 28,
@@ -315,7 +342,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "military", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 29,
@@ -325,7 +353,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "military", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 30,
@@ -335,7 +364,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "military", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 31,
@@ -346,7 +376,8 @@
       "influence": [
         { "pillar": "priests", "value": 1 },
         { "pillar": "farmers", "value": -1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 32,
@@ -356,7 +387,8 @@
       "type": "standard",
       "influence": [
         { "pillar": "farmers", "value": 4 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 33,
@@ -367,7 +399,8 @@
       "influence": [
         { "pillar": "farmers", "value": 2 },
         { "pillar": "military", "value": -2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 34,
@@ -377,7 +410,8 @@
       "type": "standard",
       "influence": [
         { "pillar": "farmers", "value": 1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 35,
@@ -387,7 +421,8 @@
       "type": "standard",
       "influence": [
         { "pillar": "farmers", "value": 3 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 36,
@@ -397,7 +432,8 @@
       "type": "standard",
       "influence": [
         { "pillar": "farmers", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 37,
@@ -407,7 +443,8 @@
       "type": "standard",
       "influence": [
         { "pillar": "farmers", "value": 1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 38,
@@ -417,7 +454,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "farmers", "value": 2 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 39,
@@ -427,7 +465,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "farmers", "value": 1 }
-      ]
+      ],
+      "frequency": 3
     },
     {
       "id": 40,
@@ -437,7 +476,8 @@
       "type": "legacy",
       "influence": [
         { "pillar": "farmers", "value": 3 }
-      ]
+      ],
+      "frequency": 3
     }
   ]
 }

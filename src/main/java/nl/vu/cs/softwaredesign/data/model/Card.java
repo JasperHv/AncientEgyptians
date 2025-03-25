@@ -11,6 +11,7 @@ public class Card {
     private String pillar;
     private String type;
     private List<Influence> influence;
+    private int frequency;
 
     public Card() {}
 
@@ -25,5 +26,21 @@ public class Card {
     public String getType() { return type; }
 
     public List<Influence> getInfluence() { return influence; }
+
+    public int getFrequency() { return frequency; }
+
+    public void decrementFrequency() { this.frequency--; }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", scenario='" + scenario + '\'' +
+                ", pillar='" + pillar + '\'' +
+                ", type='" + type + '\'' +
+                ", frequency=" + frequency +
+                '}';
+    }
 
 }

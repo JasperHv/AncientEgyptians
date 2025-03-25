@@ -18,6 +18,7 @@ public class ConfigurationLoader {
 
     private List<Pillar> pillars;
     private PillarEnding goldenAgeEnding;
+    private PillarEnding badEnding;
     private ScoreSettings scoreSettings;
     private List<Mode> modes;
 
@@ -43,6 +44,7 @@ public class ConfigurationLoader {
             // Load global configuration
             pillars = mapper.convertValue(root.get("pillars"), new TypeReference<List<Pillar>>() {});
             goldenAgeEnding = mapper.convertValue(root.get("golden_age ending"), PillarEnding.class);
+            badEnding = mapper.convertValue(root.get("bad ending"), PillarEnding.class);
             scoreSettings = mapper.convertValue(root.get("scoreSettings"), ScoreSettings.class);
             modes = mapper.convertValue(root.get("modes"), new TypeReference<List<Mode>>() {});
         } catch (Exception e) {
@@ -57,6 +59,10 @@ public class ConfigurationLoader {
 
     public PillarEnding getGoldenAgeEnding() {
         return goldenAgeEnding;
+    }
+
+    public PillarEnding getBadEnding() {
+        return badEnding;
     }
 
     public ScoreSettings getScoreSettings() {

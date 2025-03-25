@@ -12,11 +12,9 @@ import javafx.scene.control.Label;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
-public class CardController {
+public class GameFlowController {
 
     private final CardView cardView;
     private final GameView gameView;
@@ -27,11 +25,11 @@ public class CardController {
     private final List<String> introCards = List.of(
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
     );
-    private List<Card> gameCards;
+    private List<Card> gameCardsList;
     private final Map<String, String> cardPillarToImageMap;
 
-    // Modified constructor to accept yearCount as parameter
-    public CardController(CardView cardView, GameView gameView, IntegerProperty yearCount) {
+
+    public GameFlowController(CardView cardView, GameView gameView, IntegerProperty yearCount) {
         this.cardView = cardView;
         this.gameView = gameView;
         scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
@@ -41,13 +39,31 @@ public class CardController {
         this.cardPillarToImageMap = new HashMap<>();
         loadPillarImages();
 
-        this.gameStateController = new GameStateController(gameCards, introCards, scoreSettings, yearCount, handleInfluencePillars);
+        this.gameStateController = new GameStateController(gameCardsList, introCards, scoreSettings, yearCount, handleInfluencePillars);
     }
 
 
     private void loadGameCards() {
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
-        this.gameCards = modeConfig.getCards();
+        List<Card> cards = modeConfig.getCards();
+
+        // Sort by frequency (highest first)
+        cards.sort((c1, c2) -> Integer.compare(c2.getFrequency(), c1.getFrequency()));
+
+        // Group by frequency and shuffle within each frequency group
+        Map<Integer, List<Card>> frequencyGroups = new HashMap<>();
+        for (Card card : cards) {
+            frequencyGroups.computeIfAbsent(card.getFrequency(), k -> new ArrayList<>()).add(card);
+        }
+
+        gameCardsList = new ArrayList<>();
+        frequencyGroups.keySet().stream()
+                .sorted(Comparator.reverseOrder()) // Highest frequency first
+                .forEach(freq -> {
+                    List<Card> group = frequencyGroups.get(freq);
+                    Collections.shuffle(group); // Shuffle each frequency group
+                    gameCardsList.addAll(group);
+                });
     }
 
     private void loadPillarImages() {
@@ -56,15 +72,6 @@ public class CardController {
         cardPillarToImageMap.put("nobles", "nobles-card");
         cardPillarToImageMap.put("military", "military-card");
     }
-
-    public void updateCard(Card card) {
-        if ("standard".equalsIgnoreCase(card.getType())) {
-            String pillar = card.getPillar().toLowerCase();
-            String imageName = cardPillarToImageMap.get(pillar);
-            cardView.updateCard(imageName);
-        }
-    }
-
 
     public void updateMessage(Label messageLabel, String cardName) {
         switch (cardName) {
@@ -90,15 +97,6 @@ public class CardController {
         fadeIn.play();
     }
 
-    public void updateCardAndMessage(Label messageLabel) {
-        if (gameStateController.isIntroPhase()) {
-            handleIntroPhase(messageLabel);
-        } else {
-            handleGamePhase(messageLabel);
-        }
-    }
-
-
     public void handleIntroPhase(Label messageLabel) {
         int introCardIndex = gameStateController.getIntroCardIndex();
         String cardName = gameStateController.getIntroCards().get(introCardIndex);
@@ -113,9 +111,6 @@ public class CardController {
             String imageName = cardPillarToImageMap.get(pillar);
             cardView.updateCard(imageName);
             updateMessage(messageLabel, currentCard.getScenario());
-        } else {
-            gameStateController.advanceGameCard();
-            updateCardAndMessage(messageLabel);
         }
     }
 
