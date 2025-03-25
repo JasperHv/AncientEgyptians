@@ -1,5 +1,7 @@
 package nl.vu.cs.softwaredesign.data.controller;
 
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
@@ -18,15 +20,26 @@ public class GameStateController {
     private Card currentCard;
     private final List<String> introCards;
     private final ScoreSettings scoreSettings;
-    private final IntegerProperty yearCount;
+
+    // Replaced IntegerProperty yearCount with a GameConfiguration
+    private final GameConfiguration gameConfiguration;
     private final HandleInfluencePillars handleInfluencePillars;
 
-    public GameStateController(List<Card> gameCards, List<String> introCards, ScoreSettings scoreSettings, IntegerProperty yearCount, HandleInfluencePillars handleInfluencePillars) {
+    /**
+     * Updated constructor: we now accept a GameConfiguration instead of an IntegerProperty.
+     */
+    public GameStateController(
+            List<Card> gameCards,
+            List<String> introCards,
+            ScoreSettings scoreSettings,
+            GameConfiguration gameConfiguration,
+            HandleInfluencePillars handleInfluencePillars
+    ) {
         this.isIntroPhase = true;
         this.gameCards = gameCards;
         this.introCards = introCards;
         this.scoreSettings = scoreSettings;
-        this.yearCount = yearCount;
+        this.gameConfiguration = gameConfiguration;
         this.handleInfluencePillars = handleInfluencePillars;
     }
 
@@ -34,8 +47,8 @@ public class GameStateController {
         return isIntroPhase;
     }
 
-    public void setIntroPhase(boolean isIntroPhase) {
-        this.isIntroPhase = isIntroPhase;
+    public void setIntroPhase(boolean introPhase) {
+        this.isIntroPhase = introPhase;
     }
 
     public List<String> getIntroCards() {
@@ -117,11 +130,15 @@ public class GameStateController {
         return scoreSettings;
     }
 
-    public IntegerProperty getYearCount() {
-        return yearCount;
-    }
-
     public HandleInfluencePillars getInfluencePillars() {
         return handleInfluencePillars;
+    }
+
+    public int getYearCount() {
+        return gameConfiguration.getYearCount();
+    }
+
+    public void setYearCount(int newYearCount) {
+        gameConfiguration.setYearCount(newYearCount);
     }
 }

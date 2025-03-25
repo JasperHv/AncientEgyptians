@@ -1,136 +1,91 @@
 [ {
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742929209709,
+  "chosenCharacter" : "Tutankhamun"
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Temple Expansion",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1742927801745,
-  "chosenCharacter" : "Cleopatra"
+  "timestamp" : 1742929211672,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ],
+  "yearsInPower" : 10,
+  "scoreCount" : 1
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Restoration of the Temple",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742929211965,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -1
+  } ],
+  "yearsInPower" : 20,
+  "scoreCount" : 2
 }, {
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Lavish Tombs",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742927803549,
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742929213076,
   "influence" : [ {
     "pillar" : "nobles",
     "value" : 2
   }, {
     "pillar" : "farmers",
     "value" : -1
-  } ]
+  } ],
+  "yearsInPower" : 30,
+  "scoreCount" : 3
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Courtly Intrigue",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742927804399,
+  "cardTitle" : "Desert Fortress",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742929214068,
   "influence" : [ {
     "pillar" : "military",
     "value" : 2
   }, {
-    "pillar" : "nobles",
-    "value" : -1
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Land Grants",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742927805245,
-  "influence" : [ {
-    "pillar" : "nobles",
-    "value" : 2
-  }, {
     "pillar" : "farmers",
     "value" : -2
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Royal Banquet",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742927806794,
-  "influence" : [ {
-    "pillar" : "nobles",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : -2
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Rural Reforms",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742927807408,
-  "influence" : [ {
-    "pillar" : "farmers",
-    "value" : 2
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Priestly Reforms",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742927808356,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
-  } ]
+  } ],
+  "yearsInPower" : 40,
+  "scoreCount" : 4
 }, {
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Conscription",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742927809220,
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1742929214916,
   "influence" : [ {
     "pillar" : "military",
     "value" : 2
   }, {
     "pillar" : "farmers",
     "value" : -2
-  } ]
+  } ],
+  "yearsInPower" : 50,
+  "scoreCount" : 5
 }, {
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Chariot Innovation",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742927810217,
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742929215692,
   "influence" : [ {
     "pillar" : "military",
     "value" : -2
   }, {
     "pillar" : "farmers",
     "value" : 2
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Warlord’s Challenge",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742927811020,
-  "influence" : [ {
-    "pillar" : "military",
-    "value" : 1
-  }, {
-    "pillar" : "priests",
-    "value" : -1
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Irrigation Projects",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742927811863,
-  "influence" : [ {
-    "pillar" : "farmers",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : -2
-  } ]
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Legal Dispute",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742927812275,
-  "influence" : [ {
-    "pillar" : "nobles",
-    "value" : 1
-  }, {
-    "pillar" : "priests",
-    "value" : -2
-  } ]
+  } ],
+  "yearsInPower" : 60,
+  "scoreCount" : 6
 } ]

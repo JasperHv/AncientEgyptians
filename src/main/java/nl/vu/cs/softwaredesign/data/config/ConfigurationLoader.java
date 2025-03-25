@@ -2,6 +2,7 @@ package nl.vu.cs.softwaredesign.data.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.data.model.Mode;
@@ -89,5 +90,9 @@ public class ConfigurationLoader {
 
     public List<String> getMonarchs() {
         return monarchs;
+    }
+
+    public GameConfiguration getGameConfiguration() {
+        return new GameConfiguration(); // Implement this method to load game configuration based on mode settings
     }
 }

@@ -32,10 +32,6 @@
     "baseScoreIncrease": 5,
     "thresholds": [10, 20, 30],
     "bonusScores": [10, 20, 30],
-    "balancedBonus": 5,
-    "legacyCardThresholds": {
-      "unlock": 5,
-      "lock": 3
-    }
+    "balancedBonus": 5
   }
 }

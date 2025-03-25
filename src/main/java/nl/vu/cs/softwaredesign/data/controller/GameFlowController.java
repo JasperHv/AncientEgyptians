@@ -3,15 +3,15 @@ package nl.vu.cs.softwaredesign.data.controller;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.views.CardView;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Label;
-import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class GameFlowController {
     private final GameView gameView;
     private final GameStateController gameStateController;
     private final ScoreSettings scoreSettings;
-    HandleInfluencePillars handleInfluencePillars;
+    private final HandleInfluencePillars handleInfluencePillars;
 
     private final List<String> introCards = List.of(
             "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
@@ -29,17 +29,22 @@ public class GameFlowController {
     private List<Card> gameCardsList;
 
 
-    public GameFlowController(CardView cardView, GameView gameView, IntegerProperty yearCount) {
+    public GameFlowController(CardView cardView, GameView gameView, GameConfiguration gameConfiguration) {
         this.cardView = cardView;
         this.gameView = gameView;
-        scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        handleInfluencePillars = new HandleInfluencePillars(this.gameView);
+        this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
+        this.handleInfluencePillars = new HandleInfluencePillars(this.gameView);
 
         loadGameCards();
 
-        this.gameStateController = new GameStateController(gameCardsList, introCards, scoreSettings, yearCount, handleInfluencePillars);
+        this.gameStateController = new GameStateController(
+                gameCardsList,
+                introCards,
+                scoreSettings,
+                gameConfiguration,
+                handleInfluencePillars
+        );
     }
-
 
     private void loadGameCards() {
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
@@ -86,6 +91,14 @@ public class GameFlowController {
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
         fadeIn.play();
+    }
+
+    public void updateCardAndMessage(Label messageLabel) {
+        if (gameStateController.isIntroPhase()) {
+            handleIntroPhase(messageLabel);
+        } else {
+            handleGamePhase(messageLabel);
+        }
     }
 
     public void handleIntroPhase(Label messageLabel) {

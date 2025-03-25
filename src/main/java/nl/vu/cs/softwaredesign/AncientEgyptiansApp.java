@@ -2,8 +2,7 @@ package nl.vu.cs.softwaredesign;
 
 import com.almasb.fxgl.app.GameSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.scenes.GameSceneFactory;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
@@ -43,8 +42,10 @@ public class AncientEgyptiansApp extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         try {
+            GameConfiguration gameConfig = ConfigurationLoader.getInstance().getGameConfiguration();
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
-            vars.putAll(scoreConfig.getInitialValues());
+
+            gameConfig.initializeScoreAndYear(scoreConfig);
 
             ModeConfiguration config = ModeConfiguration.getInstance();
             Map<Pillar, Integer> pillarValues = config.getPillarValues();
