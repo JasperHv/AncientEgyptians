@@ -21,12 +21,11 @@ public class SwipeHandler {
     }
 
     public void onSwipe(SwipeSide side) {
+        Command command;
         if (gameStateController.isIntroPhase()) {
-            Command command = new IntroSwipeCommand(side, gameStateController, gameView);
-            command.execute();
+            command = new IntroSwipeCommand(side, gameStateController, gameView);
         } else {
-            // Now inject GameConfiguration into GameSwipeCommand
-            Command command = new GameSwipeCommand(
+            command = new GameSwipeCommand(
                     side,
                     gameStateController.getCurrentGameCard(),
                     gameStateController.getScoreSettings(),
@@ -35,7 +34,7 @@ public class SwipeHandler {
                     gameStateController.getInfluencePillars(),
                     gameConfiguration
             );
-            command.execute();
         }
+        command.execute();
     }
 }

@@ -36,7 +36,7 @@ public class MainMenu extends FXGLMenu {
 
         Text title = new Text("REIGNS - Ancient Egyptians");
         title.setFont(Font.font("Papyrus", 48));
-        title.setTranslateX(1280 / 2 - 200); // center the text
+        title.setTranslateX((double) 1280 / 2 - 200); // center the text
         title.setTranslateY(150);
         title.setFill(Color.WHITE);
         getContentRoot().getChildren().add(title);
@@ -44,7 +44,7 @@ public class MainMenu extends FXGLMenu {
 
     private void initButtons() {
         VBox menuBox = new VBox(20);
-        menuBox.setTranslateX(1280 / 2 - 100); // center the buttons
+        menuBox.setTranslateX((double) 1280 / 2 - 100); // center the buttons
         menuBox.setTranslateY(300);
 
         Button btnNewGame = new Button("New Game");
@@ -53,10 +53,7 @@ public class MainMenu extends FXGLMenu {
 
         Button btnLoadGame = new Button("Load Game");
         btnLoadGame.setPrefWidth(200);
-        btnLoadGame.setOnAction(e -> {
-            // load a previously saved game state (ensure a valid save file exists)
-            FXGL.getSaveLoadService().readAndLoadTask("save1.json").run();
-        });
+        btnLoadGame.setOnAction(e -> FXGL.getSaveLoadService().readAndLoadTask("save1.json").run());
 
         Button btnExit = new Button("Exit");
         btnExit.setPrefWidth(200);
@@ -70,14 +67,14 @@ public class MainMenu extends FXGLMenu {
         getContentRoot().getChildren().clear();
 
         VBox modeBox = new VBox(20);
-        modeBox.setTranslateX(1280 / 2 - 100);
+        modeBox.setTranslateX((double) 1280 / 2 - 100);
         modeBox.setTranslateY(200);
 
         Label message = new Label("Choose your game mode");
         message.setFont(Font.font("Papyrus", 36));
         message.setTextFill(Color.WHITE);
         // Position adjustments (tweak as needed)
-        message.setTranslateX(1280 / 2 - 680);
+        message.setTranslateX((double) 1280 / 2 - 680);
         message.setTranslateY(0);
 
         Button btnEasy = new Button("Easy");

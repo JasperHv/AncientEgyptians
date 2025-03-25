@@ -3,10 +3,13 @@ package nl.vu.cs.softwaredesign.data.logging;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CommandLogger {
     private static final String LOG_FILE = "src/main/resources/configuration/command_log.json";
@@ -14,6 +17,9 @@ public class CommandLogger {
     private static final ObjectMapper mapper = new ObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT)
             .setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
+    private static final Logger logger = Logger.getLogger(CommandLogger.class.getName());
+
+    private CommandLogger() {}
 
     public static void logCommand(CommandLogEntry entry) {
         logEntries.add(entry);
@@ -24,7 +30,7 @@ public class CommandLogger {
         try {
             mapper.writeValue(new File(LOG_FILE), logEntries);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error saving command log to file", e);
         }
     }
 }

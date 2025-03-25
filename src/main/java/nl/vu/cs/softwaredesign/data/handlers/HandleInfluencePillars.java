@@ -34,7 +34,7 @@ public class HandleInfluencePillars {
                 .collect(Collectors.toList());
 
         int yearCount = gameConfiguration.getYearCount();
-        int threshold = scoreSettings.getYearThreshold();
+        int threshold = scoreSettings.getScoreConfig().getYearThreshold();
 
         boolean gameOverTriggered = false;
         boolean winTriggered = false;
