@@ -18,4 +18,3 @@ public class Ending {
         return image;
     }
 }
-

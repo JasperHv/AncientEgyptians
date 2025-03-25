@@ -8,7 +8,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import nl.vu.cs.softwaredesign.ui.components.SwipeRectangle;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.inc;
 
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 
@@ -34,7 +33,7 @@ public class CardView extends StackPane {
     }
 
     private SwipeRectangle generateCardHolder() {
-        var cardHolder = new SwipeRectangle(size, size);
+        cardHolder = new SwipeRectangle(size, size);
         updateCard("welcome-card");
 
         cardHolder.setOnMouseReleased(event -> {

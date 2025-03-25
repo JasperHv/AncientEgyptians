@@ -3,10 +3,11 @@ package nl.vu.cs.softwaredesign.data.config;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.data.model.Mode;
 import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundExecption;
+import nl.vu.cs.softwaredesign.exception.InvalidPillarConfigurationException;
 
 import java.io.InputStream;
 import java.util.List;
@@ -54,7 +55,7 @@ public class ConfigurationLoader {
             loadPillarEndings(mapper, root);
 
         } catch (Exception e) {
-            throw new RuntimeException("Error loading main config: " + e.getMessage(), e);
+            throw new ConfigurationNotFoundExecption("Error loading main config: " + e.getMessage(), e);
         }
     }
 
@@ -66,7 +67,7 @@ public class ConfigurationLoader {
                 try {
                     mapper.convertValue(pillarNode.get("ending"), Ending.class);
                 } catch (IllegalArgumentException e) {
-                    throw new RuntimeException("Unknown pillar name in configuration: " + name, e);
+                    throw new InvalidPillarConfigurationException("Unknown pillar name in configuration: " + name, e);
                 }
             }
         }

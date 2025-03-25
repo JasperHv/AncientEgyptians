@@ -3,6 +3,7 @@ package nl.vu.cs.softwaredesign;
 import com.almasb.fxgl.app.GameSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
+import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.scenes.GameSceneFactory;
 import nl.vu.cs.softwaredesign.ui.views.GameView;

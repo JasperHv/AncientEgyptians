@@ -1,5 +1,7 @@
 package nl.vu.cs.softwaredesign.data.config.gamesettings;
 
+import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreConfig;
+import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Monarch;
 
@@ -41,8 +43,9 @@ public class GameConfiguration {
     }
 
     public void initializeScoreAndYear(ScoreSettings scoreSettings) {
-        this.scoreCount = scoreSettings.getInitialScore();
-        this.yearCount = scoreSettings.getInitialYearCount();
+        ScoreConfig scoreConfig = scoreSettings.getScoreConfig();
+        this.scoreCount = scoreConfig.getInitialScore();
+        this.yearCount = scoreConfig.getInitialYearCount();
     }
 
     public int getScoreCount() {

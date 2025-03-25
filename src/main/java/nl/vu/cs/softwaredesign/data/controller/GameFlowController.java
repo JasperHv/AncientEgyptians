@@ -5,7 +5,7 @@ import javafx.util.Duration;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
@@ -18,24 +18,21 @@ import java.util.*;
 public class GameFlowController {
 
     private final CardView cardView;
-    private final GameView gameView;
     private final GameStateController gameStateController;
-    private final ScoreSettings scoreSettings;
-    private final HandleInfluencePillars handleInfluencePillars;
 
-    private final List<String> introCards = List.of(
-            "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
-    );
     private List<Card> gameCardsList;
 
 
     public GameFlowController(CardView cardView, GameView gameView, GameConfiguration gameConfiguration) {
         this.cardView = cardView;
-        this.gameView = gameView;
-        this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        this.handleInfluencePillars = new HandleInfluencePillars(this.gameView);
+        ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
+        HandleInfluencePillars handleInfluencePillars = new HandleInfluencePillars(gameView);
 
         loadGameCards();
+
+        List<String> introCards = List.of(
+                "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
+        );
 
         this.gameStateController = new GameStateController(
                 gameCardsList,
@@ -91,14 +88,6 @@ public class GameFlowController {
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
         fadeIn.play();
-    }
-
-    public void updateCardAndMessage(Label messageLabel) {
-        if (gameStateController.isIntroPhase()) {
-            handleIntroPhase(messageLabel);
-        } else {
-            handleGamePhase(messageLabel);
-        }
     }
 
     public void handleIntroPhase(Label messageLabel) {

@@ -1,12 +1,10 @@
 package nl.vu.cs.softwaredesign.data.controller;
 
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
-import javafx.beans.property.IntegerProperty;
 import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 
@@ -21,7 +19,6 @@ public class GameStateController {
     private final List<String> introCards;
     private final ScoreSettings scoreSettings;
 
-    // Replaced IntegerProperty yearCount with a GameConfiguration
     private final GameConfiguration gameConfiguration;
     private final HandleInfluencePillars handleInfluencePillars;
 
@@ -97,12 +94,12 @@ public class GameStateController {
         }
 
         if (selectedCard != null) {
-            selectedCard.decrementFrequency();
-            if (selectedCard.getFrequency() > 0) {
-                gameCards.add(selectedCard);
+            Card updatedCard = selectedCard.decrementFrequency();
+            if (updatedCard.getFrequency() > 0) {
+                gameCards.add(updatedCard);
                 reshuffleList();
             }
-            currentCard = selectedCard;
+            currentCard = updatedCard;
         }
 
         return selectedCard;

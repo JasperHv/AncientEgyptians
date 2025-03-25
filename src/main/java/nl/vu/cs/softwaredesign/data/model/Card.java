@@ -1,9 +1,7 @@
 package nl.vu.cs.softwaredesign.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Card {
     private int id;
     private String title;
@@ -14,21 +12,25 @@ public class Card {
     private int frequency;
 
     public Card() {}
+    public Card(int id, String title, String scenario, String pillar, String type, List<Influence> influence, int frequency) {
+        this.id = id;
+        this.title = title;
+        this.scenario = scenario;
+        this.pillar = pillar;
+        this.type = type;
+        this.influence = influence;
+        this.frequency = frequency;
+    }
 
     public int getId() { return id; }
-
     public String getTitle() { return title; }
-
     public String getScenario() { return scenario; }
-
     public String getPillar() { return pillar; }
-
     public String getType() { return type; }
-
     public List<Influence> getInfluence() { return influence; }
-
     public int getFrequency() { return frequency; }
 
-    public void decrementFrequency() { this.frequency--; }
-
+    public Card decrementFrequency() {
+        return new Card(this.id, this.title, this.scenario, this.pillar, this.type, this.influence, this.frequency - 1);
+    }
 }

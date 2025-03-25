@@ -2,90 +2,48 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742929209709,
+  "timestamp" : 1742931633888,
   "chosenCharacter" : "Tutankhamun"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Temple Expansion",
+  "cardTitle" : "Trade Expedition",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1742929211672,
+  "timestamp" : 1742931636095,
   "influence" : [ {
-    "pillar" : "priests",
+    "pillar" : "nobles",
     "value" : 2
   }, {
-    "pillar" : "nobles",
-    "value" : -1
+    "pillar" : "military",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -2
   } ],
   "yearsInPower" : 10,
   "scoreCount" : 1
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Restoration of the Temple",
+  "cardTitle" : "Worker’s Day",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742929211965,
+  "timestamp" : 1742931637056,
   "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : -1
+    "pillar" : "farmers",
+    "value" : 3
   } ],
   "yearsInPower" : 20,
   "scoreCount" : 2
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Lavish Tombs",
+  "cardTitle" : "Temple Expansion",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1742929213076,
+  "timestamp" : 1742931637535,
   "influence" : [ {
-    "pillar" : "nobles",
+    "pillar" : "priests",
     "value" : 2
   }, {
-    "pillar" : "farmers",
+    "pillar" : "nobles",
     "value" : -1
   } ],
   "yearsInPower" : 30,
   "scoreCount" : 3
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Desert Fortress",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742929214068,
-  "influence" : [ {
-    "pillar" : "military",
-    "value" : 2
-  }, {
-    "pillar" : "farmers",
-    "value" : -2
-  } ],
-  "yearsInPower" : 40,
-  "scoreCount" : 4
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Conscription",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742929214916,
-  "influence" : [ {
-    "pillar" : "military",
-    "value" : 2
-  }, {
-    "pillar" : "farmers",
-    "value" : -2
-  } ],
-  "yearsInPower" : 50,
-  "scoreCount" : 5
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Chariot Innovation",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1742929215692,
-  "influence" : [ {
-    "pillar" : "military",
-    "value" : -2
-  }, {
-    "pillar" : "farmers",
-    "value" : 2
-  } ],
-  "yearsInPower" : 60,
-  "scoreCount" : 6
 } ]

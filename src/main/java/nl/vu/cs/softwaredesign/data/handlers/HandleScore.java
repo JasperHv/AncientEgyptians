@@ -1,9 +1,9 @@
 package nl.vu.cs.softwaredesign.data.handlers;
 
 import com.almasb.fxgl.dsl.FXGL;
-import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.config.scoresettings.BonusConfig;
+import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import javafx.beans.property.IntegerProperty;
 
@@ -18,14 +18,15 @@ public class HandleScore {
         return value >= 25 && value <= 75;
     }
 
-    public void updateScore(GameConfiguration gameConfiguration,  ScoreSettings scoreSettings) {
+    public void updateScore(GameConfiguration gameConfiguration, ScoreSettings scoreSettings) {
         int yearCount = gameConfiguration.getYearCount();
         int currentScore = gameConfiguration.getScoreCount();
 
         int scoreIncrease = scoreSettings.getBaseScoreIncrease();
 
-        List<Integer> thresholds = scoreSettings.getThresholds();
-        List<Integer> bonusScores = scoreSettings.getBonusScores();
+        BonusConfig bonusConfig = scoreSettings.getBonusConfig();
+        List<Integer> thresholds = bonusConfig.getThresholds();
+        List<Integer> bonusScores = bonusConfig.getBonusScores();
 
         // Adjust score based on thresholds
         for (int i = 0; i < thresholds.size(); i++) {
@@ -37,7 +38,7 @@ public class HandleScore {
         // Check if all pillars are balanced
         boolean allBalanced = pillars.stream().allMatch(this::isBalanced);
         if (allBalanced) {
-            scoreIncrease += scoreSettings.getBalancedBonus();
+            scoreIncrease += bonusConfig.getBalancedBonus();
         }
 
         gameConfiguration.setScoreCount(currentScore + scoreIncrease);

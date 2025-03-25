@@ -1,9 +1,5 @@
 package nl.vu.cs.softwaredesign.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-
 public class Influence {
     private String pillar;
     private Integer value;
@@ -18,23 +14,7 @@ public class Influence {
         return pillar;
     }
 
-    public void setPillar(String pillar) {
-        this.pillar = pillar;
-    }
+    public Integer getValue() { return value; }
 
-    public Integer getValue() {
-        return value;
-    }
 
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "Influence{" +
-                "pillar='" + pillar + '\'' +
-                ", value='" + value + '\'' +
-                '}';
-    }
 }
