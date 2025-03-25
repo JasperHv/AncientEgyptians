@@ -15,7 +15,7 @@ public abstract class CommandLogEntry {
     @JsonProperty("timestamp")
     private final long timestamp;
 
-    public CommandLogEntry(String commandType, String cardTitle, String swipeDirection, long timestamp) {
+    protected CommandLogEntry(String commandType, String cardTitle, String swipeDirection, long timestamp) {
         this.commandType = commandType;
         this.cardTitle = cardTitle;
         this.swipeDirection = swipeDirection;

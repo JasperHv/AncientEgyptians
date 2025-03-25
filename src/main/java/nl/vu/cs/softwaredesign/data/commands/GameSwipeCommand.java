@@ -1,6 +1,7 @@
 package nl.vu.cs.softwaredesign.data.commands;
 
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
@@ -17,6 +18,7 @@ public class GameSwipeCommand implements Command {
     private final GameView gameView;
     private final GameStateController gameStateController;
     private final HandleInfluencePillars handleInfluencePillars;
+    private final GameConfiguration gameConfiguration;
 
     public GameSwipeCommand(
             SwipeSide side,
@@ -24,7 +26,8 @@ public class GameSwipeCommand implements Command {
             ScoreSettings scoreSettings,
             GameView gameView,
             GameStateController gameStateController,
-            HandleInfluencePillars handleInfluencePillars
+            HandleInfluencePillars handleInfluencePillars,
+            GameConfiguration gameConfiguration
     ) {
         this.side = side;
         this.card = card;
@@ -32,14 +35,15 @@ public class GameSwipeCommand implements Command {
         this.gameView = gameView;
         this.gameStateController = gameStateController;
         this.handleInfluencePillars = handleInfluencePillars;
+        this.gameConfiguration = gameConfiguration;
     }
+
 
     @Override
     public void execute() {
         int currentYear = gameStateController.getYearCount();
         int newYear = currentYear + scoreSettings.getYearCountIncrease();
         gameStateController.setYearCount(newYear);
-
 
         handleInfluencePillars.applyInfluence(side == SwipeSide.LEFT, card.getInfluence());
 
@@ -48,11 +52,16 @@ public class GameSwipeCommand implements Command {
 
         gameStateController.advanceGameCard();
 
+        int currentScore = gameConfiguration.getScoreCount();
+        int currentYearCount = gameConfiguration.getYearCount();
+
         GameCommandLogEntry entry = new GameCommandLogEntry(
                 card.getTitle(),
                 side.toString(),
                 card.getInfluence(),
-                System.currentTimeMillis()
+                System.currentTimeMillis(),
+                currentScore,
+                currentYearCount
         );
         CommandLogger.logCommand(entry);
     }

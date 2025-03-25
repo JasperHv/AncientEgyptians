@@ -58,7 +58,7 @@ public class GameView extends Parent {
         this.handleInfluencePillars = new HandleInfluencePillars(this);
         this.cardController = new CardController(cardView, this, gameConfiguration);
         this.gameStateController = cardController.getGameStateManager();
-        this.swipeHandler = new SwipeHandler(this, gameStateController);
+        this.swipeHandler = new SwipeHandler(this, gameStateController, gameConfiguration);
 
         updateCardAndMessage();
     }

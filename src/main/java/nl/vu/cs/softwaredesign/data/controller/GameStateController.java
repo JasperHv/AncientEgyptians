@@ -91,9 +91,6 @@ public class GameStateController {
         return handleInfluencePillars;
     }
 
-    /**
-     * Example convenience method: use gameConfiguration’s year count directly.
-     */
     public int getYearCount() {
         return gameConfiguration.getYearCount();
     }
