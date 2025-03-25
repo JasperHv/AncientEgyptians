@@ -12,6 +12,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +32,12 @@ public class PillarView extends StackPane {
 
         this.pillars = List.of(Pillar.values());
 
+        ModeConfiguration modeConfig = ModeConfiguration.getInstance();
+
         for (Pillar pillar : pillars) {
-            // Assuming getip returns the progress property for the pillar name
-            IntegerProperty progressProp = getip(pillar.getName().toLowerCase());
-            logger.info("Pillar {} initial progress: {}", pillar.getName(), progressProp.get());
+            int initialProgress = modeConfig.getPillarValues().getOrDefault(pillar, 0);
+            set(pillar.name(), initialProgress);
+            logger.info("Pillar {} initial progress: {}", pillar.name(), initialProgress);
         }
 
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
@@ -68,12 +71,12 @@ public class PillarView extends StackPane {
 
     private List<StackPane> getPillarImages() {
         return pillars.stream().map(pillar -> {
-            logger.debug("Loading image for pillar -> {}", pillar.getName());
+            logger.debug("Loading image for pillar -> {}", pillar.name());
             var originalImage = FXGL.texture("pillars/" + pillar.getImage());
             originalImage.setFitWidth(height);
             originalImage.setFitHeight(height);
 
-            var progressImage = generateProgressImage(pillar.getName(), originalImage);
+            var progressImage = generateProgressImage(pillar, originalImage);
 
             StackPane stackPane = new StackPane(originalImage, progressImage);
             StackPane.setAlignment(progressImage, Pos.BOTTOM_CENTER);
@@ -88,15 +91,16 @@ public class PillarView extends StackPane {
         return colorAdjust;
     }
 
-    private Texture generateProgressImage(String pillarName, Texture originalImage) {
-        logger.debug("Generating progress image for {}", pillarName);
+    private Texture generateProgressImage(Pillar pillar, Texture originalImage) {
+        logger.debug("Generating progress image for {}", pillar.name());
         var progressImage = originalImage.copy();
-        IntegerProperty pillarProgressProp = getip(pillarName.toLowerCase());
+
+        IntegerProperty pillarProgressProp = getip(pillar.name());
         progressImage.setFitWidth(originalImage.getFitWidth());
         adjustProgressImageSize(progressImage, pillarProgressProp.doubleValue());
 
         pillarProgressProp.addListener((observable, oldValue, newValue) -> {
-            logger.info("Progress updated for {} -> {}", pillarName, newValue);
+            logger.info("Progress updated for {} -> {}", pillar.name(), newValue);
             adjustProgressImageSize(progressImage, newValue.doubleValue());
         });
 
@@ -112,5 +116,4 @@ public class PillarView extends StackPane {
         progressImage.setViewport(new Rectangle2D(0, imageHeight - visibleHeight, imageWidth, visibleHeight));
         progressImage.setFitHeight(visibleHeight * height / imageHeight);
     }
-
 }

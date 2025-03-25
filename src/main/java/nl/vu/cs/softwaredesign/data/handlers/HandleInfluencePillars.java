@@ -39,10 +39,10 @@ public class HandleInfluencePillars {
         Pillar triggeredPillar = null;
 
         for (Influence influence : adjustedInfluences) {
-            Pillar pillarEnum = Pillar.valueOf(influence.getPillar().toUpperCase());
+            Pillar pillarEnum = Pillar.fromName(influence.getPillar());
             int valueChange = influence.getValue();
 
-            IntegerProperty pillarProgress = FXGL.getip(pillarEnum.getName());
+            IntegerProperty pillarProgress = FXGL.getip(pillarEnum.getName().toUpperCase());
             int currentValue = pillarProgress.get();
             int newValue = Math.min(Math.max(currentValue + valueChange, 0), 100);
 

@@ -15,7 +15,8 @@
 
     }
   ],
-  "golden_age ending": {
+  "monarchs": ["Cleopatra", "Tutankhamun"],
+  "goldenAgeEnding": {
     "description": "Glorious Pharaoh, your rule is unmatched! Through wisdom, balance, and strong leadership, you have ushered in a Golden Age for Egypt. The people prosper, the temples shine, and your name will be spoken with reverence for centuries to come. Your dynasty stands eternal, a beacon of prosperity and order.",
     "image": "endings/golden-age-ending.png"
   },

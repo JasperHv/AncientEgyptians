@@ -1,41 +1,40 @@
 package nl.vu.cs.softwaredesign.data.config.gamesettings;
 
 import nl.vu.cs.softwaredesign.data.model.Card;
-import java.util.List;
+import nl.vu.cs.softwaredesign.data.model.Monarch;
+
+import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 public class GameConfiguration {
-    private Map<String, Map<String, Integer>> characterInitialValues;
+    private final Map<String, Map<String, Integer>> monarchInitialValues = new HashMap<>();
     private List<Card> cards;
-    private String selectedCharacter = "";
-    private String gameMode = "";
-
-    // Getters
-    public Map<String, Map<String, Integer>> getCharacterInitialValues() {
-        return characterInitialValues;
-    }
+    private Monarch selectedMonarch;
+    private String gameMode;
 
     public List<Card> getCards() {
         return cards;
     }
 
-    public String getSelectedCharacter() {
-        return selectedCharacter;
+    public Monarch getSelectedMonarch() {
+        return selectedMonarch;
     }
 
-    public void setSelectedCharacter(String character) {
-        selectedCharacter = character;
+    public void setSelectedMonarch(String monarchName) {
+        Map<String, Integer> initialValues = monarchInitialValues.get(monarchName);
+        if (initialValues == null) {
+            throw new IllegalArgumentException("No initial values found for monarch: " + monarchName);
+        }
+        this.selectedMonarch = new Monarch(monarchName, initialValues);
     }
 
-    public Map<String, Integer> getInitialValuesForCharacter(String character) {
-        return characterInitialValues.getOrDefault(character, Map.of());
+    public Map<String, Map<String, Integer>> getMonarchInitialValues() {
+        return monarchInitialValues;
     }
+
 
     public String getGameMode() {
         return gameMode;
-    }
-
-    public void setGameMode(String mode) {
-        this.gameMode = mode;
     }
 }
