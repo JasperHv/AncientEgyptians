@@ -1,0 +1,94 @@
+[ {
+  "commandType" : "IntroSwipeCommand",
+  "cardTitle" : "choose-pharaoh",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742760240506,
+  "chosenCharacter" : "Tutankhamun"
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Divine Harvest",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742760242304,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 1
+  }, {
+    "pillar" : "farmers",
+    "value" : 1
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Restoration of the Temple",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742760243284,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -1
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Sacred Offerings",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742760244280,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Oracle’s Vision",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742760245262,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Priestly Reforms",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742760246257,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Mystical Ritual",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742760247441,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "farmers",
+    "value" : -1
+  } ]
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Temple Expansion",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742760248659,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ]
+} ]

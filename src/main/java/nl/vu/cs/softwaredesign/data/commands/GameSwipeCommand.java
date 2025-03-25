@@ -6,6 +6,8 @@ import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import nl.vu.cs.softwaredesign.data.controller.GameStateController;
+import nl.vu.cs.softwaredesign.data.logging.CommandLogger;
+import nl.vu.cs.softwaredesign.data.logging.GameCommandLogEntry;
 import javafx.beans.property.IntegerProperty;
 
 public class GameSwipeCommand implements Command {
@@ -35,6 +37,15 @@ public class GameSwipeCommand implements Command {
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
 
+        gameStateController.advanceGameCard();
+
+        GameCommandLogEntry entry = new GameCommandLogEntry(
+                card.getTitle(),
+                side.toString(),
+                card.getInfluence(),
+                System.currentTimeMillis()
+        );
+        CommandLogger.logCommand(entry);
         gameStateController.getNextCard();
     }
 }

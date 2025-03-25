@@ -166,7 +166,7 @@ public class GameView extends Parent {
         fadeOut.play();
     }
 
-    public void showEndScreen(PillarEnding ending) {
+    public void showEndScreen(Ending ending) {
         String formattedDescription = ending.getDescription().replaceAll("([.!])", "$1\n");
         FXGL.getDialogService().showMessageBox(formattedDescription);
 

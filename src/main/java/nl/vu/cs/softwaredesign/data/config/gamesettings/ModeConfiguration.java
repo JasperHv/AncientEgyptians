@@ -16,7 +16,7 @@ public class ModeConfiguration {
     private static ModeConfiguration instance;
 
     private GameConfiguration gameConfig;
-    private Map<String, Integer> pillarValues;
+    private Map<Pillar, Integer> pillarValues; // Change to use Pillar enum
 
     // Private constructor: use initialize() to set up the configuration
     private ModeConfiguration(String modeName) {
@@ -38,16 +38,14 @@ public class ModeConfiguration {
             ObjectMapper mapper = new ObjectMapper();
             gameConfig = mapper.readValue(input, GameConfiguration.class);
 
-            // Initialize pillar values based on the selected character
             pillarValues = new HashMap<>();
             String character = gameConfig.getSelectedCharacter();
             Map<String, Integer> initialValues = gameConfig.getInitialValuesForCharacter(character);
-            // Use the pillars from the global configuration loader
-            List<Pillar> pillars = ConfigurationLoader.getInstance().getPillars();
-            for (Pillar pillar : pillars) {
+
+            for (Pillar pillar : Pillar.values()) {
                 String key = pillar.getName().toLowerCase();
-                int value = initialValues.getOrDefault(pillar.getName(), 0);
-                pillarValues.put(key, value);
+                int value = initialValues.getOrDefault(key, 0);
+                pillarValues.put(pillar, value);
                 FXGL.set(key, value);
             }
         } catch (Exception e) {
@@ -82,7 +80,7 @@ public class ModeConfiguration {
         return gameConfig;
     }
 
-    public Map<String, Integer> getPillarValues() {
+    public Map<Pillar, Integer> getPillarValues() {
         return pillarValues;
     }
 
@@ -90,9 +88,11 @@ public class ModeConfiguration {
         String character = gameConfig.getSelectedCharacter();
         Map<String, Integer> initialValues = gameConfig.getInitialValuesForCharacter(character);
         pillarValues.clear();
-        pillarValues.putAll(initialValues);
-        for (Map.Entry<String, Integer> entry : initialValues.entrySet()) {
-            FXGL.set(entry.getKey().toLowerCase(), entry.getValue());
+        for (Pillar pillar : Pillar.values()) {
+            String key = pillar.getName().toLowerCase();
+            int value = initialValues.getOrDefault(key, 0);
+            pillarValues.put(pillar, value);
+            FXGL.set(key, value);
         }
     }
 

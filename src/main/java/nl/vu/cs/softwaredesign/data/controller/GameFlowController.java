@@ -5,6 +5,7 @@ import javafx.util.Duration;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.model.Card;
+import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.views.CardView;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import javafx.beans.property.IntegerProperty;
@@ -36,8 +37,6 @@ public class GameFlowController {
         handleInfluencePillars = new HandleInfluencePillars(this.gameView);
 
         loadGameCards();
-        this.cardPillarToImageMap = new HashMap<>();
-        loadPillarImages();
 
         this.gameStateController = new GameStateController(gameCardsList, introCards, scoreSettings, yearCount, handleInfluencePillars);
     }
@@ -100,15 +99,14 @@ public class GameFlowController {
     public void handleIntroPhase(Label messageLabel) {
         int introCardIndex = gameStateController.getIntroCardIndex();
         String cardName = gameStateController.getIntroCards().get(introCardIndex);
-        cardView.updateCard(cardName);
+        cardView.updateCard(cardName + ".png");
         updateMessage(messageLabel, cardName);
     }
 
     public void handleGamePhase(Label messageLabel) {
         Card currentCard = gameStateController.getCurrentGameCard();
         if ("standard".equalsIgnoreCase(currentCard.getType())) {
-            String pillar = currentCard.getPillar().toLowerCase();
-            String imageName = cardPillarToImageMap.get(pillar);
+            String imageName = Pillar.fromName(currentCard.getPillar()).getCardImage();
             cardView.updateCard(imageName);
             updateMessage(messageLabel, currentCard.getScenario());
         }

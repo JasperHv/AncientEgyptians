@@ -6,7 +6,7 @@ import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Influence;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
-import nl.vu.cs.softwaredesign.data.model.PillarEnding;
+import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 
 import java.util.List;
@@ -23,6 +23,7 @@ public class HandleInfluencePillars {
     public void applyInfluence(boolean isSwipeLeft, List<Influence> influences) {
         if (influences == null || influences.isEmpty()) return;
 
+        // Adjust influences based on the swipe direction
         List<Influence> adjustedInfluences = influences.stream()
                 .map(influence -> new Influence(
                         influence.getPillar(),
@@ -36,13 +37,12 @@ public class HandleInfluencePillars {
         boolean gameOverTriggered = false;
         boolean winTriggered = false;
         Pillar triggeredPillar = null;
-        List<Pillar> pillars = ConfigurationLoader.getInstance().getPillars();
 
         for (Influence influence : adjustedInfluences) {
-            String pillarName = influence.getPillar();
+            Pillar pillarEnum = Pillar.valueOf(influence.getPillar().toUpperCase());
             int valueChange = influence.getValue();
 
-            IntegerProperty pillarProgress = FXGL.getip(pillarName);
+            IntegerProperty pillarProgress = FXGL.getip(pillarEnum.getName());
             int currentValue = pillarProgress.get();
             int newValue = Math.min(Math.max(currentValue + valueChange, 0), 100);
 
@@ -50,23 +50,17 @@ public class HandleInfluencePillars {
 
             if (newValue == 0) {
                 gameOverTriggered = true;
-                triggeredPillar = pillars.stream()
-                        .filter(p -> p.getName().equalsIgnoreCase(pillarName))
-                        .findFirst()
-                        .orElse(null);
+                triggeredPillar = pillarEnum;
             } else if (newValue == 100 && yearCount.get() >= threshold) {
                 winTriggered = true;
-                triggeredPillar = pillars.stream()
-                        .filter(p -> p.getName().equalsIgnoreCase(pillarName))
-                        .findFirst()
-                        .orElse(null);
+                triggeredPillar = pillarEnum;
             }
         }
 
         if (winTriggered || gameOverTriggered) {
-            PillarEnding ending = winTriggered
+            Ending ending = winTriggered
                     ? ConfigurationLoader.getInstance().getGoldenAgeEnding()
-                    : triggeredPillar != null ? triggeredPillar.getEnding() : null;
+                    : triggeredPillar.getEnding();
 
             if (ending != null) {
                 gameView.showEndScreen(ending);

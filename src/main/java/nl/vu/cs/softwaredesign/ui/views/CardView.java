@@ -48,10 +48,10 @@ public class CardView extends StackPane {
 
 
 
-    public void updateCard(String cardName) {
+    public void updateCard(String imageName) {
         if (cardHolder != null) {
-            var backgroundImage = FXGL.texture("cards/" + cardName + ".png");
-            cardHolder.setFill(new ImagePattern(backgroundImage.getImage()));
+            var cardImage = FXGL.texture("cards/" + imageName);
+            cardHolder.setFill(new ImagePattern(cardImage.getImage()));
             cardHolder.setRotate(0);
             cardHolder.setTranslateX(0);
         }
