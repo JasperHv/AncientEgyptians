@@ -1,58 +1,61 @@
 [ {
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1742935664365,
-  "chosenCharacter" : "Cleopatra"
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1742936377674,
+  "chosenCharacter" : "Tutankhamun"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Trade Expedition",
+  "cardTitle" : "Oracle’s Vision",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1742935666218,
+  "timestamp" : 1742936379493,
   "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
     "pillar" : "nobles",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : -2
+    "value" : -1
   } ],
   "yearsInPower" : 10,
   "scoreCount" : 1
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Rural Reforms",
+  "cardTitle" : "Royal Banquet",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742935667074,
+  "timestamp" : 1742936380282,
   "influence" : [ {
-    "pillar" : "farmers",
+    "pillar" : "nobles",
     "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -2
   } ],
   "yearsInPower" : 20,
   "scoreCount" : 2
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Worker’s Day",
+  "cardTitle" : "Desert Fortress",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1742935667946,
+  "timestamp" : 1742936381173,
   "influence" : [ {
+    "pillar" : "military",
+    "value" : 2
+  }, {
     "pillar" : "farmers",
-    "value" : 3
+    "value" : -2
   } ],
   "yearsInPower" : 30,
   "scoreCount" : 3
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Monument Construction",
+  "cardTitle" : "Priestly Reforms",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1742935668313,
+  "timestamp" : 1742936381971,
   "influence" : [ {
     "pillar" : "priests",
-    "value" : 1
+    "value" : 2
   }, {
-    "pillar" : "farmers",
+    "pillar" : "nobles",
     "value" : -1
   } ],
   "yearsInPower" : 40,
