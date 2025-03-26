@@ -29,7 +29,6 @@ public class AncientEgyptiansApp extends GameApplication {
         settings.setWidth(1280);
         settings.setHeight(720);
         settings.setTitle("Ancient Egyptians");
-        settings.setVersion("0.1");
         settings.setMainMenuEnabled(true);
         settings.setSceneFactory(new GameSceneFactory());}
 

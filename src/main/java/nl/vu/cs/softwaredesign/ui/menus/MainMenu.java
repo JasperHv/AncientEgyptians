@@ -36,7 +36,7 @@ public class MainMenu extends FXGLMenu {
 
         Text title = new Text("REIGNS - Ancient Egyptians");
         title.setFont(Font.font("Papyrus", 48));
-        title.setTranslateX((double) 1280 / 2 - 200); // center the text
+        title.setTranslateX((double) 1280 / 2 - 200);
         title.setTranslateY(150);
         title.setFill(Color.WHITE);
         getContentRoot().getChildren().add(title);
@@ -44,22 +44,18 @@ public class MainMenu extends FXGLMenu {
 
     private void initButtons() {
         VBox menuBox = new VBox(20);
-        menuBox.setTranslateX((double) 1280 / 2 - 100); // center the buttons
+        menuBox.setTranslateX((double) 1280 / 2 - 100);
         menuBox.setTranslateY(300);
 
         Button btnNewGame = new Button("New Game");
         btnNewGame.setPrefWidth(200);
-        btnNewGame.setOnAction(e -> showGameModeMenu()); // show game mode selection
-
-        Button btnLoadGame = new Button("Load Game");
-        btnLoadGame.setPrefWidth(200);
-        btnLoadGame.setOnAction(e -> FXGL.getSaveLoadService().readAndLoadTask("save1.json").run());
+        btnNewGame.setOnAction(e -> showGameModeMenu());
 
         Button btnExit = new Button("Exit");
         btnExit.setPrefWidth(200);
         btnExit.setOnAction(e -> FXGL.getGameController().exit());
 
-        menuBox.getChildren().addAll(btnNewGame, btnLoadGame, btnExit);
+        menuBox.getChildren().addAll(btnNewGame, btnExit);
         getContentRoot().getChildren().add(menuBox);
     }
 
