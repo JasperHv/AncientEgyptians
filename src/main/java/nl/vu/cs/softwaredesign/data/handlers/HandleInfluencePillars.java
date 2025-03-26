@@ -5,6 +5,7 @@ import javafx.beans.property.IntegerProperty;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.model.Influence;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.Ending;
@@ -22,8 +23,9 @@ public class HandleInfluencePillars {
         this.gameView = gameView;
     }
 
-    public void applyInfluence(boolean isSwipeLeft, List<Influence> influences) {
+    public void applyInfluence(SwipeSide side, List<Influence> influences) {
         if (influences == null || influences.isEmpty()) return;
+        boolean isSwipeLeft = side == SwipeSide.LEFT;
 
         // Adjust influences based on the swipe direction
         List<Influence> adjustedInfluences = influences.stream()

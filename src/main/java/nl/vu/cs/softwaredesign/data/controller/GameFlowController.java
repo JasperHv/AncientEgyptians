@@ -15,38 +15,52 @@ import nl.vu.cs.softwaredesign.ui.views.GameView;
 import javafx.scene.control.Label;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameFlowController {
 
     private final CardView cardView;
     private final GameStateController gameStateController;
     private CardDeck cardDeck;
-
+    private final HandleInfluencePillars handleInfluencePillars;
+    private final Map<String, Queue<Card>> legacyCardsMap = new HashMap<>();
 
     public GameFlowController(CardView cardView, GameView gameView, GameConfiguration gameConfiguration) {
         this.cardView = cardView;
         ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        HandleInfluencePillars handleInfluencePillars = new HandleInfluencePillars(gameView);
+        this.handleInfluencePillars = new HandleInfluencePillars(gameView);
 
+        // Load and split the game cards into standard and legacy cards
         loadGameCards();
 
         List<String> introCards = List.of(
                 "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
         );
 
+        // Create the game state controller, passing in the deck and the legacy cards map
         this.gameStateController = new GameStateController(
                 cardDeck,
                 introCards,
                 scoreSettings,
                 gameConfiguration,
-                handleInfluencePillars
+                handleInfluencePillars,
+                legacyCardsMap
         );
     }
-
     private void loadGameCards() {
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
-        List<Card> cards = modeConfig.getCards();
-        cardDeck = new CardDeck(cards);
+        List<Card> allCards = modeConfig.getCards();
+
+        List<Card> standardCards = new ArrayList<>();
+        for (Card card : allCards) {
+            if ("legacy".equalsIgnoreCase(card.getType())) {
+                String pillar = card.getPillar().toLowerCase();
+                legacyCardsMap.computeIfAbsent(pillar, k -> new LinkedList<>()).add(card);
+            } else {
+                standardCards.add(card);
+            }
+        }
+        cardDeck = new CardDeck(standardCards);
     }
 
     public void updateMessage(Label messageLabel, String cardName) {
@@ -82,11 +96,15 @@ public class GameFlowController {
 
     public void handleGamePhase(Label messageLabel) {
         Card currentCard = gameStateController.getCurrentGameCard();
-        if ("standard".equalsIgnoreCase(currentCard.getType())) {
-            String imageName = Pillar.fromName(currentCard.getPillar()).getCardImage();
-            cardView.updateCard(imageName);
-            updateMessage(messageLabel, currentCard.getScenario());
+
+        if (currentCard == null) {
+            return;
         }
+
+        String pillar = currentCard.getPillar().toLowerCase();
+        String imageName = Pillar.fromName(pillar).getCardImage();
+        cardView.updateCard(imageName);
+        updateMessage(messageLabel, currentCard.getScenario());
     }
 
     public GameStateController getGameStateManager() {

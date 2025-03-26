@@ -1,8 +1,10 @@
 package nl.vu.cs.softwaredesign.data.controller;
 
+import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
+import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.CardDeck;
@@ -22,13 +24,24 @@ public class GameStateController {
 
     private final GameConfiguration gameConfiguration;
     private final HandleInfluencePillars handleInfluencePillars;
-    
+
+    private final Map<String, LegacyState> legacyStates = new HashMap<>();
+    private final Map<String, Queue<Card>> legacyCardsMap;
+
+    private static class LegacyState {
+        int positiveCount = 0;
+        int negativeCount = 0;
+        boolean unlocked = false;
+        boolean accepted = false;
+    }
+
     public GameStateController(
             CardDeck cardDeck,
             List<String> introCards,
             ScoreSettings scoreSettings,
             GameConfiguration gameConfiguration,
-            HandleInfluencePillars handleInfluencePillars
+            HandleInfluencePillars handleInfluencePillars,
+            Map<String, Queue<Card>> legacyCardsMap
     ) {
         this.isIntroPhase = true;
         this.cardDeck = cardDeck;
@@ -36,6 +49,63 @@ public class GameStateController {
         this.scoreSettings = scoreSettings;
         this.gameConfiguration = gameConfiguration;
         this.handleInfluencePillars = handleInfluencePillars;
+        this.legacyCardsMap = legacyCardsMap;
+
+        initLegacyStates();
+    }
+
+    private void initLegacyStates() {
+        legacyStates.put("priests", new LegacyState());
+        legacyStates.put("nobles", new LegacyState());
+        legacyStates.put("military", new LegacyState());
+        legacyStates.put("farmers", new LegacyState());
+    }
+
+    /**
+     * Updates the legacy state for a given pillar.
+     * If the conditions are met (positiveCount >= 5 and currentPillarValue > 60),
+     * the corresponding legacy card is unlocked and added to the card deck.
+     * If negative conditions occur, the legacy state is reset.
+     */
+    public void updateLegacyState(String pillar, SwipeSide side) {
+        String key = pillar.toLowerCase();
+        LegacyState ls = legacyStates.get(key);
+        boolean isPositive = side == SwipeSide.RIGHT;
+        int currentPillarValue = FXGL.getip(pillar.toUpperCase()).get();
+
+        if (ls != null) {
+            if (isPositive) {
+                ls.positiveCount++;
+            } else {
+                ls.negativeCount++;
+            }
+
+            // Unlock condition: only unlock once per pillar
+            if (!ls.unlocked && ls.positiveCount >= 5 && currentPillarValue > 60) {
+                ls.unlocked = true;
+
+                // Remove the corresponding legacy card from the pool (if available)
+                Queue<Card> pillarLegacyCards = legacyCardsMap.get(key);
+                if (pillarLegacyCards != null && !pillarLegacyCards.isEmpty()) {
+                    while (!pillarLegacyCards.isEmpty()) {
+                        Card legacyCard = pillarLegacyCards.poll();
+                        // Add each legacy card to the deck so it will be drawn naturally
+                        cardDeck.addLegacyCard(legacyCard);
+                    }
+                }
+            }
+
+            // Lock condition: reset legacy state if too many negatives or low pillar value
+            if (ls.negativeCount >= 3 || currentPillarValue < 40) {
+                if (ls.unlocked) {
+                    cardDeck.removeLegacyCard(pillar);
+                }
+                ls.unlocked = false;
+                ls.accepted = false;
+                ls.positiveCount = 0;
+                ls.negativeCount = 0;
+            }
+        }
     }
 
     public boolean isIntroPhase() {
@@ -66,13 +136,6 @@ public class GameStateController {
         }
     }
 
-    public Card getCurrentGameCard() {
-        if (currentCard == null) {
-            return getNextCard();
-        }
-        return currentCard;
-    }
-
     public Card getNextCard() {
         if (cardDeck.isEmpty()) {
             Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
@@ -82,6 +145,13 @@ public class GameStateController {
             return null;
         }
         currentCard = cardDeck.drawCard();
+        return currentCard;
+    }
+
+    public Card getCurrentGameCard() {
+        if (currentCard == null) {
+            return getNextCard();
+        }
         return currentCard;
     }
 

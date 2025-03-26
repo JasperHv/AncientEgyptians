@@ -1,5 +1,6 @@
 package nl.vu.cs.softwaredesign.data.commands;
 
+import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
@@ -44,11 +45,12 @@ public class GameSwipeCommand implements Command {
         int newYear = currentYear + scoreSettings.getYearCountIncrease();
         gameStateController.setYearCount(newYear);
 
-        handleInfluencePillars.applyInfluence(side == SwipeSide.LEFT, card.getInfluence());
+        handleInfluencePillars.applyInfluence(side, card.getInfluence());
 
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
         gameStateController.getNextCard();
+        gameStateController.updateLegacyState(card.getPillar(), side);
 
         int currentScore = gameConfiguration.getScoreCount();
         int currentYearCount = gameConfiguration.getYearCount();

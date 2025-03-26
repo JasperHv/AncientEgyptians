@@ -41,33 +41,21 @@ public class CardDeck implements Iterable<Card> {
 
     /**
      * Draws the next available card from the deck.
-     * @return the drawn Card or null if no valid card is found.
+     * @return the drawn Card or null if no card is available.
      */
     public Card drawCard() {
         if (isEmpty()) {
             return null;
         }
 
-        Card selectedCard = null;
-
-        while (!cards.isEmpty()) {
-            selectedCard = cards.remove(0);
-            if ("standard".equalsIgnoreCase(selectedCard.getType())) {
-                break;
-            } else {
-                selectedCard = null;
-            }
+        Card selectedCard = cards.remove(0);
+        // Decrement frequency and if still available, add it back
+        Card updatedCard = selectedCard.decrementFrequency();
+        if (updatedCard.getFrequency() > 0) {
+            cards.add(updatedCard);
+            sortAndShuffleDeck();
         }
-
-        if (selectedCard != null) {
-            Card updatedCard = selectedCard.decrementFrequency();
-            if (updatedCard.getFrequency() > 0) {
-                cards.add(updatedCard);
-                sortAndShuffleDeck();
-            }
-            return updatedCard;
-        }
-        return null;
+        return updatedCard;
     }
 
     /**
@@ -105,5 +93,24 @@ public class CardDeck implements Iterable<Card> {
     public List<Card> getCards() {
         return cards;
     }
-}
 
+    /**
+     * Adds a legacy card to the deck and re-sorts the deck.
+     * @param legacyCard the legacy card to add.
+     */
+    public void addLegacyCard(Card legacyCard) {
+        cards.add(legacyCard);
+        sortAndShuffleDeck();
+    }
+
+    /**
+     * Removes any legacy card for the specified pillar from the deck.
+     * @param pillar The pillar for which to remove legacy cards.
+     */
+    public void removeLegacyCard(String pillar) {
+        cards.removeIf(card -> "legacy".equalsIgnoreCase(card.getType())
+                && card.getPillar().equalsIgnoreCase(pillar));
+        sortAndShuffleDeck();
+    }
+
+}

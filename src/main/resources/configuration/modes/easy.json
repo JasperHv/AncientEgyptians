@@ -76,30 +76,6 @@
       "frequency": 5
     },
     {
-      "id": 6,
-      "title": "Mystical Ritual",
-      "scenario": "A rare celestial alignment is at hand. Funding a complex ritual could bring blessings.",
-      "pillar": "priests",
-      "type": "standard",
-      "influence": [
-        { "pillar": "priests", "value": 2 },
-        { "pillar": "farmers", "value": -1 }
-      ],
-      "frequency": 5
-    },
-    {
-      "id": 7,
-      "title": "Temple Expansion",
-      "scenario": "Plans to enlarge the temple complex are laid out. Will you allocate resources?",
-      "pillar": "priests",
-      "type": "standard",
-      "influence": [
-        { "pillar": "priests", "value": 2 },
-        { "pillar": "nobles", "value": -1 }
-      ],
-      "frequency": 5
-    },
-    {
       "id": 8,
       "title": "Eternal Blessing",
       "scenario": "Your unwavering devotion has earned the gods’ everlasting favor.",
