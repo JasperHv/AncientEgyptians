@@ -79,33 +79,38 @@ public class GameStateController {
             } else {
                 ls.negativeCount++;
             }
-
-            // Unlock condition: only unlock once per pillar
             if (!ls.unlocked && ls.positiveCount >= 5 && currentPillarValue > 60) {
-                ls.unlocked = true;
-
-                // Remove the corresponding legacy card from the pool (if available)
-                Queue<Card> pillarLegacyCards = legacyCardsMap.get(key);
-                if (pillarLegacyCards != null && !pillarLegacyCards.isEmpty()) {
-                    while (!pillarLegacyCards.isEmpty()) {
-                        Card legacyCard = pillarLegacyCards.poll();
-                        // Add each legacy card to the deck so it will be drawn naturally
-                        cardDeck.addLegacyCard(legacyCard);
-                    }
-                }
+                handleUnlock(pillar, ls);
             }
-
-            // Lock condition: reset legacy state if too many negatives or low pillar value
             if (ls.negativeCount >= 3 || currentPillarValue < 40) {
-                if (ls.unlocked) {
-                    cardDeck.removeLegacyCard(pillar);
-                }
-                ls.unlocked = false;
-                ls.accepted = false;
-                ls.positiveCount = 0;
-                ls.negativeCount = 0;
+                handleLock(pillar, ls);
             }
         }
+    }
+
+    private void handleUnlock(String pillar, LegacyState ls) {
+        // Unlock condition: add all corresponding legacy cards to the pool (if available)
+        String key = pillar.toLowerCase();
+        ls.unlocked = true;
+        // Remove all corresponding legacy cards from the pool (if available)
+        Queue<Card> pillarLegacyCards = legacyCardsMap.get(key);
+        if (pillarLegacyCards != null) {
+            while (!pillarLegacyCards.isEmpty()) {
+                Card legacyCard = pillarLegacyCards.poll();
+                cardDeck.addLegacyCard(legacyCard);
+            }
+        }
+    }
+
+    private void handleLock(String pillar, LegacyState ls) {
+        // Lock condition: reset legacy state if too many negatives or low pillar value
+        if (ls.unlocked) {
+            cardDeck.removeLegacyCard(pillar);
+        }
+        ls.unlocked = false;
+        ls.accepted = false;
+        ls.positiveCount = 0;
+        ls.negativeCount = 0;
     }
 
     public boolean isIntroPhase() {
