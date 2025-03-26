@@ -5,17 +5,13 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.logging.IntroCommandLogEntry;
 import nl.vu.cs.softwaredesign.data.logging.CommandLogger;
-import nl.vu.cs.softwaredesign.ui.views.GameView;
 import nl.vu.cs.softwaredesign.data.controller.GameStateController;
-import nl.vu.cs.softwaredesign.data.model.Monarch;
-
-import java.util.Map;
 
 public class IntroSwipeCommand implements Command {
     private final SwipeSide side;
     private final GameStateController gameStateController;
 
-    public IntroSwipeCommand(SwipeSide side, GameStateController gameStateController, GameView gameView) {
+    public IntroSwipeCommand(SwipeSide side, GameStateController gameStateController) {
         this.side = side;
         this.gameStateController = gameStateController;
     }

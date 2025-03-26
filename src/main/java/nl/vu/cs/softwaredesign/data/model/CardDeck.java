@@ -1,5 +1,7 @@
 package nl.vu.cs.softwaredesign.data.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 
 public class CardDeck implements Iterable<Card> {
@@ -70,9 +72,10 @@ public class CardDeck implements Iterable<Card> {
      * Provides an iterator to allow iteration over the deck.
      * @return an Iterator for the deck of cards.
      */
+    @NotNull
     @Override
     public Iterator<Card> iterator() {
-        return new Iterator<Card>() {
+        return new Iterator<>() {
             private int index = 0;
 
             @Override

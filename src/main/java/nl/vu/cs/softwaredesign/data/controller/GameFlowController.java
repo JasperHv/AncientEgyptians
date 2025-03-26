@@ -15,29 +15,24 @@ import nl.vu.cs.softwaredesign.ui.views.GameView;
 import javafx.scene.control.Label;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GameFlowController {
 
     private final CardView cardView;
     private final GameStateController gameStateController;
     private CardDeck cardDeck;
-    private final HandleInfluencePillars handleInfluencePillars;
     private final Map<String, Queue<Card>> legacyCardsMap = new HashMap<>();
 
     public GameFlowController(CardView cardView, GameView gameView, GameConfiguration gameConfiguration) {
         this.cardView = cardView;
         ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        this.handleInfluencePillars = new HandleInfluencePillars(gameView);
+        HandleInfluencePillars handleInfluencePillars = new HandleInfluencePillars(gameView);
 
-        // Load and split the game cards into standard and legacy cards
         loadGameCards();
-
         List<String> introCards = List.of(
                 "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
         );
 
-        // Create the game state controller, passing in the deck and the legacy cards map
         this.gameStateController = new GameStateController(
                 cardDeck,
                 introCards,

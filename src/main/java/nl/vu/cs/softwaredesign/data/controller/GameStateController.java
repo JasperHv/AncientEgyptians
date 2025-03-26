@@ -73,19 +73,35 @@ public class GameStateController {
         boolean isPositive = side == SwipeSide.RIGHT;
         int currentPillarValue = FXGL.getip(pillar.toUpperCase()).get();
 
-        if (ls != null) {
-            if (isPositive) {
-                ls.positiveCount++;
-            } else {
-                ls.negativeCount++;
-            }
-            if (!ls.unlocked && ls.positiveCount >= 5 && currentPillarValue > 60) {
-                handleUnlock(pillar, ls);
-            }
-            if (ls.negativeCount >= 3 || currentPillarValue < 40) {
-                handleLock(pillar, ls);
-            }
+        if (ls == null) {
+            return;
         }
+
+        updateCounts(ls, isPositive);
+
+        if (shouldUnlock(ls, currentPillarValue)) {
+            handleUnlock(pillar, ls);
+        }
+
+        if (shouldLock(ls, currentPillarValue)) {
+            handleLock(pillar, ls);
+        }
+    }
+
+    private void updateCounts(LegacyState ls, boolean isPositive) {
+        if (isPositive) {
+            ls.positiveCount++;
+        } else {
+            ls.negativeCount++;
+        }
+    }
+
+    private boolean shouldUnlock(LegacyState ls, int currentPillarValue) {
+        return !ls.unlocked && ls.positiveCount >= 5 && currentPillarValue > 60;
+    }
+
+    private boolean shouldLock(LegacyState ls, int currentPillarValue) {
+        return ls.negativeCount >= 3 || currentPillarValue < 40;
     }
 
     private void handleUnlock(String pillar, LegacyState ls) {

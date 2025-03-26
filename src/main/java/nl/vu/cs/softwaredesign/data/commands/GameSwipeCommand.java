@@ -1,6 +1,5 @@
 package nl.vu.cs.softwaredesign.data.commands;
 
-import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;

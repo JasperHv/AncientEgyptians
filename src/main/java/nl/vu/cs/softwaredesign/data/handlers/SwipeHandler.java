@@ -23,7 +23,7 @@ public class SwipeHandler {
     public void onSwipe(SwipeSide side) {
         Command command;
         if (gameStateController.isIntroPhase()) {
-            command = new IntroSwipeCommand(side, gameStateController, gameView);
+            command = new IntroSwipeCommand(side, gameStateController);
         } else {
             command = new GameSwipeCommand(
                     side,

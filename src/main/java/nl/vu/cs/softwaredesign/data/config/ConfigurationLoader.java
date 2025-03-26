@@ -6,7 +6,7 @@ import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.data.model.Mode;
-import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundExecption;
+import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundException;
 import nl.vu.cs.softwaredesign.exception.InvalidPillarConfigurationException;
 
 import java.io.InputStream;
@@ -36,7 +36,7 @@ public class ConfigurationLoader {
     private void loadMainConfig() {
         try (InputStream input = getClass().getResourceAsStream(CONFIG_PATH)) {
             if (input == null) {
-                throw new ConfigurationNotFoundExecption("Config file not found: " + CONFIG_PATH);
+                throw new ConfigurationNotFoundException("Config file not found: " + CONFIG_PATH);
             }
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(input);
@@ -55,7 +55,7 @@ public class ConfigurationLoader {
             loadPillarEndings(mapper, root);
 
         } catch (Exception e) {
-            throw new ConfigurationNotFoundExecption("Error loading main config: " + e.getMessage(), e);
+            throw new ConfigurationNotFoundException("Error loading main config: " + e.getMessage(), e);
         }
     }
 

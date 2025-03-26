@@ -7,7 +7,7 @@ import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Monarch;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.Mode;
-import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundExecption;
+import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundException;
 
 import java.io.InputStream;
 import java.util.EnumMap;
@@ -33,13 +33,13 @@ public class ModeConfiguration {
     private void loadModeConfig(String modeConfigPath) {
         try (InputStream input = getClass().getResourceAsStream("/" + modeConfigPath)) {
             if (input == null) {
-                throw new ConfigurationNotFoundExecption("Mode config file not found: " + modeConfigPath);
+                throw new ConfigurationNotFoundException("Mode config file not found: " + modeConfigPath);
             }
             ObjectMapper mapper = new ObjectMapper();
             gameConfig = mapper.readValue(input, GameConfiguration.class);
             pillarValues = new EnumMap<>(Pillar.class);
         } catch (Exception e) {
-            throw new ConfigurationNotFoundExecption("Error loading mode config: " + e.getMessage(), e);
+            throw new ConfigurationNotFoundException("Error loading mode config: " + e.getMessage(), e);
         }
     }
 
