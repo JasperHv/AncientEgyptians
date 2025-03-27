@@ -4,7 +4,7 @@ import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Influence;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
-import nl.vu.cs.ancientegyptiansgame.pillars.PillarData;
+import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 
 import java.util.List;
 import java.util.stream.Collectors;

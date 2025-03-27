@@ -6,7 +6,7 @@ import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.*;
 import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.handlers.EndingHandler;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
-import nl.vu.cs.ancientegyptiansgame.pillars.PillarData;
+import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 import nl.vu.cs.ancientegyptiansgame.ui.scenes.GameSceneFactory;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
 import org.slf4j.Logger;
