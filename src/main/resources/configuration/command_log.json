@@ -2,76 +2,37 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743091885291,
+  "timestamp" : 1743104463882,
   "chosenCharacter" : "Tutankhamun"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Lavish Tombs",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1743091886855,
+  "cardTitle" : "Trade Expedition",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743104464866,
   "influence" : [ {
     "pillar" : "nobles",
     "value" : 2
   }, {
-    "pillar" : "farmers",
-    "value" : -1
+    "pillar" : "military",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -2
   } ],
   "yearsInPower" : 10,
   "scoreCount" : 1
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Trade Expedition",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1743091887746,
-  "influence" : [ {
-    "pillar" : "nobles",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : -2
-  } ],
-  "yearsInPower" : 20,
-  "scoreCount" : 2
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Sacred Offerings",
+  "cardTitle" : "Mercenary Deal",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743091888587,
+  "timestamp" : 1743104465722,
   "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
+    "pillar" : "military",
+    "value" : 1
   }, {
     "pillar" : "nobles",
     "value" : -1
   } ],
-  "yearsInPower" : 30,
-  "scoreCount" : 3
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Grain Festival",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1743091889467,
-  "influence" : [ {
-    "pillar" : "farmers",
-    "value" : 1
-  } ],
-  "yearsInPower" : 40,
-  "scoreCount" : 4
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Land Grants",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1743091890264,
-  "influence" : [ {
-    "pillar" : "nobles",
-    "value" : 2
-  }, {
-    "pillar" : "farmers",
-    "value" : -2
-  } ],
-  "yearsInPower" : 50,
-  "scoreCount" : 5
+  "yearsInPower" : 20,
+  "scoreCount" : 2
 } ]

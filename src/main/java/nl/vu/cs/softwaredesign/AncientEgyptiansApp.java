@@ -53,14 +53,12 @@ public class AncientEgyptiansApp extends GameApplication {
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
 
             gameConfig.initializeScoreAndYear(scoreConfig);
-
-            GameView gameView = GameView.getInstance();
-            EndingHandler endingHandler = new EndingHandler(gameConfig, scoreConfig, gameView);
+            EndingHandler endingHandler = new EndingHandler(scoreConfig);
 
             ModeConfiguration config = ModeConfiguration.getInstance();
             logger.info("Mode configuration initialized successfully.");
 
-            // Register EndingHandler as listener for each pillar
+
             for (Pillar pillar : Pillar.values()) {
                 PillarData pillarData = config.getPillarData(pillar);
                 int value = pillarData.getValue();

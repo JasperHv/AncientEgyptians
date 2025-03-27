@@ -18,7 +18,8 @@ public class HandleScore {
         return value >= 25 && value <= 75;
     }
 
-    public void updateScore(GameConfiguration gameConfiguration, ScoreSettings scoreSettings) {
+    public void updateScore(ScoreSettings scoreSettings) {
+        GameConfiguration gameConfiguration = GameConfiguration.getInstance();
         int yearCount = gameConfiguration.getYearCount();
         int currentScore = gameConfiguration.getScoreCount();
 

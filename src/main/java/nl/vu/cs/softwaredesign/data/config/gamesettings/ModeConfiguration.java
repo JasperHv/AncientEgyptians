@@ -2,7 +2,6 @@ package nl.vu.cs.softwaredesign.data.config.gamesettings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
-import nl.vu.cs.softwaredesign.data.handlers.PillarValueInitializer;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.Monarch;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
@@ -38,6 +37,7 @@ public class ModeConfiguration {
             }
             ObjectMapper mapper = new ObjectMapper();
             gameConfig = mapper.readValue(input, GameConfiguration.class);
+            GameConfiguration.setInstance(gameConfig);
             pillarValues = new EnumMap<>(Pillar.class);
             for (Pillar pillar : Pillar.values()) {
                 pillarValues.put(pillar, new PillarData(pillar, 1));
@@ -68,21 +68,6 @@ public class ModeConfiguration {
         return instance;
     }
 
-    public GameConfiguration getGameConfig() {
-        return gameConfig;
-    }
-
-    /**
-     * Returns a map of pillar values, converting PillarData to their integer values.
-     */
-    public Map<Pillar, Integer> getPillarValues() {
-        Map<Pillar, Integer> values = new EnumMap<>(Pillar.class);
-        pillarValues.forEach((pillar, pillarData) ->
-                values.put(pillar, pillarData.getValue())
-        );
-        return values;
-    }
-
     /**
      * Updates pillar values for the selected monarch using the initial values from the mode configuration.
      */
@@ -96,30 +81,17 @@ public class ModeConfiguration {
         String monarchName = selectedMonarch.getName();
         Map<String, Integer> initialValues = monarchInitialValues.get(monarchName);
 
-        System.out.println("Selected Monarch: " + selectedMonarch.getName());
-        System.out.println("Initial Values:");
-        initialValues.forEach((key, value) -> System.out.println(key + ": " + value));
-
         for (Pillar pillar : Pillar.values()) {
             int value = (initialValues != null)
                     ? initialValues.getOrDefault(pillar.getName().toLowerCase(), 0)
                     : 0;
 
             if (pillarValues.containsKey(pillar)) {
-                System.out.println("Updating existing PillarData for: " + pillar.name() + " to " + value);
                 pillarValues.get(pillar).setValue(value);
             } else {
-                System.out.println("Creating new PillarData for: " + pillar.name());
                 pillarValues.put(pillar, new PillarData(pillar, value));
             }
         }
-    }
-
-
-
-
-    public List<Card> getCards() {
-        return gameConfig != null ? gameConfig.getCards() : List.of();
     }
 
     /**
@@ -130,19 +102,5 @@ public class ModeConfiguration {
      */
     public PillarData getPillarData(Pillar pillar) {
         return pillarValues.get(pillar);
-    }
-
-
-    /**
-     * Updates the value of a specific pillar.
-     *
-     * @param pillar The pillar to update
-     * @param value The new value for the pillar
-     */
-    public void updatePillarValue(Pillar pillar, int value) {
-        PillarData pillarData = pillarValues.get(pillar);
-        if (pillarData != null) {
-            pillarData.setValue(value);
-        }
     }
 }

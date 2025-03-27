@@ -21,29 +21,20 @@ public class GameSwipeCommand implements Command {
     private final HandleInfluencePillars handleInfluencePillars;
     private final GameConfiguration gameConfiguration;
 
-    public GameSwipeCommand(
-            SwipeSide side,
-            Card card,
-            ScoreSettings scoreSettings,
-            GameView gameView,
-            GameStateController gameStateController,
-            HandleInfluencePillars handleInfluencePillars,
-            GameConfiguration gameConfiguration
-    ) {
+    public GameSwipeCommand(SwipeSide side, GameStateController gameStateController) {
         this.side = side;
-        this.card = card;
-        this.scoreSettings = scoreSettings;
-        this.gameView = gameView;
+        this.card = gameStateController.getCurrentGameCard();
         this.gameStateController = gameStateController;
-        this.handleInfluencePillars = handleInfluencePillars;
-        this.gameConfiguration = gameConfiguration;
+        this.scoreSettings = gameStateController.getScoreSettings();
+        this.handleInfluencePillars = new HandleInfluencePillars();
+        this.gameView = GameView.getInstance();
+        this.gameConfiguration = GameConfiguration.getInstance();
     }
 
     @Override
     public void execute() {
         int currentYear = gameStateController.getYearCount();
         int newYear = currentYear + scoreSettings.getYearCountIncrease();
-        System.out.println("New Year Count: " + newYear);
         gameStateController.setYearCount(newYear);
 
         if (newYear >= scoreSettings.getScoreConfig().getMaximumYearCount()) {

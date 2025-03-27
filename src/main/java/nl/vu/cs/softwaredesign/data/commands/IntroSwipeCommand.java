@@ -18,10 +18,10 @@ public class IntroSwipeCommand implements Command {
 
     @Override
     public void execute() {
-        String currentCard = gameStateController.getIntroCards().get(gameStateController.getIntroCardIndex());
+        String currentCard = gameStateController.getCurrentIntroCard();
 
         if ("choose-pharaoh".equals(currentCard)) {
-            GameConfiguration gameConfig = ModeConfiguration.getInstance().getGameConfig();
+            GameConfiguration gameConfig = GameConfiguration.getInstance();
 
             String monarchName = (side == SwipeSide.LEFT) ? "Cleopatra" : "Tutankhamun";
             gameConfig.setSelectedMonarch(monarchName);

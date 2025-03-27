@@ -14,10 +14,10 @@ public class EndingHandler implements PillarListener {
     private final ScoreSettings scoreSettings;
     private final GameView gameView;
 
-    public EndingHandler(GameConfiguration gameConfiguration, ScoreSettings scoreSettings, GameView gameView) {
-        this.gameConfiguration = gameConfiguration;
+    public EndingHandler(ScoreSettings scoreSettings) {
+        this.gameConfiguration = GameConfiguration.getInstance();
         this.scoreSettings = scoreSettings;
-        this.gameView = gameView;
+        this.gameView = GameView.getInstance();
     }
 
     @Override

@@ -13,9 +13,6 @@ public class HandleInfluencePillars {
     private final ModeConfiguration modeConfiguration = ModeConfiguration.getInstance();
 
 
-    public HandleInfluencePillars() {
-    }
-
     public void applyInfluence(SwipeSide side, List<Influence> influences) {
         if (influences == null || influences.isEmpty()) return;
         boolean isSwipeLeft = side == SwipeSide.LEFT;

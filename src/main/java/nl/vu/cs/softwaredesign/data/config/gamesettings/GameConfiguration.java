@@ -15,13 +15,15 @@ public class GameConfiguration {
     private final Map<String, Map<String, Integer>> monarchInitialValues = new HashMap<>();
     private List<Card> cards;
     private Monarch selectedMonarch;
-    private String gameMode;
     private int scoreCount;
     private int yearCount;
 
-    // Private constructor to prevent direct instantiation
-    private GameConfiguration() {}
+    private GameConfiguration() {
+    }
 
+    public static synchronized void setInstance(GameConfiguration config) {
+        instance = config;
+    }
     public static synchronized GameConfiguration getInstance() {
         if (instance == null) {
             instance = new GameConfiguration();
@@ -49,10 +51,6 @@ public class GameConfiguration {
         return monarchInitialValues;
     }
 
-
-    public String getGameMode() {
-        return gameMode;
-    }
 
     public void initializeScoreAndYear(ScoreSettings scoreSettings) {
         ScoreConfig scoreConfig = scoreSettings.getScoreConfig();

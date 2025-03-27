@@ -26,7 +26,6 @@ public class GameStateController {
     private final ScoreSettings scoreSettings;
 
     private final GameConfiguration gameConfiguration;
-    private final HandleInfluencePillars handleInfluencePillars;
 
     private final Map<String, LegacyState> legacyStates = new HashMap<>();
     private final Map<String, Queue<Card>> legacyCardsMap;
@@ -43,7 +42,6 @@ public class GameStateController {
             List<String> introCards,
             ScoreSettings scoreSettings,
             GameConfiguration gameConfiguration,
-            HandleInfluencePillars handleInfluencePillars,
             Map<String, Queue<Card>> legacyCardsMap
     ) {
         this.isIntroPhase = true;
@@ -51,7 +49,6 @@ public class GameStateController {
         this.introCards = introCards;
         this.scoreSettings = scoreSettings;
         this.gameConfiguration = gameConfiguration;
-        this.handleInfluencePillars = handleInfluencePillars;
         this.legacyCardsMap = legacyCardsMap;
 
         initLegacyStates();
@@ -155,6 +152,10 @@ public class GameStateController {
         this.introCardIndex = index;
     }
 
+    public String getCurrentIntroCard() {
+        return introCards.get(introCardIndex);
+    }
+
     public void advanceIntroCard() {
         if (introCardIndex < introCards.size() - 1) {
             introCardIndex++;
@@ -184,10 +185,6 @@ public class GameStateController {
 
     public ScoreSettings getScoreSettings() {
         return scoreSettings;
-    }
-
-    public HandleInfluencePillars getInfluencePillars() {
-        return handleInfluencePillars;
     }
 
     public int getYearCount() {

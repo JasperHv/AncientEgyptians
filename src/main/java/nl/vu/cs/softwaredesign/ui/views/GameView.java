@@ -14,7 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
+
 import nl.vu.cs.softwaredesign.data.handlers.SwipeHandler;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
@@ -43,7 +43,6 @@ public class GameView extends Parent {
     private Label yearLabel;
     private Label scoreLabel;
 
-    HandleInfluencePillars handleInfluencePillars;
     GameStateController gameStateController;
 
     public GameView() {
@@ -54,10 +53,9 @@ public class GameView extends Parent {
         initView();
         initChildren();
 
-        this.handleInfluencePillars = new HandleInfluencePillars();
-        this.gameFlowController = new GameFlowController(cardView, gameConfiguration);
+        this.gameFlowController = new GameFlowController(cardView);
         this.gameStateController = gameFlowController.getGameStateManager();
-        this.swipeHandler = new SwipeHandler(this, gameStateController, gameConfiguration);
+        this.swipeHandler = new SwipeHandler(gameStateController);
 
         updateCardAndMessage();
         updateScoreAndYearBoxes();
@@ -137,7 +135,7 @@ public class GameView extends Parent {
 
     public void updateScore() {
         HandleScore handleScore = new HandleScore();
-        handleScore.updateScore(gameConfiguration, scoreSettings);
+        handleScore.updateScore(scoreSettings);
     }
 
     public void updateCardAndMessage() {

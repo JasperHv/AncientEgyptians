@@ -4,16 +4,14 @@ import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
-import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
+
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.CardDeck;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.ui.views.CardView;
-import nl.vu.cs.softwaredesign.ui.views.GameView;
-import javafx.scene.control.Label;
 
+import javafx.scene.control.Label;
 import java.util.*;
 
 public class GameFlowController {
@@ -23,11 +21,11 @@ public class GameFlowController {
     private CardDeck cardDeck;
     private final Map<String, Queue<Card>> legacyCardsMap = new HashMap<>();
 
-    public GameFlowController(CardView cardView, GameConfiguration gameConfiguration) {
+    public GameFlowController(CardView cardView) {
         this.cardView = cardView;
         ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        HandleInfluencePillars handleInfluencePillars = new HandleInfluencePillars();
 
+        GameConfiguration gameConfiguration = GameConfiguration.getInstance();
         loadGameCards();
         List<String> introCards = List.of(
                 "welcome-card", "choose-pharaoh", "tutankhamun-card", "cleopatra-card"
@@ -38,13 +36,12 @@ public class GameFlowController {
                 introCards,
                 scoreSettings,
                 gameConfiguration,
-                handleInfluencePillars,
                 legacyCardsMap
         );
     }
     private void loadGameCards() {
-        ModeConfiguration modeConfig = ModeConfiguration.getInstance();
-        List<Card> allCards = modeConfig.getCards();
+        GameConfiguration gameConfig = GameConfiguration.getInstance();
+        List<Card> allCards = gameConfig.getCards();
 
         List<Card> standardCards = new ArrayList<>();
         for (Card card : allCards) {
