@@ -5,6 +5,7 @@ import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
+import nl.vu.cs.softwaredesign.pillars.PillarData;
 import nl.vu.cs.softwaredesign.ui.scenes.GameSceneFactory;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 import org.slf4j.Logger;
@@ -42,17 +43,30 @@ public class AncientEgyptiansApp extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         try {
+            if (ModeConfiguration.getInstance() == null) {
+                logger.error("ModeConfiguration has not been initialized!");
+                return;
+            }
+
             GameConfiguration gameConfig = ConfigurationLoader.getInstance().getGameConfiguration();
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
 
             gameConfig.initializeScoreAndYear(scoreConfig);
 
             ModeConfiguration config = ModeConfiguration.getInstance();
-            Map<Pillar, Integer> pillarValues = config.getPillarValues();
-            pillarValues.forEach((pillar, value) -> vars.put(pillar.getName().toLowerCase(), value));
-
+            logger.info("Game configuration initialized successfully.");
+            for (Pillar pillar : Pillar.values()) {
+                PillarData pillarData = config.getPillarData(pillar);
+                if (pillarData == null) {
+                    logger.warn("PillarData for {} is null. Setting default value of 0.", pillar);
+                    vars.put(pillar.getName().toLowerCase(), 0);
+                } else {
+                    vars.put(pillar.getName().toLowerCase(), pillarData.getValue());
+                }
+            }
         } catch (IllegalStateException e) {
             logger.warn("ModeConfiguration not initialized yet. Pillar values will be set later.");
         }
     }
+
 }

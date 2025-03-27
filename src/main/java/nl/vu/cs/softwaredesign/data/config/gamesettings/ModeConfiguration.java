@@ -8,6 +8,8 @@ import nl.vu.cs.softwaredesign.data.model.Monarch;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.Mode;
 import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundException;
+import nl.vu.cs.softwaredesign.pillars.PillarData;
+import nl.vu.cs.softwaredesign.pillars.PillarListener;
 
 import java.io.InputStream;
 import java.util.EnumMap;
@@ -18,7 +20,7 @@ public class ModeConfiguration {
     private static ModeConfiguration instance;
 
     private GameConfiguration gameConfig;
-    private Map<Pillar, Integer> pillarValues;
+    private Map<Pillar, PillarData> pillarValues;
 
     private ModeConfiguration(String modeName) {
         ConfigurationLoader mainLoader = ConfigurationLoader.getInstance();
@@ -68,27 +70,79 @@ public class ModeConfiguration {
         return gameConfig;
     }
 
+    /**
+     * Returns a map of pillar values, converting PillarData to their integer values.
+     */
     public Map<Pillar, Integer> getPillarValues() {
-        return pillarValues;
+        Map<Pillar, Integer> values = new EnumMap<>(Pillar.class);
+        pillarValues.forEach((pillar, pillarData) ->
+                values.put(pillar, pillarData.getValue())
+        );
+        return values;
     }
 
     /**
      * Updates pillar values for the selected monarch using the initial values from the mode configuration.
      */
-   public void updatePillarValues() {
+    public void updatePillarValues() {
         Monarch selectedMonarch = gameConfig.getSelectedMonarch();
         if (selectedMonarch == null) {
             throw new IllegalStateException("Selected monarch is not set in game configuration.");
         }
 
-        pillarValues = PillarValueInitializer.initializePillarValues(
-                selectedMonarch,
-                gameConfig.getMonarchInitialValues()
-        );
+        pillarValues = new EnumMap<>(Pillar.class);
+        Map<String, Map<String, Integer>> monarchInitialValues = gameConfig.getMonarchInitialValues();
+        String monarchName = selectedMonarch.getName();
+        Map<String, Integer> initialValues = monarchInitialValues.get(monarchName);
+
+        for (Pillar pillar : Pillar.values()) {
+            int value = (initialValues != null)
+                    ? initialValues.getOrDefault(pillar.getName().toLowerCase(), 0)
+                    : 0;
+
+            pillarValues.put(pillar, new PillarData(value));
+        }
     }
 
 
     public List<Card> getCards() {
         return gameConfig != null ? gameConfig.getCards() : List.of();
+    }
+
+    /**
+     * Adds a listener to a specific pillar.
+     *
+     * @param pillar The pillar to add a listener to
+     * @param listener The listener to be added
+     */
+    public void addPillarListener(Pillar pillar, PillarListener listener) {
+        PillarData pillarData = pillarValues.get(pillar);
+        if (pillarData != null) {
+            pillarData.addListener(listener);
+        }
+    }
+
+    /**
+     * Gets the PillarData for a specific pillar.
+     *
+     * @param pillar The pillar to retrieve
+     * @return The PillarData for the specified pillar
+     */
+    public PillarData getPillarData(Pillar pillar) {
+        return pillarValues.getOrDefault(pillar, new PillarData(0)); // Default to 0 if missing
+    }
+
+
+    /**
+     * Updates the value of a specific pillar.
+     *
+     * @param pillar The pillar to update
+     * @param value The new value for the pillar
+     */
+    public void updatePillarValue(Pillar pillar, int value) {
+        PillarData pillarData = pillarValues.get(pillar);
+        if (pillarData != null) {
+            pillarData.setValue(value);
+        }
     }
 }
