@@ -1,10 +1,10 @@
 package nl.vu.cs.ancientegyptiansgame;
 
 import com.almasb.fxgl.app.GameSettings;
-import nl.vu.cs.ancientegyptiansgame.data.config.ConfigurationLoader;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.*;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
-import nl.vu.cs.ancientegyptiansgame.data.handlers.EndingHandler;
+import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.*;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.handlers.EndingHandler;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 import nl.vu.cs.ancientegyptiansgame.ui.scenes.GameSceneFactory;

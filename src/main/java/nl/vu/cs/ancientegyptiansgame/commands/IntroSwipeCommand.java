@@ -1,11 +1,11 @@
-package nl.vu.cs.ancientegyptiansgame.data.commands;
+package nl.vu.cs.ancientegyptiansgame.commands;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
-import nl.vu.cs.ancientegyptiansgame.data.logging.IntroCommandLogEntry;
-import nl.vu.cs.ancientegyptiansgame.data.logging.CommandLogger;
-import nl.vu.cs.ancientegyptiansgame.data.controller.GameStateController;
+import nl.vu.cs.ancientegyptiansgame.logging.IntroCommandLogEntry;
+import nl.vu.cs.ancientegyptiansgame.logging.CommandLogger;
+import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
 
 public class IntroSwipeCommand implements Command {
     private final SwipeSide side;

@@ -1,11 +1,11 @@
-package nl.vu.cs.ancientegyptiansgame.data.handlers;
+package nl.vu.cs.ancientegyptiansgame.handlers;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.BonusConfig;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.BonusConfig;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 
 import java.util.List;
 

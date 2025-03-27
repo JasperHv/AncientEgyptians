@@ -1,4 +1,4 @@
-package nl.vu.cs.ancientegyptiansgame.data.config.scoresettings;
+package nl.vu.cs.ancientegyptiansgame.config.scoresettings;
 
 import java.util.List;
 

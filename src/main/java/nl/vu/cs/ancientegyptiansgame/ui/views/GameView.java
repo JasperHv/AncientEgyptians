@@ -15,15 +15,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
-import nl.vu.cs.ancientegyptiansgame.data.handlers.SwipeHandler;
+import nl.vu.cs.ancientegyptiansgame.handlers.SwipeHandler;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
-import nl.vu.cs.ancientegyptiansgame.data.config.ConfigurationLoader;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
-import nl.vu.cs.ancientegyptiansgame.data.handlers.HandleScore;
-import nl.vu.cs.ancientegyptiansgame.data.controller.GameStateController;
-import nl.vu.cs.ancientegyptiansgame.data.controller.GameFlowController;
+import nl.vu.cs.ancientegyptiansgame.handlers.HandleScore;
+import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
+import nl.vu.cs.ancientegyptiansgame.controller.GameFlowController;
 
 public class GameView extends Parent {
 

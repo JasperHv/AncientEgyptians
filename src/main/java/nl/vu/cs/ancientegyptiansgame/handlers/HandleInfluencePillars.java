@@ -1,6 +1,6 @@
-package nl.vu.cs.ancientegyptiansgame.data.handlers;
+package nl.vu.cs.ancientegyptiansgame.handlers;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Influence;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;

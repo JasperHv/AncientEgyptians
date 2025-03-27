@@ -1,4 +1,4 @@
-package nl.vu.cs.ancientegyptiansgame.data.logging;
+package nl.vu.cs.ancientegyptiansgame.logging;
 
 import nl.vu.cs.ancientegyptiansgame.data.model.Influence;
 import com.fasterxml.jackson.annotation.JsonProperty;

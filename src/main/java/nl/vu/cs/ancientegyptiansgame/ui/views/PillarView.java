@@ -9,7 +9,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 

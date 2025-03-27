@@ -1,8 +1,8 @@
-package nl.vu.cs.ancientegyptiansgame.data.handlers;
+package nl.vu.cs.ancientegyptiansgame.handlers;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.ConfigurationLoader;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
 import nl.vu.cs.ancientegyptiansgame.listeners.PillarListener;

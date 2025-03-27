@@ -1,10 +1,10 @@
-package nl.vu.cs.ancientegyptiansgame.data.controller;
+package nl.vu.cs.ancientegyptiansgame.controller;
 
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
-import nl.vu.cs.ancientegyptiansgame.data.config.ConfigurationLoader;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.data.model.CardDeck;

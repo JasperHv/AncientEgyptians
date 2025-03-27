@@ -1,9 +1,9 @@
-package nl.vu.cs.ancientegyptiansgame.data.controller;
+package nl.vu.cs.ancientegyptiansgame.controller;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.GameConfiguration;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.ModeConfiguration;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
-import nl.vu.cs.ancientegyptiansgame.data.config.ConfigurationLoader;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.data.model.CardDeck;

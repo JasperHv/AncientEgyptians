@@ -1,7 +1,7 @@
-package nl.vu.cs.ancientegyptiansgame.data.config.gamesettings;
+package nl.vu.cs.ancientegyptiansgame.config.gamesettings;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreConfig;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreConfig;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.data.model.Monarch;
 

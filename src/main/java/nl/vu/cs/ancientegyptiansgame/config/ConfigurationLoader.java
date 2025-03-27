@@ -1,9 +1,9 @@
-package nl.vu.cs.ancientegyptiansgame.data.config;
+package nl.vu.cs.ancientegyptiansgame.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.data.model.Mode;
 import nl.vu.cs.ancientegyptiansgame.exception.ConfigurationNotFoundException;

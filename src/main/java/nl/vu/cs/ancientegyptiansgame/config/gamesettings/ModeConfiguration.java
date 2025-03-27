@@ -1,7 +1,7 @@
-package nl.vu.cs.ancientegyptiansgame.data.config.gamesettings;
+package nl.vu.cs.ancientegyptiansgame.config.gamesettings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.vu.cs.ancientegyptiansgame.data.config.ConfigurationLoader;
+import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.data.model.Monarch;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
 import nl.vu.cs.ancientegyptiansgame.data.model.Mode;

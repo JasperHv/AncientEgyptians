@@ -1,6 +1,6 @@
 package nl.vu.cs.ancientegyptiansgame.ui.menus;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;

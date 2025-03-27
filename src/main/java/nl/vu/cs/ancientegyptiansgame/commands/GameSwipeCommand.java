@@ -1,15 +1,15 @@
-package nl.vu.cs.ancientegyptiansgame.data.commands;
+package nl.vu.cs.ancientegyptiansgame.commands;
 
-import nl.vu.cs.ancientegyptiansgame.data.config.ConfigurationLoader;
-import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
-import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.GameConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
+import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
-import nl.vu.cs.ancientegyptiansgame.data.handlers.HandleInfluencePillars;
+import nl.vu.cs.ancientegyptiansgame.handlers.HandleInfluencePillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
-import nl.vu.cs.ancientegyptiansgame.data.controller.GameStateController;
-import nl.vu.cs.ancientegyptiansgame.data.logging.CommandLogger;
-import nl.vu.cs.ancientegyptiansgame.data.logging.GameCommandLogEntry;
+import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
+import nl.vu.cs.ancientegyptiansgame.logging.CommandLogger;
+import nl.vu.cs.ancientegyptiansgame.logging.GameCommandLogEntry;
 
 public class GameSwipeCommand implements Command {
 

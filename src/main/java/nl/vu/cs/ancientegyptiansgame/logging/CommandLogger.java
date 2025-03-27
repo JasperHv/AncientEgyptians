@@ -1,4 +1,4 @@
-package nl.vu.cs.ancientegyptiansgame.data.logging;
+package nl.vu.cs.ancientegyptiansgame.logging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
