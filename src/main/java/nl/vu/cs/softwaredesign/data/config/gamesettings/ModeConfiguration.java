@@ -124,26 +124,13 @@ public class ModeConfiguration {
     }
 
     /**
-     * Adds a listener to a specific pillar.
-     *
-     * @param pillar The pillar to add a listener to
-     * @param listener The listener to be added
-     */
-    public void addPillarListener(Pillar pillar, PillarListener listener) {
-        PillarData pillarData = pillarValues.get(pillar);
-        if (pillarData != null) {
-            pillarData.addListener(listener);
-        }
-    }
-
-    /**
      * Gets the PillarData for a specific pillar.
      *
      * @param pillar The pillar to retrieve
      * @return The PillarData for the specified pillar
      */
     public PillarData getPillarData(Pillar pillar) {
-        return pillarValues.getOrDefault(pillar, new PillarData(1)); // Default to 1 if missing
+        return pillarValues.get(pillar);
     }
 
 

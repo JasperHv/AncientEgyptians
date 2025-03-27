@@ -1,11 +1,11 @@
 package nl.vu.cs.softwaredesign.data.handlers;
 
-import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.BonusConfig;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
-import javafx.beans.property.IntegerProperty;
+import nl.vu.cs.softwaredesign.pillars.PillarData;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ public class HandleScore {
     private final List<Pillar> pillars = List.of(Pillar.PRIESTS, Pillar.FARMERS, Pillar.NOBLES, Pillar.MILITARY);
 
     private boolean isBalanced(Pillar pillar) {
-        IntegerProperty pillarProgress = FXGL.getip(pillar.getName().toUpperCase());
-        int value = pillarProgress.get();
+        PillarData pillarData = ModeConfiguration.getInstance().getPillarData(pillar);
+        int value = pillarData.getValue();
         return value >= 25 && value <= 75;
     }
 

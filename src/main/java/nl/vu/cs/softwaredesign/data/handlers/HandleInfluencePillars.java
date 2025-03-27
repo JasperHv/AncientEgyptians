@@ -48,10 +48,10 @@ public class HandleInfluencePillars {
             int valueChange = influence.getValue();
 
             PillarData pillarData = modeConfiguration.getPillarData(pillarEnum);
-            int currentValue = pillarData.getValue();
-            int newValue = Math.min(Math.max(currentValue + valueChange, 0), 100);
+            System.out.println("HandleInfluencePillars: Calling increaseValue on PillarData for pillar: " + pillarEnum.getName() + " with value change: " + valueChange);
+            pillarData.increaseValue(valueChange);
+            int newValue = pillarData.getValue();
 
-            pillarData.setValue(newValue);
             if (newValue == 0) {
                 gameOverTriggered = true;
                 triggeredPillar = pillarEnum;

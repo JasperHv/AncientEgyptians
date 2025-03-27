@@ -2,6 +2,7 @@ package nl.vu.cs.softwaredesign.data.controller;
 
 import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
+import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
@@ -9,6 +10,8 @@ import nl.vu.cs.softwaredesign.data.handlers.HandleInfluencePillars;
 import nl.vu.cs.softwaredesign.data.model.Card;
 import nl.vu.cs.softwaredesign.data.model.CardDeck;
 import nl.vu.cs.softwaredesign.data.model.Ending;
+import nl.vu.cs.softwaredesign.data.model.Pillar;
+import nl.vu.cs.softwaredesign.pillars.PillarData;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 
 import java.util.*;
@@ -71,7 +74,10 @@ public class GameStateController {
         String key = pillar.toLowerCase();
         LegacyState ls = legacyStates.get(key);
         boolean isPositive = side == SwipeSide.RIGHT;
-        int currentPillarValue = FXGL.getip(pillar.toUpperCase()).get();
+
+        Pillar pillarEnum = Pillar.fromName(pillar);
+        PillarData pillarData = ModeConfiguration.getInstance().getPillarData(pillarEnum);
+        int currentPillarValue = pillarData.getValue();
 
         if (ls == null) {
             return;

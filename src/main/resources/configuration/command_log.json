@@ -2,6 +2,62 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743085486159,
+  "timestamp" : 1743085908582,
   "chosenCharacter" : "Tutankhamun"
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Desert Fortress",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1743085911553,
+  "influence" : [ {
+    "pillar" : "military",
+    "value" : 2
+  }, {
+    "pillar" : "farmers",
+    "value" : -2
+  } ],
+  "yearsInPower" : 10,
+  "scoreCount" : 1
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Temple Expansion",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743085912914,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ],
+  "yearsInPower" : 20,
+  "scoreCount" : 2
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Conscription",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1743085914541,
+  "influence" : [ {
+    "pillar" : "military",
+    "value" : 2
+  }, {
+    "pillar" : "farmers",
+    "value" : -2
+  } ],
+  "yearsInPower" : 30,
+  "scoreCount" : 3
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Oracle’s Vision",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743085915083,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ],
+  "yearsInPower" : 40,
+  "scoreCount" : 4
 } ]
