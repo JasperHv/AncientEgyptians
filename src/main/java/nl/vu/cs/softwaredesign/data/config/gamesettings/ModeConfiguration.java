@@ -9,7 +9,6 @@ import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.data.model.Mode;
 import nl.vu.cs.softwaredesign.exception.ConfigurationNotFoundException;
 import nl.vu.cs.softwaredesign.pillars.PillarData;
-import nl.vu.cs.softwaredesign.pillars.PillarListener;
 
 import java.io.InputStream;
 import java.util.EnumMap;

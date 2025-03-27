@@ -92,8 +92,4 @@ public class ConfigurationLoader {
     public List<String> getMonarchs() {
         return monarchs;
     }
-
-    public GameConfiguration getGameConfiguration() {
-        return new GameConfiguration(); // Implement this method to load game configuration based on mode settings
-    }
 }

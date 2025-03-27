@@ -1,5 +1,6 @@
 package nl.vu.cs.softwaredesign.data.commands;
 
+import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
@@ -42,8 +43,12 @@ public class GameSwipeCommand implements Command {
     public void execute() {
         int currentYear = gameStateController.getYearCount();
         int newYear = currentYear + scoreSettings.getYearCountIncrease();
+        System.out.println("New Year Count: " + newYear);
         gameStateController.setYearCount(newYear);
 
+        if (newYear >= scoreSettings.getScoreConfig().getMaximumYearCount()) {
+            gameView.showEndScreen(ConfigurationLoader.getInstance().getGoldenAgeEnding());
+        }
         handleInfluencePillars.applyInfluence(side, card.getInfluence());
 
         gameView.updateScore();

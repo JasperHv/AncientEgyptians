@@ -10,12 +10,24 @@ import java.util.Map;
 import java.util.List;
 
 public class GameConfiguration {
+    private static GameConfiguration instance;
+
     private final Map<String, Map<String, Integer>> monarchInitialValues = new HashMap<>();
     private List<Card> cards;
     private Monarch selectedMonarch;
     private String gameMode;
     private int scoreCount;
     private int yearCount;
+
+    // Private constructor to prevent direct instantiation
+    private GameConfiguration() {}
+
+    public static synchronized GameConfiguration getInstance() {
+        if (instance == null) {
+            instance = new GameConfiguration();
+        }
+        return instance;
+    }
 
     public List<Card> getCards() {
         return cards;

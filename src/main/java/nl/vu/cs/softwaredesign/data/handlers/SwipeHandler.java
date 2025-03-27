@@ -12,7 +12,7 @@ public class SwipeHandler {
 
     private final GameView gameView;
     private final GameStateController gameStateController;
-    private final GameConfiguration gameConfiguration;  // Add GameConfiguration to the constructor
+    private final GameConfiguration gameConfiguration;
 
     public SwipeHandler(GameView gameView, GameStateController gameStateController, GameConfiguration gameConfiguration) {
         this.gameView = gameView;

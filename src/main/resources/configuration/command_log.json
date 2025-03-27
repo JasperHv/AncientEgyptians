@@ -2,96 +2,76 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743088531905,
+  "timestamp" : 1743091885291,
   "chosenCharacter" : "Tutankhamun"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Divine Harvest",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1743088535003,
+  "cardTitle" : "Lavish Tombs",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1743091886855,
   "influence" : [ {
-    "pillar" : "priests",
-    "value" : 1
-  }, {
-    "pillar" : "farmers",
-    "value" : 1
-  }, {
     "pillar" : "nobles",
-    "value" : -1
-  } ],
-  "yearsInPower" : 5,
-  "scoreCount" : 1
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Restoration of the Temple",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1743088535438,
-  "influence" : [ {
-    "pillar" : "priests",
     "value" : 2
   }, {
-    "pillar" : "military",
+    "pillar" : "farmers",
     "value" : -1
   } ],
   "yearsInPower" : 10,
+  "scoreCount" : 1
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Trade Expedition",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743091887746,
+  "influence" : [ {
+    "pillar" : "nobles",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -2
+  } ],
+  "yearsInPower" : 20,
   "scoreCount" : 2
 }, {
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Sacred Offerings",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1743088536783,
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1743091888587,
   "influence" : [ {
     "pillar" : "priests",
     "value" : 2
   }, {
     "pillar" : "nobles",
-    "value" : -1
-  } ],
-  "yearsInPower" : 15,
-  "scoreCount" : 3
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Divine Harvest",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1743088537675,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 1
-  }, {
-    "pillar" : "farmers",
-    "value" : 1
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
-  } ],
-  "yearsInPower" : 20,
-  "scoreCount" : 4
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Sacred Offerings",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1743088538549,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
-  } ],
-  "yearsInPower" : 25,
-  "scoreCount" : 5
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Restoration of the Temple",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1743088539510,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "military",
     "value" : -1
   } ],
   "yearsInPower" : 30,
-  "scoreCount" : 6
+  "scoreCount" : 3
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Grain Festival",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743091889467,
+  "influence" : [ {
+    "pillar" : "farmers",
+    "value" : 1
+  } ],
+  "yearsInPower" : 40,
+  "scoreCount" : 4
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Land Grants",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1743091890264,
+  "influence" : [ {
+    "pillar" : "nobles",
+    "value" : 2
+  }, {
+    "pillar" : "farmers",
+    "value" : -2
+  } ],
+  "yearsInPower" : 50,
+  "scoreCount" : 5
 } ]

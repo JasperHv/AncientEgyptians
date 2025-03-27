@@ -28,7 +28,8 @@
     "scoreConfig": {
       "initialScore": 0,
       "initialYearCount": 0,
-      "yearThreshold": 60
+      "yearThreshold": 50,
+      "maximumYearCount": 100
     },
     "bonusConfig": {
       "thresholds": [10, 20, 30],
@@ -38,6 +39,4 @@
     "yearCountIncrease": 1,
     "baseScoreIncrease": 5
   }
-}
-
 }

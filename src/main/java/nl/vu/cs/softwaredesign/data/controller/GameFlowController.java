@@ -23,10 +23,10 @@ public class GameFlowController {
     private CardDeck cardDeck;
     private final Map<String, Queue<Card>> legacyCardsMap = new HashMap<>();
 
-    public GameFlowController(CardView cardView, GameView gameView, GameConfiguration gameConfiguration) {
+    public GameFlowController(CardView cardView, GameConfiguration gameConfiguration) {
         this.cardView = cardView;
         ScoreSettings scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        HandleInfluencePillars handleInfluencePillars = new HandleInfluencePillars(gameView);
+        HandleInfluencePillars handleInfluencePillars = new HandleInfluencePillars();
 
         loadGameCards();
         List<String> introCards = List.of(

@@ -49,31 +49,23 @@ public class AncientEgyptiansApp extends GameApplication {
                 return;
             }
 
-            // Initialize game configuration and score configuration
-            GameConfiguration gameConfig = ConfigurationLoader.getInstance().getGameConfiguration();
+            GameConfiguration gameConfig = GameConfiguration.getInstance();
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
 
             gameConfig.initializeScoreAndYear(scoreConfig);
 
-            // Create EndingHandler with necessary dependencies
-            GameView gameView = GameView.getInstance();  // Assuming GameView is a singleton
+            GameView gameView = GameView.getInstance();
             EndingHandler endingHandler = new EndingHandler(gameConfig, scoreConfig, gameView);
 
             ModeConfiguration config = ModeConfiguration.getInstance();
-            logger.info("Game configuration initialized successfully.");
+            logger.info("Mode configuration initialized successfully.");
 
             // Register EndingHandler as listener for each pillar
             for (Pillar pillar : Pillar.values()) {
-                System.out.println("Processing pillar: " + pillar.getName());
                 PillarData pillarData = config.getPillarData(pillar);
                 int value = pillarData.getValue();
-                System.out.println("PillarData for " + pillar.getName() + " retrieved with value: " + value);
 
-                // Add the EndingHandler as a listener to this pillarData
-                System.out.println("Adding EndingHandler as a listener to PillarData for pillar: " + pillar.getName());
                 pillarData.addListener(endingHandler);
-
-                // Put the pillar value into the game variables map
                 vars.put(pillar.getName().toLowerCase(), value);
             }
         } catch (IllegalStateException e) {

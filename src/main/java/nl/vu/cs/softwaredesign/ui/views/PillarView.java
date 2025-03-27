@@ -1,7 +1,6 @@
 package nl.vu.cs.softwaredesign.ui.views;
 
 import com.almasb.fxgl.dsl.FXGL;
-import static com.almasb.fxgl.dsl.FXGL.*;
 
 import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Insets;
@@ -13,7 +12,6 @@ import javafx.scene.paint.Color;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.pillars.PillarData;
-import nl.vu.cs.softwaredesign.pillars.PillarListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +70,7 @@ public class PillarView extends StackPane {
             originalImage.setFitHeight(height);
 
             PillarData pillarData = modeConfiguration.getPillarData(pillar);
-            var progressImage = generateProgressImage(pillar, originalImage, pillarData);
+            var progressImage = generateProgressImage(originalImage, pillarData);
 
             StackPane stackPane = new StackPane(originalImage, progressImage);
             StackPane.setAlignment(progressImage, Pos.BOTTOM_CENTER);
@@ -87,20 +85,15 @@ public class PillarView extends StackPane {
         return colorAdjust;
     }
 
-    private Texture generateProgressImage(Pillar pillar, Texture originalImage, PillarData pillarData) {
-        System.out.println("Generating progress image for {}" + pillar.name());
+    private Texture generateProgressImage(Texture originalImage, PillarData pillarData) {
         var progressImage = originalImage.copy();
 
         progressImage.setFitWidth(originalImage.getFitWidth());
         adjustProgressImageSize(progressImage, pillarData.getValue().doubleValue());
 
         // Add a listener to update the progress image when the pillar value changes
-        pillarData.addListener((updatedPillar, newValue) -> {
-            System.out.println("Progress updated for " + updatedPillar.name() + " -> " + newValue);
-            adjustProgressImageSize(progressImage, newValue.doubleValue());  // Adjust the image size based on the new pillar value
-        });
-
-        System.out.println("Listener added for pillar: {}" + pillar.name());
+        pillarData.addListener((updatedPillar, newValue) ->
+            adjustProgressImageSize(progressImage, newValue.doubleValue()));
 
         progressImage.setEffect(getImageEffect());
         return progressImage;

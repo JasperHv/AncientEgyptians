@@ -48,17 +48,19 @@ public class GameView extends Parent {
 
     public GameView() {
         this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        this.gameConfiguration = ConfigurationLoader.getInstance().getGameConfiguration();
+        this.gameConfiguration = GameConfiguration.getInstance();
 
         this.cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
         initView();
         initChildren();
 
-        this.handleInfluencePillars = new HandleInfluencePillars(this);
-        this.gameFlowController = new GameFlowController(cardView, this, gameConfiguration);
+        this.handleInfluencePillars = new HandleInfluencePillars();
+        this.gameFlowController = new GameFlowController(cardView, gameConfiguration);
         this.gameStateController = gameFlowController.getGameStateManager();
         this.swipeHandler = new SwipeHandler(this, gameStateController, gameConfiguration);
+
         updateCardAndMessage();
+        updateScoreAndYearBoxes();
     }
 
     public static GameView getInstance() {
