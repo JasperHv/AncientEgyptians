@@ -1,4 +1,4 @@
-package nl.vu.cs.ancientegyptiansgame.pillars;
+package nl.vu.cs.ancientegyptiansgame.listeners;
 
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
 

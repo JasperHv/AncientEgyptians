@@ -5,7 +5,7 @@ import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
-import nl.vu.cs.ancientegyptiansgame.pillars.PillarListener;
+import nl.vu.cs.ancientegyptiansgame.listeners.PillarListener;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
 
 public class EndingHandler implements PillarListener {

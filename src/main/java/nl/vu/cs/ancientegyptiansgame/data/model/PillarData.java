@@ -1,6 +1,6 @@
-package nl.vu.cs.ancientegyptiansgame.pillars;
+package nl.vu.cs.ancientegyptiansgame.data.model;
 
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.listeners.PillarListener;
 
 import java.util.ArrayList;
 import java.util.List;

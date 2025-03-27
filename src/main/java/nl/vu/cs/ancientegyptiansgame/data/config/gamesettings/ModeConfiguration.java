@@ -6,7 +6,7 @@ import nl.vu.cs.ancientegyptiansgame.data.model.Monarch;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
 import nl.vu.cs.ancientegyptiansgame.data.model.Mode;
 import nl.vu.cs.ancientegyptiansgame.exception.ConfigurationNotFoundException;
-import nl.vu.cs.ancientegyptiansgame.pillars.PillarData;
+import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 
 import java.io.InputStream;
 import java.util.EnumMap;

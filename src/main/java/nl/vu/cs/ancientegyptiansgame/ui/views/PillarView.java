@@ -11,7 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import nl.vu.cs.ancientegyptiansgame.data.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
-import nl.vu.cs.ancientegyptiansgame.pillars.PillarData;
+import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
