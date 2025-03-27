@@ -1,0 +1,38 @@
+[ {
+  "commandType" : "IntroSwipeCommand",
+  "cardTitle" : "choose-pharaoh",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1743104463882,
+  "chosenCharacter" : "Tutankhamun"
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Trade Expedition",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743104464866,
+  "influence" : [ {
+    "pillar" : "nobles",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -2
+  } ],
+  "yearsInPower" : 10,
+  "scoreCount" : 1
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Mercenary Deal",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1743104465722,
+  "influence" : [ {
+    "pillar" : "military",
+    "value" : 1
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ],
+  "yearsInPower" : 20,
+  "scoreCount" : 2
+} ]
