@@ -2,55 +2,75 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743085908582,
+  "timestamp" : 1743088531905,
   "chosenCharacter" : "Tutankhamun"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Desert Fortress",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1743085911553,
+  "cardTitle" : "Divine Harvest",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743088535003,
   "influence" : [ {
-    "pillar" : "military",
-    "value" : 2
+    "pillar" : "priests",
+    "value" : 1
   }, {
     "pillar" : "farmers",
-    "value" : -2
+    "value" : 1
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
   } ],
-  "yearsInPower" : 10,
+  "yearsInPower" : 5,
   "scoreCount" : 1
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Temple Expansion",
+  "cardTitle" : "Restoration of the Temple",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1743085912914,
+  "timestamp" : 1743088535438,
   "influence" : [ {
     "pillar" : "priests",
     "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -1
+  } ],
+  "yearsInPower" : 10,
+  "scoreCount" : 2
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Sacred Offerings",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743088536783,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "nobles",
+    "value" : -1
+  } ],
+  "yearsInPower" : 15,
+  "scoreCount" : 3
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Divine Harvest",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743088537675,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 1
+  }, {
+    "pillar" : "farmers",
+    "value" : 1
   }, {
     "pillar" : "nobles",
     "value" : -1
   } ],
   "yearsInPower" : 20,
-  "scoreCount" : 2
+  "scoreCount" : 4
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Conscription",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1743085914541,
-  "influence" : [ {
-    "pillar" : "military",
-    "value" : 2
-  }, {
-    "pillar" : "farmers",
-    "value" : -2
-  } ],
-  "yearsInPower" : 30,
-  "scoreCount" : 3
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Oracle’s Vision",
+  "cardTitle" : "Sacred Offerings",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1743085915083,
+  "timestamp" : 1743088538549,
   "influence" : [ {
     "pillar" : "priests",
     "value" : 2
@@ -58,6 +78,20 @@
     "pillar" : "nobles",
     "value" : -1
   } ],
-  "yearsInPower" : 40,
-  "scoreCount" : 4
+  "yearsInPower" : 25,
+  "scoreCount" : 5
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Restoration of the Temple",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1743088539510,
+  "influence" : [ {
+    "pillar" : "priests",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : -1
+  } ],
+  "yearsInPower" : 30,
+  "scoreCount" : 6
 } ]

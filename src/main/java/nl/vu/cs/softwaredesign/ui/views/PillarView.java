@@ -95,9 +95,9 @@ public class PillarView extends StackPane {
         adjustProgressImageSize(progressImage, pillarData.getValue().doubleValue());
 
         // Add a listener to update the progress image when the pillar value changes
-        pillarData.addListener(newValue -> {
-            System.out.println("Progress updated for {} -> {}" + pillar.name() + newValue);
-            adjustProgressImageSize(progressImage, newValue.doubleValue());
+        pillarData.addListener((updatedPillar, newValue) -> {
+            System.out.println("Progress updated for " + updatedPillar.name() + " -> " + newValue);
+            adjustProgressImageSize(progressImage, newValue.doubleValue());  // Adjust the image size based on the new pillar value
         });
 
         System.out.println("Listener added for pillar: {}" + pillar.name());

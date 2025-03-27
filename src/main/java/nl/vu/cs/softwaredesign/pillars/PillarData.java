@@ -1,13 +1,17 @@
 package nl.vu.cs.softwaredesign.pillars;
 
+import nl.vu.cs.softwaredesign.data.model.Pillar;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class PillarData {
     private Integer value;
     private final List<PillarListener> listeners;
+    private final Pillar pillar; // Assuming you have a reference to the Pillar
 
-    public PillarData(Integer initialValue) {
+    public PillarData(Pillar pillar, Integer initialValue) {
+        this.pillar = pillar;
         this.listeners = new ArrayList<>();
         this.value = initialValue;
         System.out.println("PillarData initialized with value: " + initialValue);
@@ -40,7 +44,7 @@ public class PillarData {
             System.out.println("Value adjusted to maximum: 100");
         }
         for (PillarListener listener : listeners) {
-            listener.changed(this.value);
+            listener.changed(pillar, this.value); // Pass the Pillar object
         }
         System.out.println("Listeners notified of value change: " + this.value);
     }

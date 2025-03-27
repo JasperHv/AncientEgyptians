@@ -41,7 +41,7 @@ public class ModeConfiguration {
             gameConfig = mapper.readValue(input, GameConfiguration.class);
             pillarValues = new EnumMap<>(Pillar.class);
             for (Pillar pillar : Pillar.values()) {
-                pillarValues.put(pillar, new PillarData(1));
+                pillarValues.put(pillar, new PillarData(pillar, 1));
             }
         } catch (Exception e) {
             throw new ConfigurationNotFoundException("Error loading mode config: " + e.getMessage(), e);
@@ -111,7 +111,7 @@ public class ModeConfiguration {
                 pillarValues.get(pillar).setValue(value);
             } else {
                 System.out.println("Creating new PillarData for: " + pillar.name());
-                pillarValues.put(pillar, new PillarData(value));
+                pillarValues.put(pillar, new PillarData(pillar, value));
             }
         }
     }

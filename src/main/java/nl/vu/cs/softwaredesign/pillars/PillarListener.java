@@ -1,8 +1,10 @@
 package nl.vu.cs.softwaredesign.pillars;
 
+import nl.vu.cs.softwaredesign.data.model.Pillar;
+
 @FunctionalInterface
 public interface PillarListener {
 
-    void changed(Integer newValue);
+    void changed(Pillar pillar, Integer newValue);
 
 }

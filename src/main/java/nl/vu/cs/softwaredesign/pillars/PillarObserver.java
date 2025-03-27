@@ -1,5 +1,7 @@
 package nl.vu.cs.softwaredesign.pillars;
 
+import nl.vu.cs.softwaredesign.data.model.Pillar;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +13,8 @@ public class PillarObserver {
         this.pillars = new HashMap<>();
     }
 
-    public void addPillar(String name, Integer initialValue) {
-        pillars.put(name, new PillarData(initialValue));
+    public void addPillar(Pillar pillar, Integer initialValue) {
+        pillars.put(pillar.getName(), new PillarData(pillar, initialValue));
     }
 
     public void removePillar(String name) {

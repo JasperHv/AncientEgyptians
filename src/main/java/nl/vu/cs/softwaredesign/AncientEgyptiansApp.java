@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.GameSettings;
 import nl.vu.cs.softwaredesign.data.config.ConfigurationLoader;
 import nl.vu.cs.softwaredesign.data.config.gamesettings.*;
 import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
+import nl.vu.cs.softwaredesign.data.handlers.EndingHandler;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
 import nl.vu.cs.softwaredesign.pillars.PillarData;
 import nl.vu.cs.softwaredesign.ui.scenes.GameSceneFactory;
@@ -48,25 +49,32 @@ public class AncientEgyptiansApp extends GameApplication {
                 return;
             }
 
+            // Initialize game configuration and score configuration
             GameConfiguration gameConfig = ConfigurationLoader.getInstance().getGameConfiguration();
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
 
             gameConfig.initializeScoreAndYear(scoreConfig);
 
+            // Create EndingHandler with necessary dependencies
+            GameView gameView = GameView.getInstance();  // Assuming GameView is a singleton
+            EndingHandler endingHandler = new EndingHandler(gameConfig, scoreConfig, gameView);
+
             ModeConfiguration config = ModeConfiguration.getInstance();
             logger.info("Game configuration initialized successfully.");
-            for (Pillar pillar : Pillar.values()) {
-                System.out.println("Processing pillar: {}" + pillar.getName());
-                PillarData pillarData = config.getPillarData(pillar);
 
-                if (pillarData == null) {
-                    System.out.println("PillarData for {} is null. Setting default value of 1." + pillar.getName());
-                    vars.put(pillar.getName().toLowerCase(), 1);
-                } else {
-                    int value = pillarData.getValue();
-                    System.out.println("PillarData for {} retrieved with value: {}" + pillar.getName() + value);
-                    vars.put(pillar.getName().toLowerCase(), value);
-                }
+            // Register EndingHandler as listener for each pillar
+            for (Pillar pillar : Pillar.values()) {
+                System.out.println("Processing pillar: " + pillar.getName());
+                PillarData pillarData = config.getPillarData(pillar);
+                int value = pillarData.getValue();
+                System.out.println("PillarData for " + pillar.getName() + " retrieved with value: " + value);
+
+                // Add the EndingHandler as a listener to this pillarData
+                System.out.println("Adding EndingHandler as a listener to PillarData for pillar: " + pillar.getName());
+                pillarData.addListener(endingHandler);
+
+                // Put the pillar value into the game variables map
+                vars.put(pillar.getName().toLowerCase(), value);
             }
         } catch (IllegalStateException e) {
             logger.warn("ModeConfiguration not initialized yet. Pillar values will be set later.");

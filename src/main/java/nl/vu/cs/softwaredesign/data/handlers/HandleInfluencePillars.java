@@ -7,7 +7,6 @@ import nl.vu.cs.softwaredesign.data.config.scoresettings.ScoreSettings;
 import nl.vu.cs.softwaredesign.data.enums.SwipeSide;
 import nl.vu.cs.softwaredesign.data.model.Influence;
 import nl.vu.cs.softwaredesign.data.model.Pillar;
-import nl.vu.cs.softwaredesign.data.model.Ending;
 import nl.vu.cs.softwaredesign.pillars.PillarData;
 import nl.vu.cs.softwaredesign.ui.views.GameView;
 
@@ -36,39 +35,18 @@ public class HandleInfluencePillars {
                 ))
                 .collect(Collectors.toList());
 
-        int yearCount = gameConfiguration.getYearCount();
-        int threshold = scoreSettings.getScoreConfig().getYearThreshold();
-
-        boolean gameOverTriggered = false;
-        boolean winTriggered = false;
-        Pillar triggeredPillar = null;
-
         for (Influence influence : adjustedInfluences) {
             Pillar pillarEnum = Pillar.fromName(influence.getPillar());
             int valueChange = influence.getValue();
 
             PillarData pillarData = modeConfiguration.getPillarData(pillarEnum);
-            System.out.println("HandleInfluencePillars: Calling increaseValue on PillarData for pillar: " + pillarEnum.getName() + " with value change: " + valueChange);
-            pillarData.increaseValue(valueChange);
-            int newValue = pillarData.getValue();
+            int currentValue = pillarData.getValue();
+            int newValue = Math.min(Math.max(currentValue + valueChange, 0), 100);
 
-            if (newValue == 0) {
-                gameOverTriggered = true;
-                triggeredPillar = pillarEnum;
-            } else if (newValue == 100 && yearCount >= threshold) {
-                winTriggered = true;
-                triggeredPillar = pillarEnum;
-            }
-        }
+            pillarData.setValue(newValue);
 
-        if (winTriggered || gameOverTriggered) {
-            Ending ending = winTriggered
-                    ? ConfigurationLoader.getInstance().getGoldenAgeEnding()
-                    : triggeredPillar.getEnding();
+            pillarData.setValue(newValue);
 
-            if (ending != null) {
-                gameView.showEndScreen(ending);
-            }
         }
     }
 }
