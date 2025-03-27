@@ -56,12 +56,16 @@ public class AncientEgyptiansApp extends GameApplication {
             ModeConfiguration config = ModeConfiguration.getInstance();
             logger.info("Game configuration initialized successfully.");
             for (Pillar pillar : Pillar.values()) {
+                System.out.println("Processing pillar: {}" + pillar.getName());
                 PillarData pillarData = config.getPillarData(pillar);
+
                 if (pillarData == null) {
-                    logger.warn("PillarData for {} is null. Setting default value of 0.", pillar);
-                    vars.put(pillar.getName().toLowerCase(), 0);
+                    System.out.println("PillarData for {} is null. Setting default value of 1." + pillar.getName());
+                    vars.put(pillar.getName().toLowerCase(), 1);
                 } else {
-                    vars.put(pillar.getName().toLowerCase(), pillarData.getValue());
+                    int value = pillarData.getValue();
+                    System.out.println("PillarData for {} retrieved with value: {}" + pillar.getName() + value);
+                    vars.put(pillar.getName().toLowerCase(), value);
                 }
             }
         } catch (IllegalStateException e) {

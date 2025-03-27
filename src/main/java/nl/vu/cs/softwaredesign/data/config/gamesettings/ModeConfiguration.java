@@ -40,6 +40,9 @@ public class ModeConfiguration {
             ObjectMapper mapper = new ObjectMapper();
             gameConfig = mapper.readValue(input, GameConfiguration.class);
             pillarValues = new EnumMap<>(Pillar.class);
+            for (Pillar pillar : Pillar.values()) {
+                pillarValues.put(pillar, new PillarData(1));
+            }
         } catch (Exception e) {
             throw new ConfigurationNotFoundException("Error loading mode config: " + e.getMessage(), e);
         }
@@ -90,19 +93,30 @@ public class ModeConfiguration {
             throw new IllegalStateException("Selected monarch is not set in game configuration.");
         }
 
-        pillarValues = new EnumMap<>(Pillar.class);
         Map<String, Map<String, Integer>> monarchInitialValues = gameConfig.getMonarchInitialValues();
         String monarchName = selectedMonarch.getName();
         Map<String, Integer> initialValues = monarchInitialValues.get(monarchName);
+
+        System.out.println("Selected Monarch: " + selectedMonarch.getName());
+        System.out.println("Initial Values:");
+        initialValues.forEach((key, value) -> System.out.println(key + ": " + value));
 
         for (Pillar pillar : Pillar.values()) {
             int value = (initialValues != null)
                     ? initialValues.getOrDefault(pillar.getName().toLowerCase(), 0)
                     : 0;
 
-            pillarValues.put(pillar, new PillarData(value));
+            if (pillarValues.containsKey(pillar)) {
+                System.out.println("Updating existing PillarData for: " + pillar.name() + " to " + value);
+                pillarValues.get(pillar).setValue(value);
+            } else {
+                System.out.println("Creating new PillarData for: " + pillar.name());
+                pillarValues.put(pillar, new PillarData(value));
+            }
         }
     }
+
+
 
 
     public List<Card> getCards() {
@@ -129,7 +143,7 @@ public class ModeConfiguration {
      * @return The PillarData for the specified pillar
      */
     public PillarData getPillarData(Pillar pillar) {
-        return pillarValues.getOrDefault(pillar, new PillarData(0)); // Default to 0 if missing
+        return pillarValues.getOrDefault(pillar, new PillarData(1)); // Default to 1 if missing
     }
 
 

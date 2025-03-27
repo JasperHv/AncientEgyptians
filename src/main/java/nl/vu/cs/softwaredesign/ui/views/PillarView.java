@@ -66,7 +66,7 @@ public class PillarView extends StackPane {
 
     private List<StackPane> getPillarImages() {
         return pillars.stream().map(pillar -> {
-            logger.debug("Loading image for pillar -> {}", pillar.name());
+            logger.info("Loading image for pillar -> {}", pillar.name());
             var originalImage = FXGL.texture("pillars/" + pillar.getImage());
             originalImage.setFitWidth(height);
             originalImage.setFitHeight(height);
@@ -88,7 +88,7 @@ public class PillarView extends StackPane {
     }
 
     private Texture generateProgressImage(Pillar pillar, Texture originalImage, PillarData pillarData) {
-        logger.debug("Generating progress image for {}", pillar.name());
+        System.out.println("Generating progress image for {}" + pillar.name());
         var progressImage = originalImage.copy();
 
         progressImage.setFitWidth(originalImage.getFitWidth());
@@ -96,9 +96,11 @@ public class PillarView extends StackPane {
 
         // Add a listener to update the progress image when the pillar value changes
         pillarData.addListener(newValue -> {
-            logger.info("Progress updated for {} -> {}", pillar.name(), newValue);
+            System.out.println("Progress updated for {} -> {}" + pillar.name() + newValue);
             adjustProgressImageSize(progressImage, newValue.doubleValue());
         });
+
+        System.out.println("Listener added for pillar: {}" + pillar.name());
 
         progressImage.setEffect(getImageEffect());
         return progressImage;
