@@ -12,9 +12,9 @@ import java.util.List;
 public class GameConfiguration {
     private static GameConfiguration instance;
 
+    private Monarch selectedMonarch;
     private final Map<String, Map<String, Integer>> monarchInitialValues = new HashMap<>();
     private List<Card> cards;
-    private Monarch selectedMonarch;
     private int scoreCount;
     private int yearCount;
 

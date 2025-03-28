@@ -5,12 +5,16 @@ import nl.vu.cs.ancientegyptiansgame.commands.GameSwipeCommand;
 import nl.vu.cs.ancientegyptiansgame.commands.IntroSwipeCommand;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
+import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
+
 public class SwipeHandler {
 
     private final GameStateController gameStateController;
+    private final GameView gameView;
 
-    public SwipeHandler(GameStateController gameStateController) {
+    public SwipeHandler(GameStateController gameStateController, GameView gameView) {
         this.gameStateController = gameStateController;
+        this.gameView = gameView;
     }
 
     public void onSwipe(SwipeSide side) {
@@ -18,10 +22,7 @@ public class SwipeHandler {
         if (gameStateController.isIntroPhase()) {
             command = new IntroSwipeCommand(side, gameStateController);
         } else {
-            command = new GameSwipeCommand(
-                    side,
-                    gameStateController
-            );
+            command = new GameSwipeCommand(side, gameStateController, gameView);
         }
         command.execute();
     }

@@ -2,35 +2,32 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743104463882,
+  "timestamp" : 1743178461251,
   "chosenCharacter" : "Tutankhamun"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Trade Expedition",
+  "cardTitle" : "Conscription",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1743104464866,
+  "timestamp" : 1743178462925,
   "influence" : [ {
-    "pillar" : "nobles",
-    "value" : 2
-  }, {
     "pillar" : "military",
     "value" : 2
   }, {
-    "pillar" : "military",
+    "pillar" : "farmers",
     "value" : -2
   } ],
   "yearsInPower" : 10,
   "scoreCount" : 1
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Mercenary Deal",
+  "cardTitle" : "Mystical Ritual",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743104465722,
+  "timestamp" : 1743178463632,
   "influence" : [ {
-    "pillar" : "military",
-    "value" : 1
+    "pillar" : "priests",
+    "value" : 2
   }, {
-    "pillar" : "nobles",
+    "pillar" : "farmers",
     "value" : -1
   } ],
   "yearsInPower" : 20,

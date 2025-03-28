@@ -15,9 +15,9 @@ public class GameStateController {
 
     private boolean isIntroPhase;
     private int introCardIndex = 0;
+    private final List<String> introCards;
     private Card currentCard;
     private final CardDeck cardDeck;
-    private final List<String> introCards;
     private final ScoreSettings scoreSettings;
 
     private final GameConfiguration gameConfiguration;

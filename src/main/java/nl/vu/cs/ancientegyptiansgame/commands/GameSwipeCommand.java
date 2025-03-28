@@ -22,13 +22,13 @@ public class GameSwipeCommand implements Command {
     private final HandleInfluencePillars handleInfluencePillars;
     private final GameConfiguration gameConfiguration;
 
-    public GameSwipeCommand(SwipeSide side, GameStateController gameStateController) {
+    public GameSwipeCommand(SwipeSide side, GameStateController gameStateController, GameView gameView) {
         this.side = side;
         this.card = gameStateController.getCurrentGameCard();
         this.gameStateController = gameStateController;
         this.scoreSettings = gameStateController.getScoreSettings();
         this.handleInfluencePillars = new HandleInfluencePillars();
-        this.gameView = GameView.getInstance();
+        this.gameView = gameView;
         this.gameConfiguration = GameConfiguration.getInstance();
     }
 
@@ -48,7 +48,7 @@ public class GameSwipeCommand implements Command {
         if (gameStateController.getNextCard() == null) {
             Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
             if (badEnding != null) {
-                GameView.getInstance().showEndScreen(badEnding);
+                gameView.showEndScreen(badEnding);
             }
         }
 

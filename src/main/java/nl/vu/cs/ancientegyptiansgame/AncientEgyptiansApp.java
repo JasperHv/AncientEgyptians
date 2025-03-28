@@ -16,12 +16,11 @@ import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
-
 public class AncientEgyptiansApp extends GameApplication {
     private static final Logger logger = LoggerFactory.getLogger(AncientEgyptiansApp.class);
+    private GameView gameView;
 
-
-    public static void main (String[] args){
+    public static void main(String[] args) {
         logger.info("Welcome to Software Design!");
         launch(args);
     }
@@ -32,15 +31,16 @@ public class AncientEgyptiansApp extends GameApplication {
         settings.setHeight(720);
         settings.setTitle("Ancient Egyptians");
         settings.setMainMenuEnabled(true);
-        settings.setSceneFactory(new GameSceneFactory());}
+        settings.setSceneFactory(new GameSceneFactory());
+    }
 
     @Override
     protected void initUI() {
+        gameView = new GameView();
         getGameScene().setBackgroundRepeat("background.png");
-        getGameScene().addUINodes(
-                GameView.getInstance()
-        );
+        getGameScene().addUINodes(gameView);
     }
+
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         try {
@@ -53,11 +53,10 @@ public class AncientEgyptiansApp extends GameApplication {
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
 
             gameConfig.initializeScoreAndYear(scoreConfig);
-            EndingHandler endingHandler = new EndingHandler(scoreConfig);
+            EndingHandler endingHandler = new EndingHandler(scoreConfig, gameView);  // Pass the gameView instance here
 
             ModeConfiguration config = ModeConfiguration.getInstance();
             logger.info("Mode configuration initialized successfully.");
-
 
             for (Pillar pillar : Pillar.values()) {
                 PillarData pillarData = config.getPillarData(pillar);

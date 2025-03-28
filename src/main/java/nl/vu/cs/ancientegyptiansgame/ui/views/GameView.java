@@ -30,20 +30,17 @@ public class GameView extends Parent {
     private static final double GAME_VIEW_WIDTH = FXGL.getAppWidth() / 2.5;
     private static final double GAME_VIEW_HEIGHT = FXGL.getAppHeight();
 
-    private static GameView instance;
-
     private final PillarView pillarView = new PillarView(GAME_VIEW_WIDTH, 100);
     private final CardView cardView;
     private final ScoreSettings scoreSettings;
     private final GameConfiguration gameConfiguration;
     private final SwipeHandler swipeHandler;
     private final GameFlowController gameFlowController;
+    private final GameStateController gameStateController;
 
     private Label messageLabel;
     private Label yearLabel;
     private Label scoreLabel;
-
-    GameStateController gameStateController;
 
     public GameView() {
         this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
@@ -55,17 +52,10 @@ public class GameView extends Parent {
 
         this.gameFlowController = new GameFlowController(cardView);
         this.gameStateController = gameFlowController.getGameStateManager();
-        this.swipeHandler = new SwipeHandler(gameStateController);
+        this.swipeHandler = new SwipeHandler(gameStateController, this);
 
         updateCardAndMessage();
         updateScoreAndYearBoxes();
-    }
-
-    public static GameView getInstance() {
-        if (instance == null) {
-            instance = new GameView();
-        }
-        return instance;
     }
 
     private void initView() {
