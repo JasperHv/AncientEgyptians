@@ -4,6 +4,7 @@ import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
+import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.handlers.HandleInfluencePillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
@@ -21,13 +22,13 @@ public class GameSwipeCommand implements Command {
     private final HandleInfluencePillars handleInfluencePillars;
     private final GameConfiguration gameConfiguration;
 
-    public GameSwipeCommand(SwipeSide side, GameStateController gameStateController) {
+    public GameSwipeCommand(SwipeSide side, GameStateController gameStateController, GameView gameView) {
         this.side = side;
         this.card = gameStateController.getCurrentGameCard();
         this.gameStateController = gameStateController;
         this.scoreSettings = gameStateController.getScoreSettings();
         this.handleInfluencePillars = new HandleInfluencePillars();
-        this.gameView = GameView.getInstance();
+        this.gameView = gameView;
         this.gameConfiguration = GameConfiguration.getInstance();
     }
 
@@ -44,7 +45,13 @@ public class GameSwipeCommand implements Command {
 
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
-        gameStateController.getNextCard();
+        if (gameStateController.getNextCard() == null) {
+            Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
+            if (badEnding != null) {
+                gameView.showEndScreen(badEnding);
+            }
+        }
+
         gameStateController.updateLegacyState(card.getPillar(), side);
 
         int currentScore = gameConfiguration.getScoreCount();

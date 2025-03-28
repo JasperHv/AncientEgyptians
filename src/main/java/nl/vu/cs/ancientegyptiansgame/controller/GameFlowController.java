@@ -8,7 +8,7 @@ import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.data.model.CardDeck;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.ui.views.CardView;
 
 import javafx.scene.control.Label;
@@ -94,7 +94,7 @@ public class GameFlowController {
         }
 
         String pillar = currentCard.getPillar().toLowerCase();
-        String imageName = Pillar.fromName(pillar).getCardImage();
+        String imageName = Pillars.fromName(pillar).getCardImage();
         cardView.updateCard(imageName);
         updateMessage(messageLabel, currentCard.getScenario());
     }

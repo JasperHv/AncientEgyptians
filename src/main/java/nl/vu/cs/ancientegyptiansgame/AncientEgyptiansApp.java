@@ -5,7 +5,7 @@ import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.*;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.handlers.EndingHandler;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 import nl.vu.cs.ancientegyptiansgame.ui.scenes.GameSceneFactory;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
@@ -16,12 +16,11 @@ import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
-
 public class AncientEgyptiansApp extends GameApplication {
     private static final Logger logger = LoggerFactory.getLogger(AncientEgyptiansApp.class);
+    private GameView gameView;
 
-
-    public static void main (String[] args){
+    public static void main(String[] args) {
         logger.info("Welcome to Software Design!");
         launch(args);
     }
@@ -32,15 +31,16 @@ public class AncientEgyptiansApp extends GameApplication {
         settings.setHeight(720);
         settings.setTitle("Ancient Egyptians");
         settings.setMainMenuEnabled(true);
-        settings.setSceneFactory(new GameSceneFactory());}
+        settings.setSceneFactory(new GameSceneFactory());
+    }
 
     @Override
     protected void initUI() {
+        gameView = new GameView();
         getGameScene().setBackgroundRepeat("background.png");
-        getGameScene().addUINodes(
-                GameView.getInstance()
-        );
+        getGameScene().addUINodes(gameView);
     }
+
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         try {
@@ -53,21 +53,20 @@ public class AncientEgyptiansApp extends GameApplication {
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
 
             gameConfig.initializeScoreAndYear(scoreConfig);
-            EndingHandler endingHandler = new EndingHandler(scoreConfig);
+            EndingHandler endingHandler = new EndingHandler(scoreConfig, gameView);  // Pass the gameView instance here
 
             ModeConfiguration config = ModeConfiguration.getInstance();
             logger.info("Mode configuration initialized successfully.");
 
-
-            for (Pillar pillar : Pillar.values()) {
-                PillarData pillarData = config.getPillarData(pillar);
+            for (Pillars pillars : Pillars.values()) {
+                PillarData pillarData = config.getPillarData(pillars);
                 int value = pillarData.getValue();
 
                 pillarData.addListener(endingHandler);
-                vars.put(pillar.getName().toLowerCase(), value);
+                vars.put(pillars.getName().toLowerCase(), value);
             }
         } catch (IllegalStateException e) {
-            logger.warn("ModeConfiguration not initialized yet. Pillar values will be set later.");
+            logger.warn("ModeConfiguration not initialized yet. Pillars values will be set later.");
         }
     }
 

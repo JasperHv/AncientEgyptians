@@ -4,7 +4,7 @@ import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.listeners.PillarListener;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
 
@@ -14,14 +14,14 @@ public class EndingHandler implements PillarListener {
     private final ScoreSettings scoreSettings;
     private final GameView gameView;
 
-    public EndingHandler(ScoreSettings scoreSettings) {
+    public EndingHandler(ScoreSettings scoreSettings, GameView gameView) {
         this.gameConfiguration = GameConfiguration.getInstance();
         this.scoreSettings = scoreSettings;
-        this.gameView = GameView.getInstance();
+        this.gameView = gameView;
     }
 
     @Override
-    public void changed(Pillar pillar, Integer newValue) {
+    public void changed(Pillars pillars, Integer newValue) {
         int yearCount = gameConfiguration.getYearCount();
         int threshold = scoreSettings.getScoreConfig().getYearThreshold();
 
@@ -37,7 +37,7 @@ public class EndingHandler implements PillarListener {
         if (winTriggered || gameOverTriggered) {
             Ending ending = winTriggered
                     ? ConfigurationLoader.getInstance().getGoldenAgeEnding()
-                    : pillar.getEnding();
+                    : pillars.getEnding();
 
             if (ending != null) {
                 gameView.showEndScreen(ending);

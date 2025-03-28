@@ -3,7 +3,7 @@ package nl.vu.cs.ancientegyptiansgame.config.gamesettings;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.data.model.Monarch;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.Mode;
 import nl.vu.cs.ancientegyptiansgame.exception.ConfigurationNotFoundException;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
@@ -16,7 +16,7 @@ public class ModeConfiguration {
     private static ModeConfiguration instance;
 
     private GameConfiguration gameConfig;
-    private Map<Pillar, PillarData> pillarValues;
+    private Map<Pillars, PillarData> pillarValues;
 
     private ModeConfiguration(String modeName) {
         ConfigurationLoader mainLoader = ConfigurationLoader.getInstance();
@@ -36,9 +36,9 @@ public class ModeConfiguration {
             ObjectMapper mapper = new ObjectMapper();
             gameConfig = mapper.readValue(input, GameConfiguration.class);
             GameConfiguration.setInstance(gameConfig);
-            pillarValues = new EnumMap<>(Pillar.class);
-            for (Pillar pillar : Pillar.values()) {
-                pillarValues.put(pillar, new PillarData(pillar, 1));
+            pillarValues = new EnumMap<>(Pillars.class);
+            for (Pillars pillars : Pillars.values()) {
+                pillarValues.put(pillars, new PillarData(pillars, 1));
             }
         } catch (Exception e) {
             throw new ConfigurationNotFoundException("Error loading mode config: " + e.getMessage(), e);
@@ -79,26 +79,26 @@ public class ModeConfiguration {
         String monarchName = selectedMonarch.getName();
         Map<String, Integer> initialValues = monarchInitialValues.get(monarchName);
 
-        for (Pillar pillar : Pillar.values()) {
+        for (Pillars pillars : Pillars.values()) {
             int value = (initialValues != null)
-                    ? initialValues.getOrDefault(pillar.getName().toLowerCase(), 0)
+                    ? initialValues.getOrDefault(pillars.getName().toLowerCase(), 0)
                     : 0;
 
-            if (pillarValues.containsKey(pillar)) {
-                pillarValues.get(pillar).setValue(value);
+            if (pillarValues.containsKey(pillars)) {
+                pillarValues.get(pillars).setValue(value);
             } else {
-                pillarValues.put(pillar, new PillarData(pillar, value));
+                pillarValues.put(pillars, new PillarData(pillars, value));
             }
         }
     }
 
     /**
-     * Gets the PillarData for a specific pillar.
+     * Gets the PillarData for a specific pillars.
      *
-     * @param pillar The pillar to retrieve
-     * @return The PillarData for the specified pillar
+     * @param pillars The pillars to retrieve
+     * @return The PillarData for the specified pillars
      */
-    public PillarData getPillarData(Pillar pillar) {
-        return pillarValues.get(pillar);
+    public PillarData getPillarData(Pillars pillars) {
+        return pillarValues.get(pillars);
     }
 }

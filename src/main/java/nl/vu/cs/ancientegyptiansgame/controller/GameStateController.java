@@ -3,14 +3,11 @@ package nl.vu.cs.ancientegyptiansgame.controller;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
-import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.data.model.CardDeck;
-import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
-import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
 
 import java.util.*;
 
@@ -18,9 +15,9 @@ public class GameStateController {
 
     private boolean isIntroPhase;
     private int introCardIndex = 0;
+    private final List<String> introCards;
     private Card currentCard;
     private final CardDeck cardDeck;
-    private final List<String> introCards;
     private final ScoreSettings scoreSettings;
 
     private final GameConfiguration gameConfiguration;
@@ -70,8 +67,8 @@ public class GameStateController {
         LegacyState ls = legacyStates.get(key);
         boolean isPositive = side == SwipeSide.RIGHT;
 
-        Pillar pillarEnum = Pillar.fromName(pillar);
-        PillarData pillarData = ModeConfiguration.getInstance().getPillarData(pillarEnum);
+        Pillars pillarsEnum = Pillars.fromName(pillar);
+        PillarData pillarData = ModeConfiguration.getInstance().getPillarData(pillarsEnum);
         int currentPillarValue = pillarData.getValue();
 
         if (ls == null) {
@@ -164,10 +161,6 @@ public class GameStateController {
 
     public Card getNextCard() {
         if (cardDeck.isEmpty()) {
-            Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
-            if (badEnding != null) {
-                GameView.getInstance().showEndScreen(badEnding);
-            }
             return null;
         }
         currentCard = cardDeck.drawCard();

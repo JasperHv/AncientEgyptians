@@ -13,8 +13,8 @@ import java.io.InputStream;
 import java.util.List;
 
 public class ConfigurationLoader {
-    private static final String CONFIG_PATH = "/configuration/config.json";
     private static ConfigurationLoader instance;
+    private static final String CONFIG_PATH = "/configuration/config.json";
 
     private Ending goldenAgeEnding;
     private Ending badEnding;
