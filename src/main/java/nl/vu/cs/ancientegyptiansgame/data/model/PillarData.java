@@ -8,10 +8,10 @@ import java.util.List;
 public class PillarData {
     private Integer value;
     private final List<PillarListener> listeners;
-    private final Pillar pillar;
+    private final Pillars pillars;
 
-    public PillarData(Pillar pillar, Integer initialValue) {
-        this.pillar = pillar;
+    public PillarData(Pillars pillars, Integer initialValue) {
+        this.pillars = pillars;
         this.listeners = new ArrayList<>();
         this.value = initialValue;
     }
@@ -33,7 +33,7 @@ public class PillarData {
             this.value = 100;
         }
         for (PillarListener listener : listeners) {
-            listener.changed(pillar, this.value);
+            listener.changed(pillars, this.value);
         }
     }
 }

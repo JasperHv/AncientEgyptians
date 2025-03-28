@@ -5,7 +5,7 @@ import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.*;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.handlers.EndingHandler;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 import nl.vu.cs.ancientegyptiansgame.ui.scenes.GameSceneFactory;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
@@ -58,15 +58,15 @@ public class AncientEgyptiansApp extends GameApplication {
             ModeConfiguration config = ModeConfiguration.getInstance();
             logger.info("Mode configuration initialized successfully.");
 
-            for (Pillar pillar : Pillar.values()) {
-                PillarData pillarData = config.getPillarData(pillar);
+            for (Pillars pillars : Pillars.values()) {
+                PillarData pillarData = config.getPillarData(pillars);
                 int value = pillarData.getValue();
 
                 pillarData.addListener(endingHandler);
-                vars.put(pillar.getName().toLowerCase(), value);
+                vars.put(pillars.getName().toLowerCase(), value);
             }
         } catch (IllegalStateException e) {
-            logger.warn("ModeConfiguration not initialized yet. Pillar values will be set later.");
+            logger.warn("ModeConfiguration not initialized yet. Pillars values will be set later.");
         }
     }
 

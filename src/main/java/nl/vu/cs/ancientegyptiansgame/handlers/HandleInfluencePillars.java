@@ -3,7 +3,7 @@ package nl.vu.cs.ancientegyptiansgame.handlers;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Influence;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 
 import java.util.List;
@@ -26,10 +26,10 @@ public class HandleInfluencePillars {
                 .collect(Collectors.toList());
 
         for (Influence influence : adjustedInfluences) {
-            Pillar pillarEnum = Pillar.fromName(influence.getPillar());
+            Pillars pillarsEnum = Pillars.fromName(influence.getPillar());
             int valueChange = influence.getValue();
 
-            PillarData pillarData = modeConfiguration.getPillarData(pillarEnum);
+            PillarData pillarData = modeConfiguration.getPillarData(pillarsEnum);
             int currentValue = pillarData.getValue();
             int newValue = Math.min(Math.max(currentValue + valueChange, 0), 100);
 

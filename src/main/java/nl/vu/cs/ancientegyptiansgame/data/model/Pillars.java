@@ -1,6 +1,6 @@
 package nl.vu.cs.ancientegyptiansgame.data.model;
 
-public enum Pillar {
+public enum Pillars {
     PRIESTS("priests", "priests.png", "priests-card.png", new Ending("The gods abandon us, Pharaoh! Your neglect of religious rites and offerings angers the temple priests. They declare you a false Pharaoh, and civil unrest splits Egypt into rival factions.", "endings/temple-priest-ending.png")),
     FARMERS("farmers", "farmers.png", "farmers-card.png", new Ending("The nobles rule in all but name, great Pharaoh. By granting them too much power, you create a system where they control the wealth and land. Eventually, they overthrow your rule, and Egypt fractures.", "endings/farmers-ending.png")),
     NOBLES("nobles", "nobles.png", "nobles-card.png", new Ending("The fields are empty, and the monuments crumble. Overworking the farmers and laborers breaks their spirits, leading to revolt. Egypt enters a dark age of ruin and famine.", "endings/nobles-ending.png")),
@@ -11,7 +11,7 @@ public enum Pillar {
     private final String cardImage;
     private final Ending ending;
 
-    Pillar(String name, String image, String cardImage, Ending ending) {
+    Pillars(String name, String image, String cardImage, Ending ending) {
         this.name = name;
         this.image = image;
         this.cardImage = cardImage;
@@ -23,12 +23,12 @@ public enum Pillar {
     public String getCardImage() { return cardImage; }
     public Ending getEnding() { return ending; }
 
-    public static Pillar fromName(String name) {
-        for (Pillar pillar : values()) {
-            if (pillar.getName().equalsIgnoreCase(name)) {
-                return pillar;
+    public static Pillars fromName(String name) {
+        for (Pillars pillars : values()) {
+            if (pillars.getName().equalsIgnoreCase(name)) {
+                return pillars;
             }
         }
-        throw new IllegalArgumentException("Unknown Pillar: " + name);
+        throw new IllegalArgumentException("Unknown Pillars: " + name);
     }
 }

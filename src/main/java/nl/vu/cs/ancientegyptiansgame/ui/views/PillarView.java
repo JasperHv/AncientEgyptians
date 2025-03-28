@@ -10,7 +10,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 
 import org.slf4j.Logger;
@@ -24,14 +24,14 @@ public class PillarView extends StackPane {
     private static final Logger logger = LoggerFactory.getLogger(PillarView.class);
 
     private final double height;
-    private final List<Pillar> pillars;
+    private final List<Pillars> pillars;
     private final ModeConfiguration modeConfiguration;
 
     public PillarView(double width, double height) {
         this.height = height;
         this.modeConfiguration = ModeConfiguration.getInstance();
 
-        this.pillars = List.of(Pillar.values());
+        this.pillars = List.of(Pillars.values());
 
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         setPrefSize(width, height);

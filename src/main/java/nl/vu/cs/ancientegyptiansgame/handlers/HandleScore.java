@@ -3,17 +3,17 @@ package nl.vu.cs.ancientegyptiansgame.handlers;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.BonusConfig;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 
 import java.util.List;
 
 public class HandleScore {
-    private final List<Pillar> pillars = List.of(Pillar.PRIESTS, Pillar.FARMERS, Pillar.NOBLES, Pillar.MILITARY);
+    private final List<Pillars> pillars = List.of(Pillars.PRIESTS, Pillars.FARMERS, Pillars.NOBLES, Pillars.MILITARY);
 
-    private boolean isBalanced(Pillar pillar) {
-        PillarData pillarData = ModeConfiguration.getInstance().getPillarData(pillar);
+    private boolean isBalanced(Pillars pillars) {
+        PillarData pillarData = ModeConfiguration.getInstance().getPillarData(pillars);
         int value = pillarData.getValue();
         return value >= 25 && value <= 75;
     }
