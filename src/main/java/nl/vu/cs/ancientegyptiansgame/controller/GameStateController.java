@@ -3,14 +3,11 @@ package nl.vu.cs.ancientegyptiansgame.controller;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
-import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.data.model.CardDeck;
-import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillar;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
-import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
 
 import java.util.*;
 
@@ -164,10 +161,6 @@ public class GameStateController {
 
     public Card getNextCard() {
         if (cardDeck.isEmpty()) {
-            Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
-            if (badEnding != null) {
-                GameView.getInstance().showEndScreen(badEnding);
-            }
             return null;
         }
         currentCard = cardDeck.drawCard();

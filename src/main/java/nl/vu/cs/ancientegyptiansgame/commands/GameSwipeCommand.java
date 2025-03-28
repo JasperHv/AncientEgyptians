@@ -4,6 +4,7 @@ import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
+import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.handlers.HandleInfluencePillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
@@ -44,7 +45,13 @@ public class GameSwipeCommand implements Command {
 
         gameView.updateScore();
         gameView.updateScoreAndYearBoxes();
-        gameStateController.getNextCard();
+        if (gameStateController.getNextCard() == null) {
+            Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
+            if (badEnding != null) {
+                GameView.getInstance().showEndScreen(badEnding);
+            }
+        }
+
         gameStateController.updateLegacyState(card.getPillar(), side);
 
         int currentScore = gameConfiguration.getScoreCount();
