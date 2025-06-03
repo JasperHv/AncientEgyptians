@@ -61,28 +61,12 @@ public class GameConfiguration {
         this.yearCount = scoreConfig.getInitialYearCount();
     }
 
-    public int getScoreCount() {
+    public int getInitialScoreCount() {
         return scoreCount;
     }
 
-    public void setScoreCount(int scoreCount) {
-        this.scoreCount = scoreCount;
-    }
-
-    public int getYearCount() {
+    public int getInitialYearCount() {
         return yearCount;
-    }
-
-    public void setYearCount(int yearCount) {
-        this.yearCount = yearCount;
-    }
-
-    public void incrementYearCount(int increment) {
-        this.yearCount += increment;
-    }
-
-    public void incrementScoreCount(int increment) {
-        this.scoreCount += increment;
     }
 
     public ScoreObserver getScoreObserver() {

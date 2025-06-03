@@ -56,16 +56,19 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
         this.gameStateController = gameFlowController.getGameStateManager();
         this.swipeHandler = new SwipeHandler(gameStateController, this);
 
+        var scoreObserver = gameConfiguration.getScoreObserver();
+        var yearsObserver = gameConfiguration.getYearsInPowerObserver();
 
-        gameConfiguration.getScoreObserver().addListener(this);
-        gameConfiguration.getYearsInPowerObserver().addListener(this);
+        scoreObserver.addListener(this);
+        yearsObserver.addListener(this);
 
-        // Initialize labels with current values
-        yearLabel.setText("Years in Power: " + gameConfiguration.getYearCount());
-        scoreLabel.setText("Score: " + gameConfiguration.getScoreCount());
+
+        yearLabel.setText("Years in Power: " + yearsObserver.getYearsInPower());
+        scoreLabel.setText("Score: " + scoreObserver.getScore());
 
         updateCardAndMessage();
     }
+
 
     private void initView() {
         setLayoutX((FXGL.getAppWidth() - GAME_VIEW_WIDTH) / 2);

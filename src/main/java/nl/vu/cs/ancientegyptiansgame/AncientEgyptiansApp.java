@@ -52,18 +52,10 @@ public class AncientEgyptiansApp extends GameApplication {
                 return;
             }
 
-            if (gameView == null) {
-                gameView = new GameView();
-            }
-
             GameConfiguration gameConfig = GameConfiguration.getInstance();
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
-
             ScoreObserver scoreObserver = gameConfig.getScoreObserver();
             YearsInPowerObserver yearsObserver = gameConfig.getYearsInPowerObserver();
-
-            gameConfig.initializeScoreAndYear(scoreConfig);
-            endingHandler = new EndingHandler(scoreConfig, null);
 
             // Register the gameView as a listener for score and years changes
             if (gameView == null) {
@@ -71,11 +63,11 @@ public class AncientEgyptiansApp extends GameApplication {
             } else {
                 logger.info("gameView is not null, adding as a listener to scoreObserver.");
                 scoreObserver.addListener(gameView);
+                yearsObserver.addListener(gameView);
             }
-            yearsObserver.addListener(gameView);
 
-            // Now endingHandler knows about gameView
-            endingHandler.setGameView(gameView);
+            gameConfig.initializeScoreAndYear(scoreConfig);
+            endingHandler = new EndingHandler(scoreConfig, gameView);
 
             ModeConfiguration config = ModeConfiguration.getInstance();
             logger.info("Mode configuration initialized successfully.");
@@ -88,8 +80,8 @@ public class AncientEgyptiansApp extends GameApplication {
                 vars.put(pillars.getName().toLowerCase(), value);
             }
 
-            scoreObserver.setScore(gameConfig.getScoreCount());
-            yearsObserver.setYearsInPower(gameConfig.getYearCount());
+            scoreObserver.setScore(gameConfig.getInitialScoreCount());
+            yearsObserver.setYearsInPower(gameConfig.getInitialYearCount());
         } catch (IllegalStateException e) {
             logger.warn("ModeConfiguration not initialized yet. Pillars values will be set later.");
         }
