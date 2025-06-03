@@ -36,7 +36,7 @@ public class ScoreObserver {
 
     private void notifyListeners() {
         for (ScoreListener listener : listeners) {
-            listener.changed(score);
+            listener.changedScore(score);
         }
     }
 }

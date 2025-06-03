@@ -1,11 +1,13 @@
 package nl.vu.cs.ancientegyptiansgame.handlers;
 
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.BonusConfig;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
-import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.ancientegyptiansgame.observer.ScoreObserver;
+import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 
 import java.util.List;
 
@@ -20,8 +22,11 @@ public class HandleScore {
 
     public void updateScore(ScoreSettings scoreSettings) {
         GameConfiguration gameConfiguration = GameConfiguration.getInstance();
-        int yearCount = gameConfiguration.getYearCount();
-        int currentScore = gameConfiguration.getScoreCount();
+        ScoreObserver scoreObserver = gameConfiguration.getScoreObserver();
+        YearsInPowerObserver yearsObserver = gameConfiguration.getYearsInPowerObserver();
+
+        int yearCount = yearsObserver.getYearsInPower();
+        int currentScore = scoreObserver.getScore();
 
         int scoreIncrease = scoreSettings.getBaseScoreIncrease();
 
@@ -42,6 +47,7 @@ public class HandleScore {
             scoreIncrease += bonusConfig.getBalancedBonus();
         }
 
-        gameConfiguration.setScoreCount(currentScore + scoreIncrease);
+        int newScore = currentScore + scoreIncrease;
+        scoreObserver.setScore(newScore);
     }
 }

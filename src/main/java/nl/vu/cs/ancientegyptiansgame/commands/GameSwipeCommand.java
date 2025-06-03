@@ -44,7 +44,6 @@ public class GameSwipeCommand implements Command {
         handleInfluencePillars.applyInfluence(side, card.getInfluence());
 
         gameView.updateScore();
-        gameView.updateScoreAndYearBoxes();
         if (gameStateController.getNextCard() == null) {
             Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
             if (badEnding != null) {

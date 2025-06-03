@@ -2,6 +2,7 @@ package nl.vu.cs.ancientegyptiansgame.ui.views;
 
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -24,8 +25,10 @@ import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.handlers.HandleScore;
 import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
 import nl.vu.cs.ancientegyptiansgame.controller.GameFlowController;
+import nl.vu.cs.ancientegyptiansgame.listeners.ScoreListener;
+import nl.vu.cs.ancientegyptiansgame.listeners.YearsInPowerListener; // <-- Assuming this exists
 
-public class GameView extends Parent {
+public class GameView extends Parent implements ScoreListener, YearsInPowerListener {
 
     private static final double GAME_VIEW_WIDTH = FXGL.getAppWidth() / 2.5;
     private static final double GAME_VIEW_HEIGHT = FXGL.getAppHeight();
@@ -33,7 +36,6 @@ public class GameView extends Parent {
     private final PillarView pillarView = new PillarView(GAME_VIEW_WIDTH, 100);
     private final CardView cardView;
     private final ScoreSettings scoreSettings;
-    private final GameConfiguration gameConfiguration;
     private final SwipeHandler swipeHandler;
     private final GameFlowController gameFlowController;
     private final GameStateController gameStateController;
@@ -44,7 +46,7 @@ public class GameView extends Parent {
 
     public GameView() {
         this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        this.gameConfiguration = GameConfiguration.getInstance();
+        GameConfiguration gameConfiguration = GameConfiguration.getInstance();
 
         this.cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
         initView();
@@ -54,8 +56,15 @@ public class GameView extends Parent {
         this.gameStateController = gameFlowController.getGameStateManager();
         this.swipeHandler = new SwipeHandler(gameStateController, this);
 
+
+        gameConfiguration.getScoreObserver().addListener(this);
+        gameConfiguration.getYearsInPowerObserver().addListener(this);
+
+        // Initialize labels with current values
+        yearLabel.setText("Years in Power: " + gameConfiguration.getYearCount());
+        scoreLabel.setText("Score: " + gameConfiguration.getScoreCount());
+
         updateCardAndMessage();
-        updateScoreAndYearBoxes();
     }
 
     private void initView() {
@@ -75,8 +84,8 @@ public class GameView extends Parent {
     private void initChildren() {
         var vBox = new VBox();
 
-        yearLabel = createBoxLabel("Years in Power: " + gameConfiguration.getYearCount());
-        scoreLabel = createBoxLabel("Score: " + gameConfiguration.getScoreCount());
+        yearLabel = createBoxLabel("Years in Power: 0");
+        scoreLabel = createBoxLabel("Score: 0");
 
         HBox yearBox = createBox(yearLabel);
         HBox scoreBox = createBox(scoreLabel);
@@ -118,9 +127,16 @@ public class GameView extends Parent {
         return label;
     }
 
-    public void updateScoreAndYearBoxes() {
-        yearLabel.setText("Years in Power: " + gameConfiguration.getYearCount());
-        scoreLabel.setText("Score: " + gameConfiguration.getScoreCount());
+    // ScoreListener method
+    @Override
+    public void changedScore(Integer newValue) {
+        Platform.runLater(() -> scoreLabel.setText("Score: " + newValue));
+    }
+
+    // YearsInPowerListener method
+    @Override
+    public void changedYears(Integer newValue) {
+        Platform.runLater(() -> yearLabel.setText("Years in Power: " + newValue));
     }
 
     public void updateScore() {

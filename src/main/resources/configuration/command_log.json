@@ -2,27 +2,66 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743178461251,
+  "timestamp" : 1748977943898,
   "chosenCharacter" : "Tutankhamun"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Conscription",
+  "cardTitle" : "Feast of the Fields",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1748977945699,
+  "influence" : [ {
+    "pillar" : "farmers",
+    "value" : 1
+  } ],
+  "yearsInPower" : 0,
+  "scoreCount" : 1
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Chariot Innovation",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1743178462925,
+  "timestamp" : 1748977946636,
   "influence" : [ {
     "pillar" : "military",
-    "value" : 2
+    "value" : -2
   }, {
     "pillar" : "farmers",
+    "value" : 2
+  } ],
+  "yearsInPower" : 0,
+  "scoreCount" : 2
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Warlord’s Challenge",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1748977947559,
+  "influence" : [ {
+    "pillar" : "military",
+    "value" : 1
+  }, {
+    "pillar" : "priests",
+    "value" : -1
+  } ],
+  "yearsInPower" : 0,
+  "scoreCount" : 3
+}, {
+  "commandType" : "GameSwipeCommand",
+  "cardTitle" : "Legal Dispute",
+  "swipeDirection" : "LEFT",
+  "timestamp" : 1748977948412,
+  "influence" : [ {
+    "pillar" : "nobles",
+    "value" : 1
+  }, {
+    "pillar" : "priests",
     "value" : -2
   } ],
-  "yearsInPower" : 10,
-  "scoreCount" : 1
+  "yearsInPower" : 0,
+  "scoreCount" : 4
 }, {
   "commandType" : "GameSwipeCommand",
   "cardTitle" : "Mystical Ritual",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1743178463632,
+  "timestamp" : 1748977949114,
   "influence" : [ {
     "pillar" : "priests",
     "value" : 2
@@ -30,6 +69,6 @@
     "pillar" : "farmers",
     "value" : -1
   } ],
-  "yearsInPower" : 20,
-  "scoreCount" : 2
+  "yearsInPower" : 0,
+  "scoreCount" : 5
 } ]

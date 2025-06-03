@@ -36,7 +36,7 @@ public class YearsInPowerObserver {
 
     private void notifyListeners() {
         for (YearsInPowerListener listener : listeners) {
-            listener.changed(yearsInPower);
+            listener.changedYears(yearsInPower);
         }
     }
 }

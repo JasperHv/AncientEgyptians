@@ -4,6 +4,8 @@ import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreConfig;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
 import nl.vu.cs.ancientegyptiansgame.data.model.Monarch;
+import nl.vu.cs.ancientegyptiansgame.observer.ScoreObserver;
+import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +19,8 @@ public class GameConfiguration {
     private List<Card> cards;
     private int scoreCount;
     private int yearCount;
-
+    private final ScoreObserver scoreObserver = new ScoreObserver();
+    private final YearsInPowerObserver yearsInPowerObserver = new YearsInPowerObserver();
     private GameConfiguration() {
     }
 
@@ -80,5 +83,13 @@ public class GameConfiguration {
 
     public void incrementScoreCount(int increment) {
         this.scoreCount += increment;
+    }
+
+    public ScoreObserver getScoreObserver() {
+        return scoreObserver;
+    }
+
+    public YearsInPowerObserver getYearsInPowerObserver() {
+        return yearsInPowerObserver;
     }
 }
