@@ -19,6 +19,8 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 public class AncientEgyptiansApp extends GameApplication {
     private static final Logger logger = LoggerFactory.getLogger(AncientEgyptiansApp.class);
     private GameView gameView;
+    private EndingHandler endingHandler;
+
 
     public static void main(String[] args) {
         logger.info("Welcome to Software Design!");
@@ -39,6 +41,7 @@ public class AncientEgyptiansApp extends GameApplication {
         gameView = new GameView();
         getGameScene().setBackgroundRepeat("background.png");
         getGameScene().addUINodes(gameView);
+        endingHandler.setGameView(gameView);
     }
 
     @Override
@@ -53,8 +56,7 @@ public class AncientEgyptiansApp extends GameApplication {
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
 
             gameConfig.initializeScoreAndYear(scoreConfig);
-            EndingHandler endingHandler = new EndingHandler(scoreConfig, gameView);  // Pass the gameView instance here
-
+            endingHandler = new EndingHandler(scoreConfig, null);
             ModeConfiguration config = ModeConfiguration.getInstance();
             logger.info("Mode configuration initialized successfully.");
 
