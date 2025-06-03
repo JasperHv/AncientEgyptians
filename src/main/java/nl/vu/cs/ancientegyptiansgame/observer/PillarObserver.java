@@ -1,27 +1,32 @@
 package nl.vu.cs.ancientegyptiansgame.observer;
 
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
+import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class PillarObserver {
 
-    Map<String, PillarData> pillars;
+    private final EnumMap<Pillars, PillarData> pillars;
 
     public PillarObserver() {
-        this.pillars = new HashMap<>();
+        this.pillars = new EnumMap<>(Pillars.class);
     }
 
-    public void addPillar(String name, Integer initialValue) {
-        pillars.put(name, new PillarData(initialValue));
+    public void addPillar(Pillars pillar, Integer initialValue) {
+        pillars.put(pillar, new PillarData(pillar, initialValue));
     }
 
-    public void removePillar(String name) {
-        pillars.remove(name);
+    public void removePillar(Pillars pillar) {
+        pillars.remove(pillar);
     }
 
-    public PillarData getPillarData(String name) {
-        return pillars.get(name);
+    public PillarData getPillarData(Pillars pillar) {
+        return pillars.get(pillar);
+    }
+
+    public Map<Pillars, PillarData> getAllPillars() {
+        return pillars;
     }
 }
