@@ -7,6 +7,8 @@ import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.handlers.HandleInfluencePillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
+import nl.vu.cs.ancientegyptiansgame.observer.ScoreObserver;
+import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
 import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
 import nl.vu.cs.ancientegyptiansgame.logging.CommandLogger;
@@ -34,9 +36,11 @@ public class GameSwipeCommand implements Command {
 
     @Override
     public void execute() {
-        int currentYear = gameStateController.getYearCount();
+        YearsInPowerObserver yearsObserver = gameConfiguration.getYearsInPowerObserver();
+        ScoreObserver scoreObserver = gameConfiguration.getScoreObserver();
+        int currentYear = yearsObserver.getYearsInPower();
         int newYear = currentYear + scoreSettings.getYearCountIncrease();
-        gameStateController.setYearCount(newYear);
+        yearsObserver.setYearsInPower(newYear);
 
         if (newYear >= scoreSettings.getScoreConfig().getMaximumYearCount()) {
             gameView.showEndScreen(ConfigurationLoader.getInstance().getGoldenAgeEnding());
@@ -53,8 +57,8 @@ public class GameSwipeCommand implements Command {
 
         gameStateController.updateLegacyState(card.getPillar(), side);
 
-        int currentScore = gameConfiguration.getScoreCount();
-        int currentYearCount = gameConfiguration.getYearCount();
+        int currentScore = scoreObserver.getScore();
+        int currentYearCount = yearsObserver.getYearsInPower();
 
         GameCommandLogEntry entry = new GameCommandLogEntry(
                 card.getTitle(),
