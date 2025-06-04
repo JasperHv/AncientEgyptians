@@ -7,6 +7,7 @@ import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.handlers.HandleInfluencePillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
+import nl.vu.cs.ancientegyptiansgame.handlers.HandleScore;
 import nl.vu.cs.ancientegyptiansgame.listeners.EndingListener;
 import nl.vu.cs.ancientegyptiansgame.observer.ScoreObserver;
 import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
@@ -48,6 +49,8 @@ public class GameSwipeCommand implements Command {
             }
         }
 
+        HandleScore handleScore = new HandleScore();
+        handleScore.updateScore(scoreSettings);
         handleInfluencePillars.applyInfluence(side, card.getInfluence());
 
         if (gameStateController.getNextCard() == null) {

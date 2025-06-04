@@ -1,7 +1,7 @@
 {
   "monarchInitialValues": {
     "Cleopatra": {
-      "priests": 1,
+      "priests": 50,
       "military": 40,
       "farmers": 60,
       "nobles": 50
