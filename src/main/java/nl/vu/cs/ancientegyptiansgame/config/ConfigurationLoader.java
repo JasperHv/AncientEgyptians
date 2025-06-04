@@ -10,7 +10,9 @@ import nl.vu.cs.ancientegyptiansgame.exception.ConfigurationNotFoundException;
 import nl.vu.cs.ancientegyptiansgame.exception.InvalidPillarConfigurationException;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConfigurationLoader {
     private static ConfigurationLoader instance;
@@ -18,6 +20,7 @@ public class ConfigurationLoader {
 
     private Ending goldenAgeEnding;
     private Ending badEnding;
+    private Map<String, Ending> pillarEndings = new HashMap<>();
     private ScoreSettings scoreSettings;
     private List<Mode> modes;
     private List<String> monarchs;
@@ -63,9 +66,10 @@ public class ConfigurationLoader {
         JsonNode pillarsNode = root.get("pillars");
         if (pillarsNode != null && pillarsNode.isArray()) {
             for (JsonNode pillarNode : pillarsNode) {
-                String name = pillarNode.get("name").asText().toLowerCase();
+                String name = pillarNode.get("name").asText().toUpperCase();
                 try {
-                    mapper.convertValue(pillarNode.get("ending"), Ending.class);
+                    Ending ending = mapper.convertValue(pillarNode.get("ending"), Ending.class);
+                    pillarEndings.put(name, ending);
                 } catch (IllegalArgumentException e) {
                     throw new InvalidPillarConfigurationException("Unknown pillar name in configuration: " + name, e);
                 }
@@ -79,6 +83,10 @@ public class ConfigurationLoader {
 
     public Ending getBadEnding() {
         return badEnding;
+    }
+
+    public Ending getPillarEnding(String pillarName) {
+        return pillarEndings.get(pillarName.toUpperCase());
     }
 
     public ScoreSettings getScoreSettings() {

@@ -3,6 +3,7 @@ package nl.vu.cs.ancientegyptiansgame.ui.views;
 import com.almasb.fxgl.dsl.FXGL;
 
 import com.almasb.fxgl.texture.Texture;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -93,11 +94,13 @@ public class PillarView extends StackPane {
 
         // Add a listener to update the progress image when the pillar value changes
         pillarData.addListener((updatedPillar, newValue) ->
-            adjustProgressImageSize(progressImage, newValue.doubleValue()));
+                Platform.runLater(() -> adjustProgressImageSize(progressImage, newValue.doubleValue()))
+        );
 
         progressImage.setEffect(getImageEffect());
         return progressImage;
     }
+
 
     private void adjustProgressImageSize(Texture progressImage, double progress) {
         double imageWidth = progressImage.getImage().getWidth();
