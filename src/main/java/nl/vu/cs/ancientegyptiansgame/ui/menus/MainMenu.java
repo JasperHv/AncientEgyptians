@@ -73,6 +73,13 @@ public class MainMenu extends FXGLMenu {
         message.setTranslateX((double) 1280 / 2 - 680);
         message.setTranslateY(0);
 
+        Button btnVeryEasy = new Button("Very Easy");
+        btnVeryEasy.setPrefWidth(200);
+        btnVeryEasy.setOnAction(e -> {
+            ModeConfiguration.initialize("Very Easy Mode");
+            FXGL.getGameController().startNewGame();
+        });
+
         Button btnEasy = new Button("Easy");
         btnEasy.setPrefWidth(200);
         btnEasy.setOnAction(e -> {
@@ -94,7 +101,14 @@ public class MainMenu extends FXGLMenu {
             FXGL.getGameController().startNewGame();
         });
 
-        modeBox.getChildren().addAll(message, btnEasy, btnMedium, btnHard);
+        Button btnVeryHard = new Button("Very Hard");
+        btnVeryHard.setPrefWidth(200);
+        btnVeryHard.setOnAction(e -> {
+            ModeConfiguration.initialize("Very Hard Mode");
+            FXGL.getGameController().startNewGame();
+        });
+
+        modeBox.getChildren().addAll(message, btnVeryEasy,btnEasy, btnMedium, btnHard, btnVeryHard);
         getContentRoot().getChildren().add(modeBox);
     }
 }

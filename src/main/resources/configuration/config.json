@@ -1,18 +1,24 @@
 {
   "modes": [
     {
-      "name": "Hard Mode",
-      "configPath": "configuration/modes/hard.json"
-
+      "name": "Very Easy Mode",
+      "configPath": "configuration/modes/easy.json"
+    },
+    {
+      "name": "Easy Mode",
+      "configPath": "configuration/modes/easy.json"
     },
     {
       "name": "Normal Mode",
       "configPath": "configuration/modes/normal.json"
     },
     {
-      "name": "Easy Mode",
-      "configPath": "configuration/modes/easy.json"
-
+      "name": "Hard Mode",
+      "configPath": "configuration/modes/hard.json"
+    },
+    {
+      "name": "Very Hard Mode",
+      "configPath": "configuration/modes/hard.json"
     }
   ],
   "monarchs": ["Cleopatra", "Tutankhamun"],
