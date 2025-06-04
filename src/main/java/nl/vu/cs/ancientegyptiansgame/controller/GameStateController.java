@@ -178,11 +178,4 @@ public class GameStateController {
         return scoreSettings;
     }
 
-    public int getYearCount() {
-        return gameConfiguration.getYearCount();
-    }
-
-    public void setYearCount(int newYearCount) {
-        gameConfiguration.setYearCount(newYearCount);
-    }
 }

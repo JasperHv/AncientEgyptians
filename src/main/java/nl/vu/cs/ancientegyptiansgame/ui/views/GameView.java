@@ -2,6 +2,7 @@ package nl.vu.cs.ancientegyptiansgame.ui.views;
 
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import nl.vu.cs.ancientegyptiansgame.handlers.EndingHandler;
 import nl.vu.cs.ancientegyptiansgame.handlers.SwipeHandler;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
@@ -24,8 +26,11 @@ import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.handlers.HandleScore;
 import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
 import nl.vu.cs.ancientegyptiansgame.controller.GameFlowController;
+import nl.vu.cs.ancientegyptiansgame.listeners.EndingListener;
+import nl.vu.cs.ancientegyptiansgame.listeners.ScoreListener;
+import nl.vu.cs.ancientegyptiansgame.listeners.YearsInPowerListener;
 
-public class GameView extends Parent {
+public class GameView extends Parent implements ScoreListener, YearsInPowerListener, EndingListener {
 
     private static final double GAME_VIEW_WIDTH = FXGL.getAppWidth() / 2.5;
     private static final double GAME_VIEW_HEIGHT = FXGL.getAppHeight();
@@ -33,7 +38,6 @@ public class GameView extends Parent {
     private final PillarView pillarView = new PillarView(GAME_VIEW_WIDTH, 100);
     private final CardView cardView;
     private final ScoreSettings scoreSettings;
-    private final GameConfiguration gameConfiguration;
     private final SwipeHandler swipeHandler;
     private final GameFlowController gameFlowController;
     private final GameStateController gameStateController;
@@ -44,7 +48,7 @@ public class GameView extends Parent {
 
     public GameView() {
         this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        this.gameConfiguration = GameConfiguration.getInstance();
+        GameConfiguration gameConfiguration = GameConfiguration.getInstance();
 
         this.cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
         initView();
@@ -53,9 +57,18 @@ public class GameView extends Parent {
         this.gameFlowController = new GameFlowController(cardView);
         this.gameStateController = gameFlowController.getGameStateManager();
         this.swipeHandler = new SwipeHandler(gameStateController, this);
+        new EndingHandler(scoreSettings, this);
+
+        var scoreObserver = gameConfiguration.getScoreObserver();
+        var yearsObserver = gameConfiguration.getYearsInPowerObserver();
+
+        scoreObserver.addListener(this);
+        yearsObserver.addListener(this);
+
+        yearLabel.setText("Years in Power: " + yearsObserver.getYearsInPower());
+        scoreLabel.setText("Score: " + scoreObserver.getScore());
 
         updateCardAndMessage();
-        updateScoreAndYearBoxes();
     }
 
     private void initView() {
@@ -75,8 +88,8 @@ public class GameView extends Parent {
     private void initChildren() {
         var vBox = new VBox();
 
-        yearLabel = createBoxLabel("Years in Power: " + gameConfiguration.getYearCount());
-        scoreLabel = createBoxLabel("Score: " + gameConfiguration.getScoreCount());
+        yearLabel = createBoxLabel("Years in Power: 0");
+        scoreLabel = createBoxLabel("Score: 0");
 
         HBox yearBox = createBox(yearLabel);
         HBox scoreBox = createBox(scoreLabel);
@@ -118,14 +131,19 @@ public class GameView extends Parent {
         return label;
     }
 
-    public void updateScoreAndYearBoxes() {
-        yearLabel.setText("Years in Power: " + gameConfiguration.getYearCount());
-        scoreLabel.setText("Score: " + gameConfiguration.getScoreCount());
+    @Override
+    public void changedScore(Integer newValue) {
+        Platform.runLater(() -> scoreLabel.setText("Score: " + newValue));
     }
 
-    public void updateScore() {
-        HandleScore handleScore = new HandleScore();
-        handleScore.updateScore(scoreSettings);
+    @Override
+    public void changedYears(Integer newValue) {
+        Platform.runLater(() -> yearLabel.setText("Years in Power: " + newValue));
+    }
+
+    @Override
+    public void onEndingTriggered(Ending ending) {
+        Platform.runLater(() -> showEndScreen(ending));
     }
 
     public void updateCardAndMessage() {
