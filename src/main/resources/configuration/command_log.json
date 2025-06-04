@@ -1,35 +1,7 @@
 [ {
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1743178461251,
-  "chosenCharacter" : "Tutankhamun"
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Conscription",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1743178462925,
-  "influence" : [ {
-    "pillar" : "military",
-    "value" : 2
-  }, {
-    "pillar" : "farmers",
-    "value" : -2
-  } ],
-  "yearsInPower" : 10,
-  "scoreCount" : 1
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Mystical Ritual",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1743178463632,
-  "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
-  }, {
-    "pillar" : "farmers",
-    "value" : -1
-  } ],
-  "yearsInPower" : 20,
-  "scoreCount" : 2
+  "timestamp" : 1749048622260,
+  "chosenCharacter" : "Cleopatra"
 } ]

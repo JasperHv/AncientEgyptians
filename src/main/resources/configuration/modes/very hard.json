@@ -1,23 +1,23 @@
 {
   "monarchInitialValues": {
     "Cleopatra": {
-      "priests": 50,
-      "military": 40,
-      "farmers": 60,
-      "nobles": 50
+      "priests": 30,
+      "military": 20,
+      "farmers": 40,
+      "nobles": 30
     },
     "Tutankhamun": {
-      "priests": 50,
-      "military": 60,
-      "farmers": 40,
-      "nobles": 50
+      "priests": 30,
+      "military": 40,
+      "farmers": 20,
+      "nobles": 30
     }
   },
   "cards": [
     {
       "id": 1,
       "title": "Divine Harvest",
-      "scenario": "Priests claim the gods will bless this year’s crops. Shall we offer gifts to the temple?",
+      "scenario": "Priests claim the gods will bless this year's crops. Shall we offer gifts to the temple?",
       "pillar": "priests",
       "type": "standard",
       "influence": [
@@ -25,7 +25,7 @@
         { "pillar": "farmers", "value": 1 },
         { "pillar": "nobles", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 2,
@@ -37,7 +37,7 @@
         { "pillar": "priests", "value": 2 },
         { "pillar": "military", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 3,
@@ -49,19 +49,19 @@
         { "pillar": "priests", "value": 2 },
         { "pillar": "nobles", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 4,
-      "title": "Oracle’s Vision",
-      "scenario": "A revered oracle prophesies a glorious destiny—if you heed the gods’ demands. Do you listen?",
+      "title": "Oracle's Vision",
+      "scenario": "A revered oracle prophesies a glorious destiny—if you heed the gods' demands. Do you listen?",
       "pillar": "priests",
       "type": "standard",
       "influence": [
         { "pillar": "priests", "value": 2 },
         { "pillar": "nobles", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 5,
@@ -73,7 +73,7 @@
         { "pillar": "priests", "value": 2 },
         { "pillar": "nobles", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 6,
@@ -85,7 +85,7 @@
         { "pillar": "priests", "value": 2 },
         { "pillar": "farmers", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 7,
@@ -97,29 +97,29 @@
         { "pillar": "priests", "value": 2 },
         { "pillar": "nobles", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 8,
       "title": "Eternal Blessing",
-      "scenario": "Your unwavering devotion has earned the gods’ everlasting favor.",
+      "scenario": "Your unwavering devotion has earned the gods' everlasting favor.",
       "pillar": "priests",
       "type": "legacy",
       "influence": [
         { "pillar": "priests", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 9,
       "title": "Divine Edict",
-      "scenario": "A holy decree cements the temple’s authority for generations.",
+      "scenario": "A holy decree cements the temple's authority for generations.",
       "pillar": "priests",
       "type": "legacy",
       "influence": [
         { "pillar": "priests", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 10,
@@ -130,7 +130,7 @@
       "influence": [
         { "pillar": "priests", "value": 1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 11,
@@ -142,7 +142,7 @@
         { "pillar": "nobles", "value": 2 },
         { "pillar": "military", "value": -2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 12,
@@ -154,7 +154,7 @@
         { "pillar": "nobles", "value": 2 },
         { "pillar": "farmers", "value": -2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 13,
@@ -167,7 +167,7 @@
         { "pillar": "military", "value": 2 },
         { "pillar": "military", "value": -2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 14,
@@ -179,7 +179,7 @@
         { "pillar": "nobles", "value": 1 },
         { "pillar": "priests", "value": -2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 15,
@@ -191,7 +191,7 @@
         { "pillar": "nobles", "value": 2 },
         { "pillar": "farmers", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 16,
@@ -203,19 +203,19 @@
         { "pillar": "military", "value": 2 },
         { "pillar": "nobles", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 17,
       "title": "Marriage Alliance",
-      "scenario": "A powerful noble offers their child’s hand in marriage to cement alliances. Accept?",
+      "scenario": "A powerful noble offers their child's hand in marriage to cement alliances. Accept?",
       "pillar": "nobles",
       "type": "standard",
       "influence": [
         { "pillar": "nobles", "value": 2 },
         { "pillar": "priests", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 18,
@@ -226,7 +226,7 @@
       "influence": [
         { "pillar": "nobles", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 19,
@@ -237,7 +237,7 @@
       "influence": [
         { "pillar": "nobles", "value": 1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 20,
@@ -248,7 +248,7 @@
       "influence": [
         { "pillar": "nobles", "value": 4 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 21,
@@ -260,7 +260,7 @@
         { "pillar": "military", "value": 1 },
         { "pillar": "farmers", "value": 1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 22,
@@ -272,11 +272,11 @@
         { "pillar": "military", "value": 2 },
         { "pillar": "farmers", "value": -2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 23,
-      "title": "Warlord’s Challenge",
+      "title": "Warlord's Challenge",
       "scenario": "A rising general questions your rule. Will you confront him personally?",
       "pillar": "military",
       "type": "standard",
@@ -284,7 +284,7 @@
         { "pillar": "military", "value": 1 },
         { "pillar": "priests", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 24,
@@ -296,7 +296,7 @@
         { "pillar": "military", "value": -2 },
         { "pillar": "farmers", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 25,
@@ -308,7 +308,7 @@
         { "pillar": "military", "value": 1 },
         { "pillar": "nobles", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 26,
@@ -320,7 +320,7 @@
         { "pillar": "military", "value": 2 },
         { "pillar": "farmers", "value": -2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 27,
@@ -332,18 +332,18 @@
         { "pillar": "military", "value": 2 },
         { "pillar": "priests", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 28,
       "title": "Imperial Command",
-      "scenario": "Your leadership cements the army’s loyalty, securing stability across future reigns.",
+      "scenario": "Your leadership cements the army's loyalty, securing stability across future reigns.",
       "pillar": "military",
       "type": "legacy",
       "influence": [
         { "pillar": "military", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 29,
@@ -354,7 +354,7 @@
       "influence": [
         { "pillar": "military", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 30,
@@ -365,7 +365,7 @@
       "influence": [
         { "pillar": "military", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 31,
@@ -377,7 +377,7 @@
         { "pillar": "priests", "value": 1 },
         { "pillar": "farmers", "value": -1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 32,
@@ -388,7 +388,7 @@
       "influence": [
         { "pillar": "farmers", "value": 4 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 33,
@@ -400,7 +400,7 @@
         { "pillar": "farmers", "value": 2 },
         { "pillar": "military", "value": -2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 34,
@@ -411,18 +411,18 @@
       "influence": [
         { "pillar": "farmers", "value": 1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 35,
-      "title": "Worker’s Day",
+      "title": "Worker's Day",
       "scenario": "A petition calls for an official holiday celebrating laborers. Will you declare it?",
       "pillar": "farmers",
       "type": "standard",
       "influence": [
         { "pillar": "farmers", "value": 3 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 36,
@@ -433,7 +433,7 @@
       "influence": [
         { "pillar": "farmers", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 37,
@@ -444,7 +444,7 @@
       "influence": [
         { "pillar": "farmers", "value": 1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 38,
@@ -455,7 +455,7 @@
       "influence": [
         { "pillar": "farmers", "value": 2 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 39,
@@ -466,7 +466,7 @@
       "influence": [
         { "pillar": "farmers", "value": 1 }
       ],
-      "frequency": 2
+      "frequency": 1
     },
     {
       "id": 40,
@@ -477,7 +477,7 @@
       "influence": [
         { "pillar": "farmers", "value": 3 }
       ],
-      "frequency": 2
+      "frequency": 1
     }
   ]
 }
