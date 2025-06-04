@@ -16,14 +16,29 @@ public class PillarData {
         this.value = initialValue;
     }
 
+    /****
+     * Registers a listener to be notified when the pillar's value changes.
+     *
+     * @param listener the listener to add for value change notifications
+     */
     public void addListener(PillarListener listener) {
         listeners.add(listener);
     }
 
+    /****
+     * Increases the current value by the specified increment, clamping the result between 0 and 100.
+     *
+     * @param increment the amount to add to the current value
+     */
     public void increaseValue(Integer increment) {
         setValue(value + increment);
     }
 
+    /**
+     * Returns the current value of the pillar.
+     *
+     * @return the current integer value representing the pillar's state
+     */
     public Integer getValue() {
         return value;
     }

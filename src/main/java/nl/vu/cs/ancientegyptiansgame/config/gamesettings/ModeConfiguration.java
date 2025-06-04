@@ -18,6 +18,14 @@ public class ModeConfiguration {
     private GameConfiguration gameConfig;
     private final PillarObserver pillarObserver;
 
+    /**
+     * Constructs a ModeConfiguration for the specified game mode.
+     *
+     * Initializes the pillar observer and loads the game configuration for the given mode name.
+     * Throws a RuntimeException if the mode name does not match any available mode.
+     *
+     * @param modeName the name of the game mode to load
+     */
     private ModeConfiguration(String modeName) {
         this.pillarObserver = new PillarObserver();
         ConfigurationLoader mainLoader = ConfigurationLoader.getInstance();
@@ -30,6 +38,12 @@ public class ModeConfiguration {
         loadModeConfig(selectedMode.getConfigPath());
     }
 
+    /**
+     * Loads the game mode configuration from the specified resource path and initializes default pillar values.
+     *
+     * @param modeConfigPath the resource path to the mode configuration JSON file
+     * @throws ConfigurationNotFoundException if the configuration file is missing or cannot be loaded
+     */
     private void loadModeConfig(String modeConfigPath) {
         try (InputStream input = getClass().getResourceAsStream("/" + modeConfigPath)) {
             if (input == null) {
@@ -50,12 +64,25 @@ public class ModeConfiguration {
         }
     }
 
+    /****
+     * Initializes the singleton ModeConfiguration instance for the specified game mode.
+     *
+     * If the instance has already been initialized, this method does nothing.
+     *
+     * @param modeName the name of the game mode to load configuration for
+     */
     public static void initialize(String modeName) {
         if (instance == null) {
             instance = new ModeConfiguration(modeName);
         }
     }
 
+    /**
+     * Returns the singleton instance of ModeConfiguration.
+     *
+     * @return the ModeConfiguration instance
+     * @throws IllegalStateException if initialize(String modeName) has not been called prior to this method
+     */
     public static ModeConfiguration getInstance() {
         if (instance == null) {
             throw new IllegalStateException("ModeConfiguration not initialized. Call initialize(modeName) first.");
@@ -63,6 +90,11 @@ public class ModeConfiguration {
         return instance;
     }
 
+    /**
+     * Updates all pillar values in the observer based on the selected monarch's initial values.
+     *
+     * @throws IllegalStateException if no monarch is selected in the game configuration.
+     */
     public void updatePillarValues() {
         Monarch selectedMonarch = gameConfig.getSelectedMonarch();
         if (selectedMonarch == null) {
@@ -87,10 +119,21 @@ public class ModeConfiguration {
         }
     }
 
+    /**
+     * Retrieves the data associated with the specified pillar.
+     *
+     * @param pillar the pillar whose data is to be retrieved
+     * @return the PillarData for the given pillar, or null if the pillar does not exist
+     */
     public PillarData getPillarData(Pillars pillar) {
         return pillarObserver.getPillarData(pillar);
     }
 
+    /**
+     * Returns the PillarObserver instance managing pillar data for the current game mode.
+     *
+     * @return the PillarObserver associated with this configuration
+     */
     public PillarObserver getPillarObserver() {
         return pillarObserver;
     }

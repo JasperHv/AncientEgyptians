@@ -62,6 +62,13 @@ public class ConfigurationLoader {
         }
     }
 
+    /**
+     * Loads and processes pillar endings from the configuration JSON, mapping each pillar's uppercase name to its corresponding Ending object.
+     *
+     * @param mapper the ObjectMapper used for JSON deserialization
+     * @param root the root JsonNode of the configuration file
+     * @throws InvalidPillarConfigurationException if a pillar name is unknown or deserialization fails
+     */
     private void loadPillarEndings(ObjectMapper mapper, JsonNode root) {
         JsonNode pillarsNode = root.get("pillars");
         if (pillarsNode != null && pillarsNode.isArray()) {
@@ -81,14 +88,30 @@ public class ConfigurationLoader {
         return goldenAgeEnding;
     }
 
+    /**
+     * Returns the game's bad ending configuration.
+     *
+     * @return the Ending object representing the bad ending
+     */
     public Ending getBadEnding() {
         return badEnding;
     }
 
+    /**
+     * Retrieves the ending associated with the specified pillar.
+     *
+     * @param pillarName the name of the pillar (case-insensitive)
+     * @return the Ending object for the given pillar, or null if not found
+     */
     public Ending getPillarEnding(String pillarName) {
         return pillarEndings.get(pillarName.toUpperCase());
     }
 
+    /**
+     * Returns the game's scoring configuration settings.
+     *
+     * @return the current ScoreSettings object
+     */
     public ScoreSettings getScoreSettings() {
         return scoreSettings;
     }

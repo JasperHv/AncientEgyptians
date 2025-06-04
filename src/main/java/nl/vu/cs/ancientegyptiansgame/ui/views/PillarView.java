@@ -86,6 +86,15 @@ public class PillarView extends StackPane {
         return colorAdjust;
     }
 
+    /**
+     * Creates a texture representing the progress state of a pillar, updating its visible portion as the pillar's value changes.
+     *
+     * The returned texture visually reflects the current progress of the given pillar by displaying only the corresponding portion of the original image. The progress image automatically updates in response to changes in the pillar's value.
+     *
+     * @param originalImage the base texture for the pillar
+     * @param pillarData the data source providing the current progress value
+     * @return a texture showing the progress state of the pillar
+     */
     private Texture generateProgressImage(Texture originalImage, PillarData pillarData) {
         var progressImage = originalImage.copy();
 
@@ -102,6 +111,12 @@ public class PillarView extends StackPane {
     }
 
 
+    /**
+     * Adjusts the visible portion and display height of a progress image to reflect the given progress percentage.
+     *
+     * @param progressImage the texture representing the progress overlay
+     * @param progress the progress value as a percentage (0–100)
+     */
     private void adjustProgressImageSize(Texture progressImage, double progress) {
         double imageWidth = progressImage.getImage().getWidth();
         double imageHeight = progressImage.getImage().getHeight();

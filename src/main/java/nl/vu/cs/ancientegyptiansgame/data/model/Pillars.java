@@ -1,4 +1,4 @@
-    package nl.vu.cs.ancientegyptiansgame.data.model;
+package nl.vu.cs.ancientegyptiansgame.data.model;
 
     public enum Pillars {
         PRIESTS("priests", "priests.png", "priests-card.png", new Ending("The gods abandon us, Pharaoh! Your neglect of religious rites and offerings angers the temple priests. They declare you a false Pharaoh, and civil unrest splits Egypt into rival factions.", "endings/temple-priest-ending.png")),
@@ -11,6 +11,14 @@
         private final String cardImage;
         private final Ending ending;
 
+        /****
+         * Constructs a Pillars enum constant with the specified name, image, card image, and ending scenario.
+         *
+         * @param name the identifier for the pillar
+         * @param image the filename of the pillar's main image
+         * @param cardImage the filename of the pillar's card image
+         * @param ending the ending scenario associated with the pillar
+         */
         Pillars(String name, String image, String cardImage, Ending ending) {
             this.name = name;
             this.image = image;
@@ -18,11 +26,38 @@
             this.ending = ending;
         }
 
-        public String getName() { return name; }
-        public String getImage() { return image; }
-        public String getCardImage() { return cardImage; }
-        public Ending getEnding() { return ending; }
+        /****
+ * Returns the string identifier associated with this pillar.
+ *
+ * @return the name of the pillar
+ */
+public String getName() { return name; }
+        /**
+ * Returns the filename of the image associated with this pillar.
+ *
+ * @return the image filename for this pillar
+ */
+public String getImage() { return image; }
+        /**
+ * Returns the filename of the card image associated with this pillar.
+ *
+ * @return the card image filename
+ */
+public String getCardImage() { return cardImage; }
+        /**
+ * Returns the ending scenario associated with this pillar.
+ *
+ * @return the Ending object representing the narrative and image for this pillar's game ending
+ */
+public Ending getEnding() { return ending; }
 
+        /**
+         * Returns the Pillars enum constant that matches the given name, ignoring case.
+         *
+         * @param name the name of the pillar to look up
+         * @return the corresponding Pillars enum constant
+         * @throws IllegalArgumentException if no pillar with the specified name exists
+         */
         public static Pillars fromName(String name) {
             for (Pillars pillars : values()) {
                 if (pillars.getName().equalsIgnoreCase(name)) {

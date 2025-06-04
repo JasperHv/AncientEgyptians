@@ -2,6 +2,11 @@ package nl.vu.cs.ancientegyptiansgame.listeners;
 
 public interface ScoreListener {
 
-    void changedScore(Integer newValue);
+    /****
+ * Called when the score changes.
+ *
+ * @param newValue the updated score value
+ */
+void changedScore(Integer newValue);
 
 }

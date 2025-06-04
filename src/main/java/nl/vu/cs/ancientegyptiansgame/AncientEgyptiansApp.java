@@ -29,6 +29,11 @@ public class AncientEgyptiansApp extends GameApplication {
         launch(args);
     }
 
+    /**
+     * Configures the initial game window settings, including size, title, main menu, and scene factory.
+     *
+     * @param settings the game settings to initialize
+     */
     @Override
     protected void initSettings(GameSettings settings) {
         settings.setWidth(1280);
@@ -38,6 +43,13 @@ public class AncientEgyptiansApp extends GameApplication {
         settings.setSceneFactory(new GameSceneFactory());
     }
 
+    /**
+     * Initializes core game variables and components, including the game view, configuration, observers, and initial values for game pillars, score, and years in power.
+     *
+     * If the required mode configuration is not initialized, logs an error and skips further setup. Sets up listeners for score, years in power, and pillar data to enable game state updates and ending handling.
+     *
+     * @param vars a map to store initial values for each game pillar, keyed by pillar name in lowercase
+     */
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         try {
@@ -79,6 +91,11 @@ public class AncientEgyptiansApp extends GameApplication {
         }
     }
 
+    /**
+     * Sets the game scene background and adds the game view to the UI if initialized.
+     *
+     * Logs an error if the game view is unexpectedly null.
+     */
     @Override
     protected void initUI() {
         getGameScene().setBackgroundRepeat("background.png");

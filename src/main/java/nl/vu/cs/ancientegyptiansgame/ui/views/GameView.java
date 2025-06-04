@@ -46,6 +46,11 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
     private Label yearLabel;
     private Label scoreLabel;
 
+    /**
+     * Constructs the main game view, initializing UI components, controllers, and event listeners for score, years in power, and game ending updates.
+     *
+     * Sets up the card view, message display, and handlers for swipe and ending events. Registers listeners to update the UI in response to changes in game state and initializes the display with current score and years in power.
+     */
     public GameView() {
         this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
         GameConfiguration gameConfiguration = GameConfiguration.getInstance();
@@ -71,6 +76,11 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
         updateCardAndMessage();
     }
 
+    /**
+     * Initializes the main game view's layout and background border.
+     *
+     * Sets the position of the view and adds a semi-transparent, rounded rectangle as the background border.
+     */
     private void initView() {
         setLayoutX((FXGL.getAppWidth() - GAME_VIEW_WIDTH) / 2);
         setLayoutY(0);
@@ -85,6 +95,9 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
         getChildren().add(border);
     }
 
+    /**
+     * Initializes and arranges the main UI components of the game view, including labels for years in power and score, the pillar view, message display, and card view.
+     */
     private void initChildren() {
         var vBox = new VBox();
 
@@ -124,6 +137,12 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
         return box;
     }
 
+    /**
+     * Creates a styled label with bold Arial font and white text color for use in UI boxes.
+     *
+     * @param text the text to display in the label
+     * @return a label with the specified text and predefined styling
+     */
     private Label createBoxLabel(String text) {
         Label label = new Label(text);
         label.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -131,21 +150,41 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
         return label;
     }
 
+    /**
+     * Updates the score label with the new score value on the JavaFX application thread.
+     *
+     * @param newValue the updated score to display
+     */
     @Override
     public void changedScore(Integer newValue) {
         Platform.runLater(() -> scoreLabel.setText("Score: " + newValue));
     }
 
+    /**
+     * Updates the years-in-power label to reflect the new value.
+     *
+     * @param newValue the updated number of years in power
+     */
     @Override
     public void changedYears(Integer newValue) {
         Platform.runLater(() -> yearLabel.setText("Years in Power: " + newValue));
     }
 
+    /**
+     * Handles the event when a game ending is triggered by displaying the end screen with the provided ending details.
+     *
+     * @param ending the ending to be displayed on the end screen
+     */
     @Override
     public void onEndingTriggered(Ending ending) {
         Platform.runLater(() -> showEndScreen(ending));
     }
 
+    /**
+     * Updates the displayed card and message based on the current game phase.
+     *
+     * If the game is in the intro phase, shows the introductory message; otherwise, updates the message for the active game phase.
+     */
     public void updateCardAndMessage() {
         if (gameStateController.isIntroPhase()) {
             gameFlowController.handleIntroPhase(messageLabel);

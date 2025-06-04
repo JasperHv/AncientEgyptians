@@ -20,6 +20,14 @@ public class HandleScore {
         return value >= 25 && value <= 75;
     }
 
+    /**
+     * Updates the game score based on the current years in power, configured thresholds, and pillar balance.
+     *
+     * Calculates the score increase using the base score, applies additional bonuses for surpassing configured year thresholds,
+     * and adds a bonus if all pillars are balanced. The updated score is set via the ScoreObserver.
+     *
+     * @param scoreSettings the configuration containing base score increase, bonus thresholds, and pillar balance bonus
+     */
     public void updateScore(ScoreSettings scoreSettings) {
         GameConfiguration gameConfiguration = GameConfiguration.getInstance();
         ScoreObserver scoreObserver = gameConfiguration.getScoreObserver();

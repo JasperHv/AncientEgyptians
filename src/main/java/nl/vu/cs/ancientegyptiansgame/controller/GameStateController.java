@@ -174,6 +174,11 @@ public class GameStateController {
         return currentCard;
     }
 
+    /**
+     * Returns the current score settings for the game.
+     *
+     * @return the ScoreSettings instance used by the game
+     */
     public ScoreSettings getScoreSettings() {
         return scoreSettings;
     }

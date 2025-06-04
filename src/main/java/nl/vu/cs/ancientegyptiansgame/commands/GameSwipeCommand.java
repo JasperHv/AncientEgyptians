@@ -25,6 +25,13 @@ public class GameSwipeCommand implements Command {
     private final GameConfiguration gameConfiguration;
     private final EndingListener endingListener;
 
+    /**
+     * Constructs a GameSwipeCommand to handle a player's swipe action in the game.
+     *
+     * @param side the direction of the swipe
+     * @param gameStateController the controller managing the current game state
+     * @param listener the listener to handle game ending events
+     */
     public GameSwipeCommand(SwipeSide side, GameStateController gameStateController, EndingListener listener) {
         this.side = side;
         this.card = gameStateController.getCurrentGameCard();
@@ -35,6 +42,11 @@ public class GameSwipeCommand implements Command {
         this.endingListener = listener;
     }
 
+    /**
+     * Executes the swipe command, updating the game's year, score, and pillar influences, and triggers game endings if conditions are met.
+     *
+     * Increments the years in power and updates the score based on the current card and swipe direction. Applies influence effects to pillars, checks for game-ending conditions (such as reaching the maximum year count or running out of cards), and notifies the ending listener if an ending is triggered. Logs the command execution details.
+     */
     @Override
     public void execute() {
         YearsInPowerObserver yearsObserver = gameConfiguration.getYearsInPowerObserver();

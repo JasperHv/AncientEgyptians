@@ -15,12 +15,26 @@ public class EndingHandler implements PillarListener {
     private final ScoreSettings scoreSettings;
     private final EndingListener endingListener;
 
+    /****
+     * Constructs an EndingHandler with the specified score settings and ending listener.
+     *
+     * @param scoreSettings the score settings used to determine ending conditions
+     * @param endingListener the listener to notify when an ending is triggered
+     */
     public EndingHandler(ScoreSettings scoreSettings, EndingListener endingListener) {
         this.gameConfiguration = GameConfiguration.getInstance();
         this.scoreSettings = scoreSettings;
         this.endingListener = endingListener;
     }
 
+    /**
+     * Evaluates pillar value changes to determine if a game ending condition is met and triggers the appropriate ending event.
+     *
+     * If a pillar value reaches 0, a game over is triggered. If a pillar value reaches 100 and the years in power meet or exceed the configured threshold, a win is triggered. In either case, notifies the registered ending listener with the corresponding ending.
+     *
+     * @param pillars the pillars whose value has changed
+     * @param newValue the updated value of the pillar
+     */
     @Override
     public void changed(Pillars pillars, Integer newValue) {
         YearsInPowerObserver yearsObserver = gameConfiguration.getYearsInPowerObserver();
