@@ -10,7 +10,7 @@
       "priests": 50,
       "military": 60,
       "farmers": 40,
-      "nobles": 99
+      "nobles": 50
     }
   },
   "cards": [
@@ -164,6 +164,7 @@
       "type": "standard",
       "influence": [
         { "pillar": "nobles", "value": 2 },
+        { "pillar": "military", "value": 2 },
         { "pillar": "military", "value": -2 }
       ],
       "frequency": 3

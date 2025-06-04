@@ -5,24 +5,20 @@ import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
+import nl.vu.cs.ancientegyptiansgame.listeners.EndingListener;
 import nl.vu.cs.ancientegyptiansgame.listeners.PillarListener;
 import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
-import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
 
 public class EndingHandler implements PillarListener {
 
     private final GameConfiguration gameConfiguration;
     private final ScoreSettings scoreSettings;
-    private GameView gameView;
+    private final EndingListener endingListener;
 
-    public EndingHandler(ScoreSettings scoreSettings, GameView gameView) {
+    public EndingHandler(ScoreSettings scoreSettings, EndingListener endingListener) {
         this.gameConfiguration = GameConfiguration.getInstance();
         this.scoreSettings = scoreSettings;
-        this.gameView = gameView;
-    }
-
-    public void setGameView(GameView view) {
-        this.gameView = view;
+        this.endingListener = endingListener;
     }
 
     @Override
@@ -45,8 +41,8 @@ public class EndingHandler implements PillarListener {
                     ? ConfigurationLoader.getInstance().getGoldenAgeEnding()
                     : pillars.getEnding();
 
-            if (ending != null) {
-                gameView.showEndScreen(ending);
+            if (ending != null && endingListener != null) {
+                endingListener.onEndingTriggered(ending);
             }
         }
     }

@@ -7,10 +7,12 @@ import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.handlers.EndingHandler;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
+import nl.vu.cs.ancientegyptiansgame.listeners.EndingListener;
 import nl.vu.cs.ancientegyptiansgame.observer.ScoreObserver;
 import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 import nl.vu.cs.ancientegyptiansgame.ui.scenes.GameSceneFactory;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.almasb.fxgl.app.GameApplication;
@@ -21,7 +23,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 public class AncientEgyptiansApp extends GameApplication {
     private static final Logger logger = LoggerFactory.getLogger(AncientEgyptiansApp.class);
     private GameView gameView;
-    private EndingHandler endingHandler;
 
     public static void main(String[] args) {
         logger.info("Welcome to Software Design!");
@@ -55,6 +56,7 @@ public class AncientEgyptiansApp extends GameApplication {
             ScoreObserver scoreObserver = gameConfig.getScoreObserver();
             YearsInPowerObserver yearsObserver = gameConfig.getYearsInPowerObserver();
 
+            EndingHandler endingHandler = new EndingHandler(scoreConfig, gameView);
             scoreObserver.addListener(gameView);
             yearsObserver.addListener(gameView);
 
@@ -66,7 +68,7 @@ public class AncientEgyptiansApp extends GameApplication {
                 PillarData pillarData = config.getPillarData(pillars);
                 int value = pillarData.getValue();
 
-                pillarData.addListener(gameView);
+                pillarData.addListener(endingHandler);
                 vars.put(pillars.getName().toLowerCase(), value);
             }
 

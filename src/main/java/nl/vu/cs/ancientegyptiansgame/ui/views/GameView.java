@@ -16,23 +16,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import nl.vu.cs.ancientegyptiansgame.handlers.EndingHandler;
 import nl.vu.cs.ancientegyptiansgame.handlers.SwipeHandler;
 import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
-import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.handlers.HandleScore;
 import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
 import nl.vu.cs.ancientegyptiansgame.controller.GameFlowController;
 import nl.vu.cs.ancientegyptiansgame.listeners.EndingListener;
 import nl.vu.cs.ancientegyptiansgame.listeners.ScoreListener;
 import nl.vu.cs.ancientegyptiansgame.listeners.YearsInPowerListener;
-import nl.vu.cs.ancientegyptiansgame.listeners.PillarListener;
-import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 
-public class GameView extends Parent implements ScoreListener, YearsInPowerListener, PillarListener, EndingListener {
+public class GameView extends Parent implements ScoreListener, YearsInPowerListener, EndingListener {
 
     private static final double GAME_VIEW_WIDTH = FXGL.getAppWidth() / 2.5;
     private static final double GAME_VIEW_HEIGHT = FXGL.getAppHeight();
@@ -43,7 +41,6 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
     private final SwipeHandler swipeHandler;
     private final GameFlowController gameFlowController;
     private final GameStateController gameStateController;
-    private final GameConfiguration gameConfiguration;
 
     private Label messageLabel;
     private Label yearLabel;
@@ -51,7 +48,7 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
 
     public GameView() {
         this.scoreSettings = ConfigurationLoader.getInstance().getScoreSettings();
-        this.gameConfiguration = GameConfiguration.getInstance();
+        GameConfiguration gameConfiguration = GameConfiguration.getInstance();
 
         this.cardView = new CardView(GAME_VIEW_WIDTH * 0.8, this);
         initView();
@@ -60,6 +57,7 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
         this.gameFlowController = new GameFlowController(cardView);
         this.gameStateController = gameFlowController.getGameStateManager();
         this.swipeHandler = new SwipeHandler(gameStateController, this);
+        new EndingHandler(scoreSettings, this);
 
         var scoreObserver = gameConfiguration.getScoreObserver();
         var yearsObserver = gameConfiguration.getYearsInPowerObserver();
@@ -133,13 +131,11 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
         return label;
     }
 
-    // ScoreListener method
     @Override
     public void changedScore(Integer newValue) {
         Platform.runLater(() -> scoreLabel.setText("Score: " + newValue));
     }
 
-    // YearsInPowerListener method
     @Override
     public void changedYears(Integer newValue) {
         Platform.runLater(() -> yearLabel.setText("Years in Power: " + newValue));
@@ -148,37 +144,6 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
     @Override
     public void onEndingTriggered(Ending ending) {
         Platform.runLater(() -> showEndScreen(ending));
-    }
-    // PillarListener method - handles pillar changes and game ending logic
-    @Override
-    public void changed(Pillars pillars, Integer newValue) {
-        YearsInPowerObserver yearsObserver = gameConfiguration.getYearsInPowerObserver();
-        int yearCount = yearsObserver.getYearsInPower();
-        int threshold = scoreSettings.getScoreConfig().getYearThreshold();
-
-        boolean gameOverTriggered = false;
-        boolean winTriggered = false;
-
-        if (newValue == 0) {
-            gameOverTriggered = true;
-        } else if (newValue == 100 && yearCount >= threshold) {
-            winTriggered = true;
-        }
-
-        if (winTriggered || gameOverTriggered) {
-            Ending ending = winTriggered
-                    ? ConfigurationLoader.getInstance().getGoldenAgeEnding()
-                    : pillars.getEnding();
-
-            if (ending != null) {
-                Platform.runLater(() -> showEndScreen(ending));
-            }
-        }
-    }
-
-    public void updateScore() {
-        HandleScore handleScore = new HandleScore();
-        handleScore.updateScore(scoreSettings);
     }
 
     public void updateCardAndMessage() {
