@@ -38,19 +38,13 @@ public class AncientEgyptiansApp extends GameApplication {
     }
 
     @Override
-    protected void initUI() {
-        getGameScene().setBackgroundRepeat("background.png");
-        // Initialize gameView before adding it to UI
-        if (gameView == null) {
-            gameView = new GameView(); // Create the GameView instance
-            logger.info("GameView initialized in initUI()");
-        }
-        getGameScene().addUINodes(gameView);
-    }
-
-    @Override
     protected void initGameVars(Map<String, Object> vars) {
         try {
+            if (gameView == null) {
+                gameView = new GameView();
+                logger.info("GameView initialized in initGameVars()");
+            }
+
             if (ModeConfiguration.getInstance() == null) {
                 logger.error("ModeConfiguration has not been initialized!");
                 return;
@@ -61,26 +55,18 @@ public class AncientEgyptiansApp extends GameApplication {
             ScoreObserver scoreObserver = gameConfig.getScoreObserver();
             YearsInPowerObserver yearsObserver = gameConfig.getYearsInPowerObserver();
 
-            // Register the gameView as a listener for score and years changes
-            if (gameView == null) {
-                logger.warn("gameView is null before adding as a listener to scoreObserver.");
-            } else {
-                logger.info("gameView is not null, adding as a listener to scoreObserver.");
-                scoreObserver.addListener(gameView);
-                yearsObserver.addListener(gameView);
-            }
+            scoreObserver.addListener(gameView);
+            yearsObserver.addListener(gameView);
 
             gameConfig.initializeScoreAndYear(scoreConfig);
-            endingHandler = new EndingHandler(scoreConfig, gameView);
 
             ModeConfiguration config = ModeConfiguration.getInstance();
-            logger.info("Mode configuration initialized successfully.");
 
             for (Pillars pillars : Pillars.values()) {
                 PillarData pillarData = config.getPillarData(pillars);
                 int value = pillarData.getValue();
 
-                pillarData.addListener(endingHandler);
+                pillarData.addListener(gameView);
                 vars.put(pillars.getName().toLowerCase(), value);
             }
 
@@ -88,6 +74,17 @@ public class AncientEgyptiansApp extends GameApplication {
             yearsObserver.setYearsInPower(gameConfig.getInitialYearCount());
         } catch (IllegalStateException e) {
             logger.warn("ModeConfiguration not initialized yet. Pillars values will be set later.");
+        }
+    }
+
+    @Override
+    protected void initUI() {
+        getGameScene().setBackgroundRepeat("background.png");
+        if (gameView != null) {
+            getGameScene().addUINodes(gameView);
+            logger.info("GameView added to UI");
+        } else {
+            logger.error("GameView is null in initUI() - this should not happen!");
         }
     }
 }

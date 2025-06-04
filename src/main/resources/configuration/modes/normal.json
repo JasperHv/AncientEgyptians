@@ -1,7 +1,7 @@
 {
   "monarchInitialValues": {
     "Cleopatra": {
-      "priests": 50,
+      "priests": 1,
       "military": 40,
       "farmers": 60,
       "nobles": 50
@@ -10,7 +10,7 @@
       "priests": 50,
       "military": 60,
       "farmers": 40,
-      "nobles": 50
+      "nobles": 99
     }
   },
   "cards": [
@@ -164,7 +164,6 @@
       "type": "standard",
       "influence": [
         { "pillar": "nobles", "value": 2 },
-        { "pillar": "military", "value": 2 },
         { "pillar": "military", "value": -2 }
       ],
       "frequency": 3

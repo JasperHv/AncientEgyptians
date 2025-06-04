@@ -2,34 +2,37 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1749031907625,
+  "timestamp" : 1749033663442,
   "chosenCharacter" : "Cleopatra"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Chariot Innovation",
+  "cardTitle" : "Trade Expedition",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1749031909757,
+  "timestamp" : 1749033681976,
   "influence" : [ {
+    "pillar" : "nobles",
+    "value" : 2
+  }, {
+    "pillar" : "military",
+    "value" : 2
+  }, {
     "pillar" : "military",
     "value" : -2
-  }, {
-    "pillar" : "farmers",
-    "value" : 2
   } ],
-  "yearsInPower" : 10,
-  "scoreCount" : 1
+  "yearsInPower" : 0,
+  "scoreCount" : 50
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Mercenary Deal",
+  "cardTitle" : "Honoring Fallen Warriors",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1749031910745,
+  "timestamp" : 1749033695072,
   "influence" : [ {
     "pillar" : "military",
-    "value" : 1
+    "value" : 2
   }, {
-    "pillar" : "nobles",
+    "pillar" : "priests",
     "value" : -1
   } ],
-  "yearsInPower" : 20,
-  "scoreCount" : 2
+  "yearsInPower" : 0,
+  "scoreCount" : 51
 } ]

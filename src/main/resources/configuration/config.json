@@ -27,7 +27,7 @@
   "scoreSettings": {
     "scoreConfig": {
       "initialScore": 0,
-      "initialYearCount": 0,
+      "initialYearCount": 49,
       "yearThreshold": 50,
       "maximumYearCount": 100
     },
