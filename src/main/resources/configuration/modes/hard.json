@@ -1,16 +1,16 @@
 {
   "monarchInitialValues": {
     "Cleopatra": {
-      "priests": 50,
-      "military": 40,
-      "farmers": 60,
-      "nobles": 50
+      "priests": 40,
+      "military": 30,
+      "farmers": 50,
+      "nobles": 40
     },
     "Tutankhamun": {
-      "priests": 50,
-      "military": 60,
-      "farmers": 40,
-      "nobles": 50
+      "priests": 40,
+      "military": 50,
+      "farmers": 30,
+      "nobles": 40
     }
   },
   "cards": [
