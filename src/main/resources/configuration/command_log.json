@@ -1,6 +1,9 @@
 [ {
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
+  "timestamp" : 1749048622260,
+  "chosenCharacter" : "Cleopatra"
+=======
   "swipeDirection" : "LEFT",
   "timestamp" : 1749045390012,
   "chosenCharacter" : "Cleopatra"
