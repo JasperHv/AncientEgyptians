@@ -2,41 +2,27 @@
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1748978252333,
+  "timestamp" : 1749031907625,
   "chosenCharacter" : "Cleopatra"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Oracle’s Vision",
+  "cardTitle" : "Chariot Innovation",
   "swipeDirection" : "LEFT",
-  "timestamp" : 1748978254237,
+  "timestamp" : 1749031909757,
   "influence" : [ {
-    "pillar" : "priests",
-    "value" : 2
+    "pillar" : "military",
+    "value" : -2
   }, {
-    "pillar" : "nobles",
-    "value" : -1
+    "pillar" : "farmers",
+    "value" : 2
   } ],
   "yearsInPower" : 10,
   "scoreCount" : 1
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Courtly Intrigue",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1748978255095,
-  "influence" : [ {
-    "pillar" : "military",
-    "value" : 2
-  }, {
-    "pillar" : "nobles",
-    "value" : -1
-  } ],
-  "yearsInPower" : 20,
-  "scoreCount" : 2
-}, {
-  "commandType" : "GameSwipeCommand",
   "cardTitle" : "Mercenary Deal",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1748978255931,
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1749031910745,
   "influence" : [ {
     "pillar" : "military",
     "value" : 1
@@ -44,20 +30,6 @@
     "pillar" : "nobles",
     "value" : -1
   } ],
-  "yearsInPower" : 30,
-  "scoreCount" : 3
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Irrigation Projects",
-  "swipeDirection" : "RIGHT",
-  "timestamp" : 1748978256667,
-  "influence" : [ {
-    "pillar" : "farmers",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : -2
-  } ],
-  "yearsInPower" : 40,
-  "scoreCount" : 4
+  "yearsInPower" : 20,
+  "scoreCount" : 2
 } ]

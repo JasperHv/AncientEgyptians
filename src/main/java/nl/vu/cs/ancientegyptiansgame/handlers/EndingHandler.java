@@ -6,6 +6,7 @@ import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.listeners.PillarListener;
+import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
 
 public class EndingHandler implements PillarListener {
@@ -26,7 +27,8 @@ public class EndingHandler implements PillarListener {
 
     @Override
     public void changed(Pillars pillars, Integer newValue) {
-        int yearCount = gameConfiguration.getYearCount();
+        YearsInPowerObserver yearsObserver = gameConfiguration.getYearsInPowerObserver();
+        int yearCount = yearsObserver.getYearsInPower();
         int threshold = scoreSettings.getScoreConfig().getYearThreshold();
 
         boolean gameOverTriggered = false;

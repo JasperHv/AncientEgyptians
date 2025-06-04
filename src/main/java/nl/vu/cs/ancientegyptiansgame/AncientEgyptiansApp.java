@@ -23,7 +23,6 @@ public class AncientEgyptiansApp extends GameApplication {
     private GameView gameView;
     private EndingHandler endingHandler;
 
-
     public static void main(String[] args) {
         logger.info("Welcome to Software Design!");
         launch(args);
@@ -41,6 +40,11 @@ public class AncientEgyptiansApp extends GameApplication {
     @Override
     protected void initUI() {
         getGameScene().setBackgroundRepeat("background.png");
+        // Initialize gameView before adding it to UI
+        if (gameView == null) {
+            gameView = new GameView(); // Create the GameView instance
+            logger.info("GameView initialized in initUI()");
+        }
         getGameScene().addUINodes(gameView);
     }
 
@@ -86,5 +90,4 @@ public class AncientEgyptiansApp extends GameApplication {
             logger.warn("ModeConfiguration not initialized yet. Pillars values will be set later.");
         }
     }
-
 }
