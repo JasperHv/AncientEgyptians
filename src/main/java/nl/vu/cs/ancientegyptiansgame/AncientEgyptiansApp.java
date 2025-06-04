@@ -7,8 +7,12 @@ import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.handlers.EndingHandler;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
+import nl.vu.cs.ancientegyptiansgame.listeners.EndingListener;
+import nl.vu.cs.ancientegyptiansgame.observer.ScoreObserver;
+import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 import nl.vu.cs.ancientegyptiansgame.ui.scenes.GameSceneFactory;
 import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.almasb.fxgl.app.GameApplication;
@@ -35,15 +39,13 @@ public class AncientEgyptiansApp extends GameApplication {
     }
 
     @Override
-    protected void initUI() {
-        gameView = new GameView();
-        getGameScene().setBackgroundRepeat("background.png");
-        getGameScene().addUINodes(gameView);
-    }
-
-    @Override
     protected void initGameVars(Map<String, Object> vars) {
         try {
+            if (gameView == null) {
+                gameView = new GameView();
+                logger.info("GameView initialized in initGameVars()");
+            }
+
             if (ModeConfiguration.getInstance() == null) {
                 logger.error("ModeConfiguration has not been initialized!");
                 return;
@@ -51,12 +53,16 @@ public class AncientEgyptiansApp extends GameApplication {
 
             GameConfiguration gameConfig = GameConfiguration.getInstance();
             ScoreSettings scoreConfig = ConfigurationLoader.getInstance().getScoreSettings();
+            ScoreObserver scoreObserver = gameConfig.getScoreObserver();
+            YearsInPowerObserver yearsObserver = gameConfig.getYearsInPowerObserver();
+
+            EndingHandler endingHandler = new EndingHandler(scoreConfig, gameView);
+            scoreObserver.addListener(gameView);
+            yearsObserver.addListener(gameView);
 
             gameConfig.initializeScoreAndYear(scoreConfig);
-            EndingHandler endingHandler = new EndingHandler(scoreConfig, gameView);  // Pass the gameView instance here
 
             ModeConfiguration config = ModeConfiguration.getInstance();
-            logger.info("Mode configuration initialized successfully.");
 
             for (Pillars pillars : Pillars.values()) {
                 PillarData pillarData = config.getPillarData(pillars);
@@ -65,9 +71,22 @@ public class AncientEgyptiansApp extends GameApplication {
                 pillarData.addListener(endingHandler);
                 vars.put(pillars.getName().toLowerCase(), value);
             }
+
+            scoreObserver.setScore(gameConfig.getInitialScoreCount());
+            yearsObserver.setYearsInPower(gameConfig.getInitialYearCount());
         } catch (IllegalStateException e) {
             logger.warn("ModeConfiguration not initialized yet. Pillars values will be set later.");
         }
     }
 
+    @Override
+    protected void initUI() {
+        getGameScene().setBackgroundRepeat("background.png");
+        if (gameView != null) {
+            getGameScene().addUINodes(gameView);
+            logger.info("GameView added to UI");
+        } else {
+            logger.error("GameView is null in initUI() - this should not happen!");
+        }
+    }
 }

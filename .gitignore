@@ -36,4 +36,4 @@ logs/
 .qodo
 
 # Ignore command log files
-/src/main/resources/configuration/command_log.json
+src/main/resources/configuration/command_log.json

@@ -20,6 +20,10 @@ public class PillarData {
         listeners.add(listener);
     }
 
+    public void increaseValue(Integer increment) {
+        setValue(value + increment);
+    }
+
     public Integer getValue() {
         return value;
     }

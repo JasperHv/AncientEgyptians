@@ -7,7 +7,10 @@ import nl.vu.cs.ancientegyptiansgame.data.enums.SwipeSide;
 import nl.vu.cs.ancientegyptiansgame.data.model.Ending;
 import nl.vu.cs.ancientegyptiansgame.handlers.HandleInfluencePillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
-import nl.vu.cs.ancientegyptiansgame.ui.views.GameView;
+import nl.vu.cs.ancientegyptiansgame.handlers.HandleScore;
+import nl.vu.cs.ancientegyptiansgame.listeners.EndingListener;
+import nl.vu.cs.ancientegyptiansgame.observer.ScoreObserver;
+import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 import nl.vu.cs.ancientegyptiansgame.controller.GameStateController;
 import nl.vu.cs.ancientegyptiansgame.logging.CommandLogger;
 import nl.vu.cs.ancientegyptiansgame.logging.GameCommandLogEntry;
@@ -17,53 +20,55 @@ public class GameSwipeCommand implements Command {
     private final SwipeSide side;
     private final Card card;
     private final ScoreSettings scoreSettings;
-    private final GameView gameView;
     private final GameStateController gameStateController;
     private final HandleInfluencePillars handleInfluencePillars;
     private final GameConfiguration gameConfiguration;
+    private final EndingListener endingListener;
 
-    public GameSwipeCommand(SwipeSide side, GameStateController gameStateController, GameView gameView) {
+    public GameSwipeCommand(SwipeSide side, GameStateController gameStateController, EndingListener listener) {
         this.side = side;
         this.card = gameStateController.getCurrentGameCard();
         this.gameStateController = gameStateController;
         this.scoreSettings = gameStateController.getScoreSettings();
         this.handleInfluencePillars = new HandleInfluencePillars();
-        this.gameView = gameView;
         this.gameConfiguration = GameConfiguration.getInstance();
+        this.endingListener = listener;
     }
 
     @Override
     public void execute() {
-        int currentYear = gameStateController.getYearCount();
+        YearsInPowerObserver yearsObserver = gameConfiguration.getYearsInPowerObserver();
+        ScoreObserver scoreObserver = gameConfiguration.getScoreObserver();
+        int currentYear = yearsObserver.getYearsInPower();
         int newYear = currentYear + scoreSettings.getYearCountIncrease();
-        gameStateController.setYearCount(newYear);
+        yearsObserver.setYearsInPower(newYear);
 
         if (newYear >= scoreSettings.getScoreConfig().getMaximumYearCount()) {
-            gameView.showEndScreen(ConfigurationLoader.getInstance().getGoldenAgeEnding());
+            if (endingListener != null) {
+                endingListener.onEndingTriggered(ConfigurationLoader.getInstance().getGoldenAgeEnding());
+            }
         }
+
+        HandleScore handleScore = new HandleScore();
+        handleScore.updateScore(scoreSettings);
         handleInfluencePillars.applyInfluence(side, card.getInfluence());
 
-        gameView.updateScore();
-        gameView.updateScoreAndYearBoxes();
         if (gameStateController.getNextCard() == null) {
             Ending badEnding = ConfigurationLoader.getInstance().getBadEnding();
-            if (badEnding != null) {
-                gameView.showEndScreen(badEnding);
+            if (endingListener != null && badEnding != null) {
+                endingListener.onEndingTriggered(badEnding);
             }
         }
 
         gameStateController.updateLegacyState(card.getPillar(), side);
-
-        int currentScore = gameConfiguration.getScoreCount();
-        int currentYearCount = gameConfiguration.getYearCount();
 
         GameCommandLogEntry entry = new GameCommandLogEntry(
                 card.getTitle(),
                 side.toString(),
                 card.getInfluence(),
                 System.currentTimeMillis(),
-                currentScore,
-                currentYearCount
+                scoreObserver.getScore(),
+                yearsObserver.getYearsInPower()
         );
         CommandLogger.logCommand(entry);
     }
