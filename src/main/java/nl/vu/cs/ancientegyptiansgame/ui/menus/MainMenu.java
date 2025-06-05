@@ -51,11 +51,15 @@ public class MainMenu extends FXGLMenu {
         btnNewGame.setPrefWidth(200);
         btnNewGame.setOnAction(e -> showGameModeMenu());
 
+        Button btnLoadGame = new Button("Load Game");
+        btnLoadGame.setPrefWidth(200);
+        btnLoadGame.setOnAction(e -> showGameModeMenu());
+
         Button btnExit = new Button("Exit");
         btnExit.setPrefWidth(200);
         btnExit.setOnAction(e -> FXGL.getGameController().exit());
 
-        menuBox.getChildren().addAll(btnNewGame, btnExit);
+        menuBox.getChildren().addAll(btnNewGame, btnLoadGame, btnExit);
         getContentRoot().getChildren().add(menuBox);
     }
 
