@@ -73,7 +73,7 @@ public class MainMenu extends FXGLMenu {
         Label message = new Label("Choose your game mode");
         message.setFont(Font.font("Papyrus", 36));
         message.setTextFill(Color.WHITE);
-        // Position adjustments (tweak as needed)
+
         message.setTranslateX((double) 1280 / 2 - 680);
         message.setTranslateY(0);
 

@@ -16,7 +16,7 @@ public class GameStateEntry {
     @JsonProperty("timestamp")
     private final long timestamp;
 
-    protected GameStateEntry(Map<String, Integer> pillars, int year, int score, long timestamp) {
+    public GameStateEntry(Map<String, Integer> pillars, int year, int score, long timestamp) {
         this.pillars = pillars;
         this.year = year;
         this.score = score;

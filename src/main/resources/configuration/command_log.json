@@ -1,55 +1,29 @@
 [ {
   "commandType" : "IntroSwipeCommand",
   "cardTitle" : "choose-pharaoh",
-  "timestamp" : 1749048622260,
-  "chosenCharacter" : "Cleopatra"
-=======
   "swipeDirection" : "LEFT",
-  "timestamp" : 1749045390012,
+  "timestamp" : 1749120915744,
   "chosenCharacter" : "Cleopatra"
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Conscription",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1749045391814,
+  "cardTitle" : "Feast of the Fields",
+  "swipeDirection" : "RIGHT",
+  "timestamp" : 1749120917750,
   "influence" : [ {
-    "pillar" : "military",
-    "value" : 2
-  }, {
     "pillar" : "farmers",
-    "value" : -2
+    "value" : 1
   } ],
   "yearsInPower" : 10,
   "scoreCount" : 1
 }, {
   "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Land Grants",
+  "cardTitle" : "Agricultural Innovations",
   "swipeDirection" : "RIGHT",
-  "timestamp" : 1749045392763,
+  "timestamp" : 1749120919296,
   "influence" : [ {
-    "pillar" : "nobles",
-    "value" : 2
-  }, {
     "pillar" : "farmers",
-    "value" : -2
+    "value" : 4
   } ],
   "yearsInPower" : 20,
   "scoreCount" : 2
-}, {
-  "commandType" : "GameSwipeCommand",
-  "cardTitle" : "Trade Expedition",
-  "swipeDirection" : "LEFT",
-  "timestamp" : 1749045393690,
-  "influence" : [ {
-    "pillar" : "nobles",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : 2
-  }, {
-    "pillar" : "military",
-    "value" : -2
-  } ],
-  "yearsInPower" : 30,
-  "scoreCount" : 3
 } ]

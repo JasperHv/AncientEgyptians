@@ -21,7 +21,7 @@ public class GameStateLogger {
 
     private GameStateLogger() {}
 
-    public static void logCommand(GameStateEntry entry) {
+    public static void logGameState(GameStateEntry entry) {
         logEntries.add(entry);
         saveLogToFile();
     }

@@ -1,13 +1,13 @@
 package nl.vu.cs.ancientegyptiansgame;
 
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import nl.vu.cs.ancientegyptiansgame.config.ConfigurationLoader;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.*;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.handlers.EndingHandler;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.data.model.PillarData;
-import nl.vu.cs.ancientegyptiansgame.listeners.EndingListener;
 import nl.vu.cs.ancientegyptiansgame.observer.ScoreObserver;
 import nl.vu.cs.ancientegyptiansgame.observer.YearsInPowerObserver;
 import nl.vu.cs.ancientegyptiansgame.ui.scenes.GameSceneFactory;
@@ -88,5 +88,10 @@ public class AncientEgyptiansApp extends GameApplication {
         } else {
             logger.error("GameView is null in initUI() - this should not happen!");
         }
+    }
+
+    @Override
+    protected void onPreInit() {
+        FXGL.getPrimaryStage().setOnCloseRequest(event -> GameConfiguration.saveGame());
     }
 }
