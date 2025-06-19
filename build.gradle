@@ -3,7 +3,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group 'nl.vu.cs.ancientegyptiansgame'
+group 'ancientegyptiansgame'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 11
@@ -28,7 +28,7 @@ dependencies {
 jar {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
-        attributes "Main-Class": "nl.vu.cs.ancientegyptiansgame.AncientEgyptiansApp"
+        attributes "Main-Class": "ancientegyptiansgame.AncientEgyptiansApp"
     }
 
     from {
