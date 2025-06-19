@@ -1,0 +1,28 @@
+name: checkstyle
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events for all branches
+  push:
+    branches:
+      - * # This will trigger on all branches, you can specify specific branches if needed
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # This workflow contains a single job called "checkstyle"
+  checkstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Checkstyle
+        run: |
+          wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.16.0/checkstyle-10.16.0-all.jar -O checkstyle.jar
+
+      - name: Run Checkstyle
+        run: |
+          java -jar checkstyle.jar -c checkstyle.xml src/
