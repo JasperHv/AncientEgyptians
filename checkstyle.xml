@@ -9,6 +9,7 @@
     <module name="NewlineAtEndOfFile"/>
     <module name="LineLength">
         <property name="max" value="120"/>
+        <property name="ignorePattern" value=".*\.json$"/>
     </module>
 
     <module name="TreeWalker">
