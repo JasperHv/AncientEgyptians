@@ -1,0 +1,13 @@
+# .github/labeler.yml
+tests:
+        - 'src//test/**'
+workflow:
+        - '.github/workflows/**'
+code:
+        - 'src/main/java/**'
+resources:
+        - 'src/main/resources/**'
+
+docs:
+        - 'docs/**'
+        - 'README.md'
