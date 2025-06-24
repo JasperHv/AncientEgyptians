@@ -25,4 +25,4 @@ jobs:
 
       - name: Run Checkstyle
         run: |
-          java -jar checkstyle.jar -c checkstyle.xml src/
+          java -jar checkstyle.jar -c checkstyle.xml src/main/java src/test/java
