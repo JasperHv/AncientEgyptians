@@ -35,3 +35,9 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
+task printClasspath {
+    doLast {
+        configurations.compileClassPath.each { println it }
+    }
+}
