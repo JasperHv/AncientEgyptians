@@ -15,48 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ConfigurationLoaderTest {
-    private static final String MINIMAL_JSON = "{\n" +
-            "  \"modes\": [\n" +
-            "    { \"name\": \"Test Mode 1\", \"configPath\": \"configuration/modes/test1.json\" },\n" +
-            "    { \"name\": \"Test Mode 2\", \"configPath\": \"configuration/modes/test2.json\" }\n" +
-            "  ],\n" +
-            "  \"monarchs\": [\"Testmonarch1\", \"Testmonarch2\"],\n" +
-            "  \"goldenAgeEnding\": {\n" +
-            "    \"description\": \"A test golden age ending.\",\n" +
-            "    \"image\": \"endings/test-golden.png\"\n" +
-            "  },\n" +
-            "  \"bad ending\": {\n" +
-            "    \"description\": \"A test bad ending.\",\n" +
-            "    \"image\": \"endings/test-bad.png\"\n" +
-            "  },\n" +
-            "  \"scoreSettings\": {\n" +
-            "    \"scoreConfig\": {\n" +
-            "      \"initialScore\": 0,\n" +
-            "      \"initialYearCount\": 0,\n" +
-            "      \"yearThreshold\": 10,\n" +
-            "      \"maximumYearCount\": 20\n" +
-            "    },\n" +
-            "    \"bonusConfig\": {\n" +
-            "      \"thresholds\": [1, 2],\n" +
-            "      \"bonusScores\": [5, 10],\n" +
-            "      \"balancedBonus\": 2\n" +
-            "    },\n" +
-            "    \"yearCountIncrease\": 1,\n" +
-            "    \"baseScoreIncrease\": 1\n" +
-            "  },\n" +
-            "  \"pillars\": [\n" +
-            "    {\n" +
-            "      \"name\": \"nobles\",\n" +
-            "      \"ending\": {\n" +
-            "        \"description\": \"Pillar ending for nobles.\",\n" +
-            "        \"image\": \"endings/nobles-ending.png\"\n" +
-            "      }\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}";
-
-
+class ConfigurationLoaderUnitTests {
     private ConfigurationLoader loader;
 
     @BeforeEach
