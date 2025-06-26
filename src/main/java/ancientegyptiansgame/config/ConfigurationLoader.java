@@ -61,6 +61,9 @@ public class ConfigurationLoader {
                     root.get("modes"),
                     mapper.getTypeFactory().constructCollectionType(List.class, Mode.class)
             );
+            if (root.get("modes") == null) {
+                throw new ConfigurationNotFoundException("Missing required 'modes' configuration");
+            }
             monarchs = mapper.convertValue(
                     root.get("monarchs"),
                     mapper.getTypeFactory().constructCollectionType(List.class, String.class)
