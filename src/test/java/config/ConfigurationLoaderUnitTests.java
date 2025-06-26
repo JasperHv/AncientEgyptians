@@ -11,7 +11,7 @@ import ancientegyptiansgame.data.model.Mode;
 public class ConfigurationLoaderUnitTests {
 
     @Test
-    public void testParseModesFromJson() throws Exception {
+    public void parseModes_WithTestMode_ReturnsTestMode() throws Exception {
         String json = "{ \"modes\": [ { \"name\": \"Test Mode\", \"configPath\": \"test.json\" } ] }";
         ObjectMapper mapper = new ObjectMapper();
 
