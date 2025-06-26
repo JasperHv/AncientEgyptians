@@ -1,0 +1,12 @@
+{
+  "monarchInitialValues": {
+    "Testmonarch1": {
+      "nobles": 5,
+      "priests": 3,
+      "artisans": 2
+    }
+  },
+  "selectedMonarch": {
+    "name": "Testmonarch1"
+  }
+}
