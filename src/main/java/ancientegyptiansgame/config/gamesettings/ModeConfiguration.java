@@ -90,15 +90,7 @@ public class ModeConfiguration {
             throw new IllegalStateException("Game configuration is not initialized.");
         }
 
-        Monarch selectedMonarch = gameConfig.getSelectedMonarch();
-        if (selectedMonarch == null) {
-            throw new IllegalStateException("Selected monarch is not set in game configuration.");
-        }
-
-
-        Map<String, Map<String, Integer>> monarchInitialValues = gameConfig.getMonarchInitialValues();
-        String monarchName = selectedMonarch.getName();
-        Map<String, Integer> initialValues = monarchInitialValues.get(monarchName);
+        Map<String, Integer> initialValues = getInitialValues();
 
         for (Pillars pillar : Pillars.values()) {
             int value = (initialValues != null)
@@ -112,6 +104,18 @@ public class ModeConfiguration {
                 pillarObserver.addPillar(pillar, value);
             }
         }
+    }
+
+    private Map<String, Integer> getInitialValues() {
+        Monarch selectedMonarch = gameConfig.getSelectedMonarch();
+        if (selectedMonarch == null) {
+            throw new IllegalStateException("Selected monarch is not set in game configuration.");
+        }
+
+
+        Map<String, Map<String, Integer>> monarchInitialValues = gameConfig.getMonarchInitialValues();
+        String monarchName = selectedMonarch.getName();
+        return monarchInitialValues.get(monarchName);
     }
 
     public PillarData getPillarData(Pillars pillar) {
