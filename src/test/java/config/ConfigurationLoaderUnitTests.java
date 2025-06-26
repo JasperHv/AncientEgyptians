@@ -1,109 +1,122 @@
 package config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import ancientegyptiansgame.config.ConfigurationLoader;
+import ancientegyptiansgame.config.scoresettings.BonusConfig;
+import ancientegyptiansgame.config.scoresettings.ScoreConfig;
+import ancientegyptiansgame.config.scoresettings.ScoreSettings;
+import ancientegyptiansgame.data.model.Ending;
+import ancientegyptiansgame.data.model.Mode;
+
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ancientegyptiansgame.data.model.Mode;
-import ancientegyptiansgame.data.model.Ending;
+class ConfigurationLoaderTest {
+    private static final String MINIMAL_JSON = "{\n" +
+            "  \"modes\": [\n" +
+            "    { \"name\": \"Test Mode 1\", \"configPath\": \"configuration/modes/test1.json\" },\n" +
+            "    { \"name\": \"Test Mode 2\", \"configPath\": \"configuration/modes/test2.json\" }\n" +
+            "  ],\n" +
+            "  \"monarchs\": [\"Testmonarch1\", \"Testmonarch2\"],\n" +
+            "  \"goldenAgeEnding\": {\n" +
+            "    \"description\": \"A test golden age ending.\",\n" +
+            "    \"image\": \"endings/test-golden.png\"\n" +
+            "  },\n" +
+            "  \"bad ending\": {\n" +
+            "    \"description\": \"A test bad ending.\",\n" +
+            "    \"image\": \"endings/test-bad.png\"\n" +
+            "  },\n" +
+            "  \"scoreSettings\": {\n" +
+            "    \"scoreConfig\": {\n" +
+            "      \"initialScore\": 0,\n" +
+            "      \"initialYearCount\": 0,\n" +
+            "      \"yearThreshold\": 10,\n" +
+            "      \"maximumYearCount\": 20\n" +
+            "    },\n" +
+            "    \"bonusConfig\": {\n" +
+            "      \"thresholds\": [1, 2],\n" +
+            "      \"bonusScores\": [5, 10],\n" +
+            "      \"balancedBonus\": 2\n" +
+            "    },\n" +
+            "    \"yearCountIncrease\": 1,\n" +
+            "    \"baseScoreIncrease\": 1\n" +
+            "  },\n" +
+            "  \"pillars\": [\n" +
+            "    {\n" +
+            "      \"name\": \"nobles\",\n" +
+            "      \"ending\": {\n" +
+            "        \"description\": \"Pillar ending for nobles.\",\n" +
+            "        \"image\": \"endings/nobles-ending.png\"\n" +
+            "      }\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
 
-class ConfigurationLoaderUnitTests {
 
-    @Test
-    void parseModes_WithTestMode_ReturnsTestMode() throws Exception {
-        String json = "{ \"modes\": [ { \"name\": \"Test Mode\", \"configPath\": \"test.json\" } ] }";
-        ObjectMapper mapper = new ObjectMapper();
+    private ConfigurationLoader loader;
 
-        List<Mode> modes = mapper.convertValue(
-                mapper.readTree(json).get("modes"),
-                mapper.getTypeFactory().constructCollectionType(List.class, Mode.class)
-        );
-        assertEquals(1, modes.size());
-        assertEquals("Test Mode", modes.get(0).getName());
-        assertEquals("test.json", modes.get(0).getConfigPath());
+    @BeforeEach
+    void setUp() {
+        ByteArrayInputStream testStream =
+                new ByteArrayInputStream(MINIMAL_JSON.getBytes(StandardCharsets.UTF_8));
+        loader = new ConfigurationLoader(testStream);
     }
 
     @Test
-    void parseModes_EmptyList_ReturnsEmptyList() throws Exception {
-        String json = "{ \"modes\": [] }";
-        ObjectMapper mapper = new ObjectMapper();
-
-        List<Mode> modes = mapper.convertValue(
-                mapper.readTree(json).get("modes"),
-                mapper.getTypeFactory().constructCollectionType(List.class, Mode.class)
-        );
-        assertTrue(modes.isEmpty());
+    void testGoldenAgeEnding() {
+        Ending ga = loader.getGoldenAgeEnding();
+        assertEquals("A test golden age ending.", ga.getDescription());
     }
 
     @Test
-    void parseModes_NullModes_ReturnsEmptyList() throws Exception {
-        String json = "{ \"modes\": null }";
-        ObjectMapper mapper = new ObjectMapper();
-        List<Mode> modes = mapper.convertValue(
-                mapper.readTree(json).get("modes"),
-                mapper.getTypeFactory().constructCollectionType(List.class, Mode.class)
-        );
-        if (modes == null) {
-            modes = java.util.Collections.emptyList();
-        }
-        assertTrue(modes.isEmpty());
+    void testBadEnding() {
+        Ending bad = loader.getBadEnding();
+        assertEquals("A test bad ending.", bad.getDescription());
     }
 
     @Test
-    void parseMonarchs_WithTestMonarch_ReturnsEmptyList() throws Exception {
-        String json = "{ \"monarchs\": [ \"Test Monarch\" ] }";
-        ObjectMapper mapper = new ObjectMapper();
+    void testScoreSettings() {
+        ScoreSettings s = loader.getScoreSettings();
 
-        List<String> monarchs = mapper.convertValue(
-                mapper.readTree(json).get("monarchs"),
-                mapper.getTypeFactory().constructCollectionType(List.class, String.class)
-        );
-        assertEquals(1, monarchs.size());
-        assertEquals("Test Monarch", monarchs.get(0));
+        // Test ScoreConfig values
+        ScoreConfig sc = s.getScoreConfig();
+        assertEquals(0, sc.getInitialScore());
+        assertEquals(0, sc.getInitialYearCount());
+        assertEquals(10, sc.getYearThreshold());
+        assertEquals(20, sc.getMaximumYearCount());
+
+        // Test BonusConfig values
+        BonusConfig bc = s.getBonusConfig();
+        assertEquals(List.of(1, 2), bc.getThresholds());
+        assertEquals(List.of(5, 10), bc.getBonusScores());
+        assertEquals(2, bc.getBalancedBonus());
+
+        // Test ScoreSettings simple fields
+        assertEquals(1, s.getYearCountIncrease());
+        assertEquals(1, s.getBaseScoreIncrease());
     }
 
     @Test
-    void parseMonarchs_WithEmptyList_ReturnsTestMonarch() throws Exception {
-        String json = "{ \"monarchs\": [ ] }";
-        ObjectMapper mapper = new ObjectMapper();
-
-        List<String> monarchs = mapper.convertValue(
-                mapper.readTree(json).get("monarchs"),
-                mapper.getTypeFactory().constructCollectionType(List.class, String.class)
-        );
-        assertTrue(monarchs.isEmpty());
-    }
-
-
-    @Test
-    void parseGoldenAgeEnding_ValidJson_ReturnsCorrectEnding() throws Exception {
-        String json = "{ \"goldenAgeEnding\": { " +
-                "\"description\": \"Glorious Pharaoh, your rule is unmatched! Through wisdom, balance, and strong leadership, you have ushered in a Golden Age for Egypt. The people prosper, the temples shine, and your name will be spoken with reverence for centuries to come. Your dynasty stands eternal, a beacon of prosperity and order.\"," +
-                "\"image\": \"endings/golden-age-ending.png\" } }";
-        ObjectMapper mapper = new ObjectMapper();
-
-        Ending goldenAgeEnding = mapper.convertValue(
-                mapper.readTree(json).get("goldenAgeEnding"),
-                Ending.class
-        );
-        assertEquals("Glorious Pharaoh, your rule is unmatched! Through wisdom, balance, and strong leadership, you have ushered in a Golden Age for Egypt. The people prosper, the temples shine, and your name will be spoken with reverence for centuries to come. Your dynasty stands eternal, a beacon of prosperity and order.", goldenAgeEnding.getDescription());
-        assertEquals("endings/golden-age-ending.png", goldenAgeEnding.getImage());
+    void testModes() {
+        List<Mode> modes = loader.getModes();
+        assertEquals(2, modes.size());
+        assertEquals("Test Mode 1", modes.get(0).getName());
+        assertEquals("Test Mode 2", modes.get(1).getName());
     }
 
     @Test
-    void parseBadEnding_ValidJson_ReturnsCorrectEnding() throws Exception {
-        String json = "{ \"bad ending\": { " +
-                "\"description\": \"The people have lost faith in your leadership. Chaos reigns, and your dynasty is brought to an untimely end. The once-glorious temples now lie in ruin, and your name will be forgotten by history. You have failed Egypt.\"," +
-                "\"image\": \"endings/bad-ending.png\" } }";
-        ObjectMapper mapper = new ObjectMapper();
+    void testMonarchs() {
+        List<String> mons = loader.getMonarchs();
+        assertEquals(List.of("Testmonarch1", "Testmonarch2"), mons);
+    }
 
-        Ending badEnding = mapper.convertValue(
-                mapper.readTree(json).get("bad ending"),
-                Ending.class
-        );
-        assertEquals("The people have lost faith in your leadership. Chaos reigns, and your dynasty is brought to an untimely end. The once-glorious temples now lie in ruin, and your name will be forgotten by history. You have failed Egypt.", badEnding.getDescription());
-        assertEquals("endings/bad-ending.png", badEnding.getImage());
+    @Test
+    void testPillarEnding() {
+        Ending nobles = loader.getPillarEnding("nobles");
+        assertEquals("Pillar ending for nobles.", nobles.getDescription());
     }
 }
