@@ -49,4 +49,29 @@ class ConfigurationLoaderUnitTests {
         }
         assertTrue(modes.isEmpty());
     }
+
+    @Test
+    void parseMonarchs_WithTestMonarch_ReturnsEmptyList() throws Exception {
+        String json = "{ \"monarchs\": [ \"Test Monarch\" ] }";
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<String> monarchs = mapper.convertValue(
+                mapper.readTree(json).get("monarchs"),
+                mapper.getTypeFactory().constructCollectionType(List.class, String.class)
+        );
+        assertEquals(1, monarchs.size());
+        assertEquals("Test Monarch", monarchs.get(0));
+    }
+
+    @Test
+    void parseMonarchs_WithEmptyList_ReturnsTestMonarch() throws Exception {
+        String json = "{ \"monarchs\": [ ] }";
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<String> monarchs = mapper.convertValue(
+                mapper.readTree(json).get("monarchs"),
+                mapper.getTypeFactory().constructCollectionType(List.class, String.class)
+        );
+        assertTrue(monarchs.isEmpty());
+    }
 }
