@@ -1,6 +1,7 @@
 package config;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -25,6 +26,7 @@ class ConfigurationLoaderUnitTests {
         loader = new ConfigurationLoader(is);
     }
 
+    // Valid JSON tests
     @Test
     void testGoldenAgeEnding() {
         Ending ga = loader.getGoldenAgeEnding();
@@ -77,5 +79,36 @@ class ConfigurationLoaderUnitTests {
     void testPillarEnding() {
         Ending nobles = loader.getPillarEnding("nobles");
         assertEquals("Pillar ending for nobles.", nobles.getDescription());
+    }
+
+    // Invalid JSON tests
+    @Test
+    void testMalformedJsonThrowsException() {
+        String badJson = "{ invalid json ";
+        ByteArrayInputStream stream = new ByteArrayInputStream(badJson.getBytes(StandardCharsets.UTF_8));
+
+        assertThrows(RuntimeException.class, () -> new ConfigurationLoader(stream));
+    }
+
+    @Test
+    void testMissingModesThrowsException() {
+        String json = "{ \"monarchs\": [\"Mon1\"], \"goldenAgeEnding\": {\"description\": \"desc\", \"image\": \"img\"} }";
+        ByteArrayInputStream stream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+
+        assertThrows(RuntimeException.class, () -> new ConfigurationLoader(stream));
+    }
+
+    @Test
+    void testWrongTypeInJsonThrowsException() {
+        String json = "{ \"modes\": \"not an array\" }";
+        ByteArrayInputStream stream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+
+        assertThrows(RuntimeException.class, () -> new ConfigurationLoader(stream));
+    }
+
+    @Test
+    void testUnknownPillarNameReturnsNull() {
+        Ending unknown = loader.getPillarEnding("unknownpillar");
+        assertNull(unknown);
     }
 }
