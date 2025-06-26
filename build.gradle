@@ -4,10 +4,13 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group 'ancientegyptiansgame'
-version '1.0-SNAPSHOT'
+group = 'ancientegyptiansgame'
+version = '1.0-SNAPSHOT'
 
-sourceCompatibility = 11
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 repositories {
     mavenCentral()
@@ -45,7 +48,7 @@ jacocoTestReport {
     }
 }
 jar {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes "Main-Class": "ancientegyptiansgame.AncientEgyptiansApp"
     }
