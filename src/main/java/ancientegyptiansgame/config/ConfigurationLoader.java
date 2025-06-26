@@ -25,10 +25,7 @@ public class ConfigurationLoader {
     private List<Mode> modes;
     private List<String> monarchs;
 
-    private ConfigurationLoader() {
-        loadMainConfig();
-    }
-
+    // Public accessor for production
     public static ConfigurationLoader getInstance() {
         if (instance == null) {
             instance = new ConfigurationLoader();
@@ -36,8 +33,21 @@ public class ConfigurationLoader {
         return instance;
     }
 
-    private void loadMainConfig() {
-        try (InputStream input = getClass().getResourceAsStream(CONFIG_PATH)) {
+    // Default constructor uses the real file
+    private ConfigurationLoader() {
+        this(ConfigurationLoader.class.getResourceAsStream(CONFIG_PATH));
+    }
+
+    // New constructor: takes any InputStream
+    public ConfigurationLoader(InputStream configStream) {
+        if (configStream == null) {
+            throw new ConfigurationNotFoundException("Config stream is null");
+        }
+        loadMainConfig(configStream);
+    }
+
+    private void loadMainConfig(InputStream configStream) {
+        try (InputStream input = configStream) {
             if (input == null) {
                 throw new ConfigurationNotFoundException("Config file not found: " + CONFIG_PATH);
             }
