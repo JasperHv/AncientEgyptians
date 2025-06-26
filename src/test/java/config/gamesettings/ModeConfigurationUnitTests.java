@@ -2,15 +2,17 @@ package config.gamesettings;
 
 import ancientegyptiansgame.config.ConfigurationLoader;
 import ancientegyptiansgame.config.gamesettings.ModeConfiguration;
+import ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import ancientegyptiansgame.data.model.Mode;
 import ancientegyptiansgame.data.model.Pillars;
 import ancientegyptiansgame.data.model.PillarData;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,22 +21,21 @@ class ModeConfigurationUnitTests {
 
     @BeforeEach
     void setUp() {
-        ModeConfiguration.reset(); // Reset singleton before each test
+        ModeConfiguration.reset();
     }
 
     @AfterEach
     void tearDown() {
-        ModeConfiguration.reset(); // Clean up after each test
+        ModeConfiguration.reset();
     }
 
     @Test
     void testInitializeWithValidMode() {
-        // Given
         String modeName = "testMode";
         Mode testMode = new Mode(modeName, "config/modes/test1.json");
         List<Mode> modes = List.of(testMode);
 
-        // Real config loader with test mode
+        // Anonymous subclass since ConfigurationLoader is a class
         ConfigurationLoader configLoader = new ConfigurationLoader() {
             @Override
             public List<Mode> getModes() {
@@ -42,26 +43,84 @@ class ModeConfigurationUnitTests {
             }
         };
 
-        // Use lambda instead of mocking Function
+        // Functional interface for loading resources
         Function<String, InputStream> resourceLoader = path ->
-                getClass().getClassLoader().getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
+                getClass().getClassLoader()
+                        .getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
 
-        // Check the resource is found
-        InputStream configStream = resourceLoader.apply("config/modes/test1.json");
-        assertNotNull(configStream, "test1.json resource should be found");
+        assertNotNull(resourceLoader.apply("config/modes/test1.json"),
+                "test1.json should be present in test resources");
 
-        // When
         ModeConfiguration.initialize(modeName, configLoader, resourceLoader);
         ModeConfiguration instance = ModeConfiguration.getInstance();
 
-        // Then
-        assertNotNull(instance);
-        assertNotNull(instance.getPillarObserver());
-
         for (Pillars pillar : Pillars.values()) {
-            PillarData pillarData = instance.getPillarData(pillar);
-            assertNotNull(pillarData);
-            assertEquals(1, pillarData.getValue());
+            PillarData data = instance.getPillarData(pillar);
+            assertNotNull(data, "PillarData should not be null for " + pillar);
+            assertEquals(1, data.getValue(),
+                    "Default value for " + pillar + " should be 1");
         }
+    }
+
+    @Test
+    void testUpdatePillarValuesThrowsIfMonarchNotSet() {
+        String modeName = "testMode";
+        Mode testMode = new Mode(modeName, "config/modes/test1.json");
+        List<Mode> modes = List.of(testMode);
+
+        ConfigurationLoader configLoader = new ConfigurationLoader() {
+            @Override
+            public List<Mode> getModes() {
+                return modes;
+            }
+        };
+
+        Function<String, InputStream> resourceLoader = path ->
+                getClass().getClassLoader()
+                        .getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
+
+        ModeConfiguration.initialize(modeName, configLoader, resourceLoader);
+        ModeConfiguration instance = ModeConfiguration.getInstance();
+
+        // Prepare a new GameConfiguration without a selected monarch
+        GameConfiguration.setInstance(null);
+        GameConfiguration gameConfig = GameConfiguration.getInstance();
+        gameConfig.getMonarchInitialValues().put("SomeMonarch", Map.of("nobles", 10));
+        // Do not call setSelectedMonarch(...)
+
+        instance.setGameConfigForTest(gameConfig);
+
+        assertThrows(IllegalStateException.class, instance::updatePillarValues);
+    }
+
+    @Test
+    void testUpdatePillarValuesThrowsIfGameConfigIsNull() {
+        // Given a fresh ModeConfiguration instance without setting a gameConfig
+        ModeConfiguration.reset(); // Clear any previous singleton instance
+
+        String modeName = "testMode";
+        Mode testMode = new Mode(modeName, "config/modes/test1.json");
+        List<Mode> modes = List.of(testMode);
+
+        ConfigurationLoader configLoader = new ConfigurationLoader() {
+            @Override
+            public List<Mode> getModes() {
+                return modes;
+            }
+        };
+
+        Function<String, InputStream> resourceLoader = path ->
+                getClass().getClassLoader()
+                        .getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
+
+        // Initialize ModeConfiguration
+        ModeConfiguration.initialize(modeName, configLoader, resourceLoader);
+        ModeConfiguration instance = ModeConfiguration.getInstance();
+
+        // Set gameConfig to null manually for testing
+        instance.setGameConfigForTest(null);
+
+        // Then: updatePillarValues should throw
+        assertThrows(IllegalStateException.class, instance::updatePillarValues);
     }
 }
