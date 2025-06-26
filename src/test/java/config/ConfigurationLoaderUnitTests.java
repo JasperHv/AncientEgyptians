@@ -20,9 +20,9 @@ class ConfigurationLoaderUnitTests {
 
     @BeforeEach
     void setUp() {
-        ByteArrayInputStream testStream =
-                new ByteArrayInputStream(MINIMAL_JSON.getBytes(StandardCharsets.UTF_8));
-        loader = new ConfigurationLoader(testStream);
+        InputStream is = getClass().getClassLoader().getResourceAsStream("config/minimal_config.json");
+        assertNotNull(is, "Config resource 'config/minimal_config.json' should be found in test resources");
+        loader = new ConfigurationLoader(is);
     }
 
     @Test
