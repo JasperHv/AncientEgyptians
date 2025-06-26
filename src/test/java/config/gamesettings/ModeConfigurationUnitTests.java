@@ -8,7 +8,6 @@ import ancientegyptiansgame.data.model.PillarData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
-import org.mockito.MockitoAnnotations;
 
 import java.io.InputStream;
 import java.util.List;
@@ -18,18 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ModeConfigurationUnitTests {
 
-    private AutoCloseable closeable;
-
     @BeforeEach
     void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
         ModeConfiguration.reset(); // Reset singleton before each test
     }
 
     @AfterEach
-    void tearDown() throws Exception {
+    void tearDown() {
         ModeConfiguration.reset(); // Clean up after each test
-        closeable.close();
     }
 
     @Test
