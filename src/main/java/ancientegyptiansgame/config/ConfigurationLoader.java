@@ -34,7 +34,7 @@ public class ConfigurationLoader {
     }
 
     // Default constructor uses the real file
-    private ConfigurationLoader() {
+    protected ConfigurationLoader() {
         this(ConfigurationLoader.class.getResourceAsStream(CONFIG_PATH));
     }
 
