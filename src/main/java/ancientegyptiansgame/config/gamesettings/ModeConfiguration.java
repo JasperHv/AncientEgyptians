@@ -18,14 +18,12 @@ public class ModeConfiguration {
 
     private GameConfiguration gameConfig;
     private final PillarObserver pillarObserver;
-    private final ConfigurationLoader configLoader;
     private final Function<String, InputStream> resourceLoader;
 
     // --- Constructor ---
     private ModeConfiguration(String modeName,
                               ConfigurationLoader configLoader,
                               Function<String, InputStream> resourceLoader) {
-        this.configLoader = configLoader;
         this.resourceLoader = resourceLoader;
         this.pillarObserver = new PillarObserver();
 
@@ -77,7 +75,7 @@ public class ModeConfiguration {
     }
 
     // Optional reset method (test-only)
-    static void reset() {
+    public static void reset() {
         instance = null;
     }
 
