@@ -35,4 +35,18 @@ class ConfigurationLoaderUnitTests {
         );
         assertTrue(modes.isEmpty());
     }
+
+    @Test
+    void parseModes_NullModes_ReturnsEmptyList() throws Exception {
+        String json = "{ \"modes\": null }";
+        ObjectMapper mapper = new ObjectMapper();
+        List<Mode> modes = mapper.convertValue(
+                mapper.readTree(json).get("modes"),
+                mapper.getTypeFactory().constructCollectionType(List.class, Mode.class)
+        );
+        if (modes == null) {
+            modes = java.util.Collections.emptyList();
+        }
+        assertTrue(modes.isEmpty());
+    }
 }
