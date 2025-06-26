@@ -86,10 +86,15 @@ public class ModeConfiguration {
 
     // --- Public Methods ---
     public void updatePillarValues() {
+        if (gameConfig == null) {
+            throw new IllegalStateException("Game configuration is not initialized.");
+        }
+
         Monarch selectedMonarch = gameConfig.getSelectedMonarch();
         if (selectedMonarch == null) {
             throw new IllegalStateException("Selected monarch is not set in game configuration.");
         }
+
 
         Map<String, Map<String, Integer>> monarchInitialValues = gameConfig.getMonarchInitialValues();
         String monarchName = selectedMonarch.getName();
@@ -116,4 +121,10 @@ public class ModeConfiguration {
     public PillarObserver getPillarObserver() {
         return pillarObserver;
     }
+
+    // Add for testing purposes
+    public void setGameConfigForTest(GameConfiguration gameConfig) {
+        this.gameConfig = gameConfig;
+    }
+
 }
