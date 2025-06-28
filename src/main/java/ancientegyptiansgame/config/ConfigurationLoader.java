@@ -46,6 +46,11 @@ public class ConfigurationLoader {
         loadMainConfig(configStream);
     }
 
+    // Optional reset method (test-only)
+    public static void reset() {
+        instance = null;
+    }
+
     private void loadMainConfig(InputStream configStream) {
         try (InputStream input = configStream) {
             if (input == null) {
