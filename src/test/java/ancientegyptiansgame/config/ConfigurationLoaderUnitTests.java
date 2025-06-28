@@ -1,4 +1,4 @@
-package config;
+package ancientegyptiansgame.config;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

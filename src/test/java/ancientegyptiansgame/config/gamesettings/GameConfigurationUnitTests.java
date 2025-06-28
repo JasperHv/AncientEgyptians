@@ -1,4 +1,4 @@
-package config.gamesettings;
+package ancientegyptiansgame.config.gamesettings;
 
 import ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import ancientegyptiansgame.data.model.Monarch;

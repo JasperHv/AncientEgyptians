@@ -1,10 +1,12 @@
-package config.integration;
+package ancientegyptiansgame.config;
 
-import ancientegyptiansgame.config.ConfigurationLoader;
 import ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import ancientegyptiansgame.config.scoresettings.ScoreConfig;
 import ancientegyptiansgame.config.scoresettings.ScoreSettings;
+
+
+import static ancientegyptiansgame.config.gamesettings.ModeConfigurationTestAccess.*;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +57,7 @@ public class ConfigIntegrationTests {
         };
         ModeConfiguration.initialize("Classic", configLoader, resourceLoader);
         ModeConfiguration modeConfig = ModeConfiguration.getInstance();
-        modeConfig.setGameConfigForTest(gameConfig);
+        setGameConfig(modeConfig, gameConfig);
 
         // Assertions: All configs are linked and initialized
         assertEquals("Cleopatra", gameConfig.getSelectedMonarch().getName());

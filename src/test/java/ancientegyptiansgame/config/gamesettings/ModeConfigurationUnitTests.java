@@ -1,4 +1,4 @@
-package config.gamesettings;
+package ancientegyptiansgame.config.gamesettings;
 
 import ancientegyptiansgame.config.ConfigurationLoader;
 import ancientegyptiansgame.config.gamesettings.ModeConfiguration;

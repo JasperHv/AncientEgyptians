@@ -1,12 +1,11 @@
-package config;
+package ancientegyptiansgame.config;
 
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 
-import config.integration.ConfigIntegrationTests;
-import config.gamesettings.ModeConfigurationUnitTests;
-import config.gamesettings.GameConfigurationUnitTests;
+import ancientegyptiansgame.config.gamesettings.ModeConfigurationUnitTests;
+import ancientegyptiansgame.config.gamesettings.GameConfigurationUnitTests;
 
 @Suite
 @SelectClasses({
