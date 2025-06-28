@@ -138,9 +138,8 @@ public class ModeConfiguration {
         return pillarObserver;
     }
 
-    // Add for testing purposes
-    public void setGameConfigForTest(GameConfiguration gameConfig) {
+    // Package-private setter for testing
+    void setGameConfigForTest(GameConfiguration gameConfig) {
         this.gameConfig = gameConfig;
     }
-
 }
