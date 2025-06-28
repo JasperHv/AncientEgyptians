@@ -1,4 +1,4 @@
-package integration;
+package config.integration;
 
 import ancientegyptiansgame.config.ConfigurationLoader;
 import ancientegyptiansgame.config.gamesettings.GameConfiguration;
@@ -15,7 +15,7 @@ import ancientegyptiansgame.exception.ConfigurationNotFoundException;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConfigIntegrationTests {
+public class ConfigIntegrationTests {
 
     @BeforeEach
     void resetConfigs() {
