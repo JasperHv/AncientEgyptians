@@ -4,14 +4,13 @@ import ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import ancientegyptiansgame.config.scoresettings.ScoreConfig;
 import ancientegyptiansgame.config.scoresettings.ScoreSettings;
-import ancientegyptiansgame.data.model.Monarch;
-import org.junit.jupiter.api.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.io.InputStream;
 
+import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConfigIntegrationTests {
@@ -19,7 +18,7 @@ class ConfigIntegrationTests {
     @BeforeEach
     void resetConfigs() {
         GameConfiguration.setInstance(null);
-        ModeConfiguration.resetInstanceForTest();
+        ModeConfiguration.reset();
     }
 
     @Test
@@ -39,8 +38,8 @@ class ConfigIntegrationTests {
         gameConfig.initializeScoreAndYear(scoreSettings);
 
         // Setup ModeConfiguration
-        var mode = new ancientegyptiansgame.data.model.Mode("Classic", "config/modes/classic.json");
-        List<ancientegyptiansgame.config.data.model.Mode> modes = List.of(mode);
+        var mode = new ancientegyptiansgame.data.model.Mode("Classic", "config/modes/test1.json");
+        List<ancientegyptiansgame.data.model.Mode> modes = List.of(mode);
         var configLoader = new ancientegyptiansgame.config.ConfigurationLoader() {
             @Override
             public List<ancientegyptiansgame.data.model.Mode> getModes() {
