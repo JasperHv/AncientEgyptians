@@ -4,10 +4,13 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group 'ancientegyptiansgame'
-version '1.0-SNAPSHOT'
+group = 'ancientegyptiansgame'
+version = '1.0-SNAPSHOT'
 
-sourceCompatibility = 11
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 repositories {
     mavenCentral()
@@ -20,6 +23,7 @@ javafx {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testImplementation 'org.junit.platform:junit-platform-suite:1.10.2'
     implementation group: 'com.google.guava', name: 'guava', version: '33.4.0-jre'
     implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'org.slf4j:slf4j-simple:2.0.9'
@@ -45,7 +49,7 @@ jacocoTestReport {
     }
 }
 jar {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes "Main-Class": "ancientegyptiansgame.AncientEgyptiansApp"
     }

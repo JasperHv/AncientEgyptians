@@ -1,0 +1,39 @@
+{
+  "modes": [
+    { "name": "Test Mode 1", "configPath": "configuration/modes/test1.json" },
+    { "name": "Test Mode 2", "configPath": "configuration/modes/test2.json" }
+  ],
+  "monarchs": ["Testmonarch1", "Testmonarch2"],
+  "goldenAgeEnding": {
+    "description": "A test golden age ending.",
+    "image": "endings/test-golden.png"
+  },
+  "bad ending": {
+    "description": "A test bad ending.",
+    "image": "endings/test-bad.png"
+  },
+  "scoreSettings": {
+    "scoreConfig": {
+      "initialScore": 0,
+      "initialYearCount": 0,
+      "yearThreshold": 10,
+      "maximumYearCount": 20
+    },
+    "bonusConfig": {
+      "thresholds": [1, 2],
+      "bonusScores": [5, 10],
+      "balancedBonus": 2
+    },
+    "yearCountIncrease": 1,
+    "baseScoreIncrease": 1
+  },
+  "pillars": [
+    {
+      "name": "nobles",
+      "ending": {
+        "description": "Pillar ending for nobles.",
+        "image": "endings/nobles-ending.png"
+      }
+    }
+  ]
+}

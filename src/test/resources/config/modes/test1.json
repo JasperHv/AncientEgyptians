@@ -1,0 +1,16 @@
+{
+  "monarchInitialValues": {
+    "TestMonarch1": {
+      "priests": 60,
+      "military": 50,
+      "farmers": 70,
+      "nobles": 60
+    },
+    "TestMonarch2": {
+      "priests": 60,
+      "military": 70,
+      "farmers": 50,
+      "nobles": 60
+    }
+  }
+}

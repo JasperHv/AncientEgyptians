@@ -24,7 +24,7 @@ public class AncientEgyptiansApp extends GameApplication {
     private GameView gameView;
 
     public static void main(String[] args) {
-        logger.info("Welcome to Software Design!");
+        logger.info("Welcome to AncientEgyptiansGame!");
         launch(args);
     }
 

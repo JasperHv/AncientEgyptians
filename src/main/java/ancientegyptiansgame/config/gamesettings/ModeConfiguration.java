@@ -11,18 +11,23 @@ import ancientegyptiansgame.observer.PillarObserver;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ModeConfiguration {
     private static ModeConfiguration instance;
 
     private GameConfiguration gameConfig;
     private final PillarObserver pillarObserver;
+    private final Function<String, InputStream> resourceLoader;
 
-    private ModeConfiguration(String modeName) {
+    // --- Constructor ---
+    private ModeConfiguration(String modeName,
+                              ConfigurationLoader configLoader,
+                              Function<String, InputStream> resourceLoader) {
+        this.resourceLoader = resourceLoader;
         this.pillarObserver = new PillarObserver();
-        ConfigurationLoader mainLoader = ConfigurationLoader.getInstance();
 
-        Mode selectedMode = mainLoader.getModes().stream()
+        Mode selectedMode = configLoader.getModes().stream()
                 .filter(m -> m.getName().equalsIgnoreCase(modeName))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No mode found for: " + modeName));
@@ -31,16 +36,17 @@ public class ModeConfiguration {
     }
 
     private void loadModeConfig(String modeConfigPath) {
-        try (InputStream input = getClass().getResourceAsStream("/" + modeConfigPath)) {
+        try (InputStream input = resourceLoader.apply("/" + modeConfigPath)) {
             if (input == null) {
                 throw new ConfigurationNotFoundException("Mode config file not found: " + modeConfigPath);
             }
 
             ObjectMapper mapper = new ObjectMapper();
             gameConfig = mapper.readValue(input, GameConfiguration.class);
+
+            validateGameConfig(gameConfig);
             GameConfiguration.setInstance(gameConfig);
 
-            // Initialize pillars with default value (e.g., 1)
             for (Pillars pillar : Pillars.values()) {
                 pillarObserver.addPillar(pillar, 1);
             }
@@ -50,28 +56,53 @@ public class ModeConfiguration {
         }
     }
 
+    private void validateGameConfig(GameConfiguration config) {
+        if (config == null) {
+            throw new IllegalArgumentException("GameConfiguration is null after parsing.");
+        }
+
+        if (config.getMonarchInitialValues() == null || config.getMonarchInitialValues().isEmpty()) {
+            throw new IllegalArgumentException("Missing or empty monarchInitialValues.");
+        }
+    }
+
+    // --- Singleton Access ---
     public static void initialize(String modeName) {
+        initialize(modeName, ConfigurationLoader.getInstance(), ModeConfiguration::defaultResourceLoader);
+    }
+
+    public static void initialize(String modeName,
+                                  ConfigurationLoader configLoader,
+                                  Function<String, InputStream> resourceLoader) {
         if (instance == null) {
-            instance = new ModeConfiguration(modeName);
+            instance = new ModeConfiguration(modeName, configLoader, resourceLoader);
         }
     }
 
     public static ModeConfiguration getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("ModeConfiguration not initialized. Call initialize(modeName) first.");
+            throw new IllegalStateException("ModeConfiguration not initialized.");
         }
         return instance;
     }
 
+    // Optional reset method (test-only)
+    public static void reset() {
+        instance = null;
+    }
+
+    // --- Helper for default resource loader ---
+    private static InputStream defaultResourceLoader(String path) {
+        return ModeConfiguration.class.getResourceAsStream(path);
+    }
+
+    // --- Public Methods ---
     public void updatePillarValues() {
-        Monarch selectedMonarch = gameConfig.getSelectedMonarch();
-        if (selectedMonarch == null) {
-            throw new IllegalStateException("Selected monarch is not set in game configuration.");
+        if (gameConfig == null) {
+            throw new IllegalStateException("Game configuration is not initialized.");
         }
 
-        Map<String, Map<String, Integer>> monarchInitialValues = gameConfig.getMonarchInitialValues();
-        String monarchName = selectedMonarch.getName();
-        Map<String, Integer> initialValues = monarchInitialValues.get(monarchName);
+        Map<String, Integer> initialValues = getInitialValues();
 
         for (Pillars pillar : Pillars.values()) {
             int value = (initialValues != null)
@@ -87,11 +118,28 @@ public class ModeConfiguration {
         }
     }
 
+    private Map<String, Integer> getInitialValues() {
+        Monarch selectedMonarch = gameConfig.getSelectedMonarch();
+        if (selectedMonarch == null) {
+            throw new IllegalStateException("Selected monarch is not set in game configuration.");
+        }
+
+
+        Map<String, Map<String, Integer>> monarchInitialValues = gameConfig.getMonarchInitialValues();
+        String monarchName = selectedMonarch.getName();
+        return monarchInitialValues.get(monarchName);
+    }
+
     public PillarData getPillarData(Pillars pillar) {
         return pillarObserver.getPillarData(pillar);
     }
 
     public PillarObserver getPillarObserver() {
         return pillarObserver;
+    }
+
+    // Package-private setter for testing
+    void setGameConfigForTest(GameConfiguration gameConfig) {
+        this.gameConfig = gameConfig;
     }
 }
