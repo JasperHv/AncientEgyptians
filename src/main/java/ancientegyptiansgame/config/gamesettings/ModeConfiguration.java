@@ -43,6 +43,8 @@ public class ModeConfiguration {
 
             ObjectMapper mapper = new ObjectMapper();
             gameConfig = mapper.readValue(input, GameConfiguration.class);
+
+            validateGameConfig(gameConfig);
             GameConfiguration.setInstance(gameConfig);
 
             for (Pillars pillar : Pillars.values()) {
@@ -51,6 +53,16 @@ public class ModeConfiguration {
 
         } catch (Exception e) {
             throw new ConfigurationNotFoundException("Error loading mode config: " + e.getMessage(), e);
+        }
+    }
+
+    private void validateGameConfig(GameConfiguration config) {
+        if (config == null) {
+            throw new IllegalArgumentException("GameConfiguration is null after parsing.");
+        }
+
+        if (config.getMonarchInitialValues() == null || config.getMonarchInitialValues().isEmpty()) {
+            throw new IllegalArgumentException("Missing or empty monarchInitialValues.");
         }
     }
 
