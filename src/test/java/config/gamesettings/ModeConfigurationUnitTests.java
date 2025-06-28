@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ModeConfigurationUnitTests {
+public class ModeConfigurationUnitTests {
 
     @BeforeEach
     void setUp() {
