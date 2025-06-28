@@ -63,6 +63,39 @@ class ModeConfigurationUnitTests {
     }
 
     @Test
+    void testUpdatePillarValuesSucceedsIfMonarchIsSet() {
+        String modeName = "testMode";
+        Mode testMode = new Mode(modeName, "config/modes/test1.json");
+        List<Mode> modes = List.of(testMode);
+
+        ConfigurationLoader configLoader = new ConfigurationLoader() {
+            @Override
+            public List<Mode> getModes() {
+                return modes;
+            }
+        };
+
+        Function<String, InputStream> resourceLoader = path ->
+                getClass().getClassLoader()
+                        .getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
+
+        ModeConfiguration.initialize(modeName, configLoader, resourceLoader);
+        ModeConfiguration instance = ModeConfiguration.getInstance();
+
+        // Prepare a new GameConfiguration with a selected monarch
+        GameConfiguration.setInstance(null);
+        GameConfiguration gameConfig = GameConfiguration.getInstance();
+        String monarchName = "SomeMonarch";
+        gameConfig.getMonarchInitialValues().put(monarchName, Map.of("nobles", 10));
+        gameConfig.setSelectedMonarch(monarchName);
+
+        instance.setGameConfigForTest(gameConfig);
+
+        // Should not throw any exception
+        assertDoesNotThrow(instance::updatePillarValues);
+    }
+
+    @Test
     void testUpdatePillarValuesThrowsIfMonarchNotSet() {
         String modeName = "testMode";
         Mode testMode = new Mode(modeName, "config/modes/test1.json");
