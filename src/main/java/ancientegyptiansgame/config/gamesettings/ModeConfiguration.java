@@ -8,6 +8,7 @@ import ancientegyptiansgame.data.model.Mode;
 import ancientegyptiansgame.data.model.PillarData;
 import ancientegyptiansgame.exception.ConfigurationNotFoundException;
 import ancientegyptiansgame.observer.PillarObserver;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -130,6 +131,11 @@ public class ModeConfiguration {
         return monarchInitialValues.get(monarchName);
     }
 
+    @VisibleForTesting
+    public Map<String, Map<String, Integer>> getAllMonarchInitialValues() {
+        return gameConfig.getMonarchInitialValues();
+    }
+
     public PillarData getPillarData(Pillars pillar) {
         return pillarObserver.getPillarData(pillar);
     }
@@ -139,7 +145,7 @@ public class ModeConfiguration {
     }
 
     // Package-private setter for testing
-    void setGameConfigForTest(GameConfiguration gameConfig) {
+    public void setGameConfigForTest(GameConfiguration gameConfig) {
         this.gameConfig = gameConfig;
     }
 }
