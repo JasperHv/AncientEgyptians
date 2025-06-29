@@ -1,11 +1,10 @@
 package ancientegyptiansgame.config.gamesettings;
 
 import ancientegyptiansgame.config.ConfigurationLoader;
-import ancientegyptiansgame.config.gamesettings.ModeConfiguration;
-import ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import ancientegyptiansgame.data.model.Mode;
 import ancientegyptiansgame.data.model.Pillars;
 import ancientegyptiansgame.data.model.PillarData;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,9 +17,6 @@ import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ModeConfigurationUnitTests {
-
-    private final String modeName = "testMode";
-    private final String jsonPath = "config/modes/test1.json";
 
     @BeforeEach
     void setUp() {
@@ -47,6 +43,8 @@ public class ModeConfigurationUnitTests {
     }
 
     private void initializeWithTestMode() {
+        String modeName = "testMode";
+        String jsonPath = "config/modes/test1.json";
         Mode testMode = new Mode(modeName, jsonPath);
         ConfigurationLoader configLoader = mockConfigLoader(testMode);
         Function<String, InputStream> resourceLoader = getResourceLoader();
