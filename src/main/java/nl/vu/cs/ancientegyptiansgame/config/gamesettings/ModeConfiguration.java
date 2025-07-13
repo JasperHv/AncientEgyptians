@@ -17,6 +17,7 @@ public class ModeConfiguration {
 
     private GameConfiguration gameConfig;
     private final PillarObserver pillarObserver;
+    private final Mode currentMode;
 
     private ModeConfiguration(String modeName) {
         this.pillarObserver = new PillarObserver();
@@ -27,6 +28,7 @@ public class ModeConfiguration {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No mode found for: " + modeName));
 
+        this.currentMode = selectedMode;
         loadModeConfig(selectedMode.getConfigPath());
     }
 
@@ -93,5 +95,9 @@ public class ModeConfiguration {
 
     public PillarObserver getPillarObserver() {
         return pillarObserver;
+    }
+
+    public Mode getCurrentMode() {
+        return currentMode;
     }
 }

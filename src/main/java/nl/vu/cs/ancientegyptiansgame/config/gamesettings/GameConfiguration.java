@@ -3,6 +3,7 @@ package nl.vu.cs.ancientegyptiansgame.config.gamesettings;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreConfig;
 import nl.vu.cs.ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import nl.vu.cs.ancientegyptiansgame.data.model.Card;
+import nl.vu.cs.ancientegyptiansgame.data.model.Mode;
 import nl.vu.cs.ancientegyptiansgame.data.model.Monarch;
 import nl.vu.cs.ancientegyptiansgame.data.model.Pillars;
 import nl.vu.cs.ancientegyptiansgame.logging.GameStateEntry;
@@ -90,12 +91,16 @@ public class GameConfiguration {
         int year = GameConfiguration.getInstance().getYearsInPowerObserver().getYearsInPower();
         int score = GameConfiguration.getInstance().getScoreObserver().getScore();
 
+        Mode currentMode = ModeConfiguration.getInstance().getCurrentMode();
+
         GameStateEntry gameState = new GameStateEntry(
+                currentMode,
                 pillarMap,
                 year,
                 score,
                 System.currentTimeMillis()
         );
+
         GameStateLogger.logGameState(gameState);
     }
 }
