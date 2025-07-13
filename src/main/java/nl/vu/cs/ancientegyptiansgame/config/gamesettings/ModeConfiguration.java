@@ -89,6 +89,27 @@ public class ModeConfiguration {
         }
     }
 
+    public void updatePillarValuesWithLoadedGame(Map<String, Integer> savedPillarValues) {
+        if (savedPillarValues == null || savedPillarValues.isEmpty()) {
+            // If no saved values, fall back to monarch initial values
+            updatePillarValues();
+            return;
+        }
+
+        // Load the saved pillar values
+        for (Pillars pillar : Pillars.values()) {
+            String pillarName = pillar.getName().toLowerCase();
+            int savedValue = savedPillarValues.getOrDefault(pillarName, 0);
+
+            PillarData pillarData = pillarObserver.getPillarData(pillar);
+            if (pillarData != null) {
+                pillarData.setValue(savedValue);
+            } else {
+                pillarObserver.addPillar(pillar, savedValue);
+            }
+        }
+    }
+
     public static boolean isInitialized() {
         return instance != null;
     }
