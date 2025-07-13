@@ -1,6 +1,7 @@
 package nl.vu.cs.ancientegyptiansgame.ui.menus;
 
 import javafx.geometry.Pos;
+import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
@@ -156,12 +157,18 @@ public class MainMenu extends FXGLMenu {
     }
 
     private void loadSavedGame(GameStateEntry gameState) {
+        // Load ModeConfiguration with the saved game mode & pillarValues
         String modeName = gameState.getGameMode().getName();
         ModeConfiguration.initialize(modeName);
-        ModeConfiguration.getInstance().updatePillarValuesWithLoadedGame(gameState.getPillars());
-        // Still needs to set the year and score in the game configuration
-        // And actually start the game with the loaded state
+        ModeConfiguration.getInstance().updatePillarValuesWithLoadedGame(gameState.getPillars()); // Get the GameConfiguration instance
 
+        GameConfiguration gameConfig = GameConfiguration.getInstance();
+
+        // Set the score from saved game
+        gameConfig.getScoreObserver().setScore(gameState.getScore());
+        gameConfig.getYearsInPowerObserver().setYearsInPower(gameState.getYear());
+        
+        // TODO: Start the game with the loaded configuration
     }
 
     private void showGameModeMenu() {
