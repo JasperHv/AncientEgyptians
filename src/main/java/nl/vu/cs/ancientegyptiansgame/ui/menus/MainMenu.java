@@ -1,5 +1,6 @@
 package nl.vu.cs.ancientegyptiansgame.ui.menus;
 
+import javafx.geometry.Pos;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
@@ -74,14 +75,14 @@ public class MainMenu extends FXGLMenu {
         getContentRoot().getChildren().clear();
 
         VBox modeBox = new VBox(20);
-        modeBox.setTranslateX((double) 1280 / 2 - 100);
+        modeBox.setTranslateX((double) 1280 / 2 - 200);
         modeBox.setTranslateY(200);
+        modeBox.setAlignment(Pos.CENTER);
 
         Label message = new Label("Choose your saved game");
         message.setFont(Font.font(PAPYRUS_FONT, 36));
         message.setTextFill(Color.WHITE);
-
-        message.setTranslateX((double) 1280 / 2 - 680);
+        message.setTranslateX((double) 1280 / 2 - 650);
         message.setTranslateY(0);
 
         List<GameStateEntry> savedGames = GameStateLogger.loadGameStates();
@@ -91,25 +92,57 @@ public class MainMenu extends FXGLMenu {
             noSavedGames.setTextFill(Color.WHITE);
             modeBox.getChildren().addAll(message, noSavedGames);
         } else {
-            // Display saved games as buttons, for now we will just show a single button
-            // This button should load a saved game, for now it starts a new game with "Very Easy Mode"
             modeBox.getChildren().add(message);
 
             for (int i = 0; i < savedGames.size(); i++) {
                 GameStateEntry gameState = savedGames.get(i);
 
-                // Create a descriptive button text
-                String buttonText = String.format("Game %d: %s - Year %d, Score %d",
-                        i + 1,
-                        gameState.getGameMode().getName(),
-                        gameState.getYear(),
-                        gameState.getScore());
+                // Create main container for each save entry
+                HBox saveEntry = new HBox();
+                saveEntry.setPrefWidth(400);
+                saveEntry.setSpacing(20);
+                saveEntry.setAlignment(Pos.CENTER_LEFT);
 
-                Button savedGameButton = new Button(buttonText);
-                savedGameButton.setPrefWidth(400);
-                savedGameButton.setOnAction(e -> loadSavedGame(gameState));
+                // Left side - Save name and number
+                VBox leftSide = new VBox(5);
+                leftSide.setPrefWidth(200);
 
-                modeBox.getChildren().add(savedGameButton);
+                Label saveName = new Label("Game " + (i + 1));
+                saveName.setFont(Font.font(PAPYRUS_FONT, 24));
+                saveName.setTextFill(Color.WHITE);
+
+                leftSide.getChildren().addAll(saveName);
+
+                // Right side - Details stacked vertically
+                VBox rightSide = new VBox(2);
+                rightSide.setPrefWidth(200);
+                rightSide.setAlignment(Pos.CENTER_RIGHT);
+
+                Label modeLabel = new Label(gameState.getGameMode().getName());
+                modeLabel.setFont(Font.font(PAPYRUS_FONT, 18));
+                modeLabel.setTextFill(Color.WHITE);
+
+                Label yearLabel = new Label("Year " + gameState.getYear());
+                yearLabel.setFont(Font.font(PAPYRUS_FONT, 16));
+                yearLabel.setTextFill(Color.LIGHTGRAY);
+
+                Label scoreLabel = new Label("Score " + gameState.getScore());
+                scoreLabel.setFont(Font.font(PAPYRUS_FONT, 16));
+                scoreLabel.setTextFill(Color.LIGHTGRAY);
+
+                rightSide.getChildren().addAll(modeLabel, yearLabel, scoreLabel);
+
+                // Add both sides to the main container
+                saveEntry.getChildren().addAll(leftSide, rightSide);
+
+                // Make the entire entry clickable
+                saveEntry.setOnMouseClicked(e -> loadSavedGame(gameState));
+
+                // Add hover effect
+                saveEntry.setOnMouseEntered(e -> saveEntry.setStyle("-fx-border-color: rgba(255, 255, 255, 0.5); -fx-border-width: 2; -fx-background-color: rgba(255, 255, 255, 0.1); -fx-background-radius: 5; -fx-border-radius: 5;"));
+                saveEntry.setOnMouseExited(e -> saveEntry.setStyle("-fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1; -fx-background-color: rgba(0, 0, 0, 0.2); -fx-background-radius: 5; -fx-border-radius: 5;"));
+
+                modeBox.getChildren().add(saveEntry);
             }
         }
 
