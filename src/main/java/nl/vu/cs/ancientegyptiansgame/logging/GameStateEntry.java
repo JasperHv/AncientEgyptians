@@ -1,5 +1,6 @@
 package nl.vu.cs.ancientegyptiansgame.logging;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.vu.cs.ancientegyptiansgame.data.model.Mode;
 
@@ -17,10 +18,17 @@ public class GameStateEntry {
 
     @JsonProperty("score")
     private final int score;
+
     @JsonProperty("timestamp")
     private final long timestamp;
 
-    public GameStateEntry(Mode gameMode,Map<String, Integer> pillars, int year, int score, long timestamp) {
+    @JsonCreator
+    public GameStateEntry(
+            @JsonProperty("gameMode") Mode gameMode,
+            @JsonProperty("pillarValues") Map<String, Integer> pillars,
+            @JsonProperty("year") int year,
+            @JsonProperty("score") int score,
+            @JsonProperty("timestamp") long timestamp) {
         this.gameMode = gameMode;
         this.pillars = pillars;
         this.year = year;
