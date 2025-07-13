@@ -68,7 +68,7 @@ public class MainMenu extends FXGLMenu {
         getContentRoot().getChildren().add(menuBox);
     }
 
-    private void showSavedGameMenu(){
+    private void showSavedGameMenu() {
         getContentRoot().getChildren().clear();
 
         VBox modeBox = new VBox(20);
@@ -91,16 +91,29 @@ public class MainMenu extends FXGLMenu {
         } else {
             // Display saved games as buttons, for now we will just show a single button
             // This button should load a saved game, for now it starts a new game with "Very Easy Mode"
-            Button btnSavedGame = new Button("Saved game");
-            btnSavedGame.setPrefWidth(200);
-            btnSavedGame.setOnAction(e -> {
-                ModeConfiguration.initialize("Very Easy Mode");
-                FXGL.getGameController().startNewGame();
-            });
+            modeBox.getChildren().add(message);
 
-            modeBox.getChildren().addAll(message, btnSavedGame);
+            for (int i = 0; i < savedGames.size(); i++) {
+                GameStateEntry gameState = savedGames.get(i);
+
+                // Create a descriptive button text
+                String buttonText = String.format("Game %d: %s - Year %d, Score %d",
+                        i + 1,
+                        gameState.getGameMode().getName(),
+                        gameState.getYear(),
+                        gameState.getScore());
+
+                Button savedGameButton = new Button(buttonText);
+                savedGameButton.setPrefWidth(400);
+                savedGameButton.setOnAction(e -> loadSavedGame(gameState));
+
+                modeBox.getChildren().add(savedGameButton);
+            }
         }
         getContentRoot().getChildren().add(modeBox);
+    }
+
+    private void loadSavedGame(GameStateEntry gameState) {
     }
 
     private void showGameModeMenu() {
