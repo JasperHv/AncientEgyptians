@@ -16,6 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import ancientegyptiansgame.AncientEgyptiansApp;
 import ancientegyptiansgame.handlers.EndingHandler;
 import ancientegyptiansgame.handlers.SwipeHandler;
 import ancientegyptiansgame.data.enums.SwipeSide;
@@ -23,7 +24,6 @@ import ancientegyptiansgame.config.ConfigurationLoader;
 import ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import ancientegyptiansgame.data.model.Ending;
-import ancientegyptiansgame.handlers.HandleScore;
 import ancientegyptiansgame.controller.GameStateController;
 import ancientegyptiansgame.controller.GameFlowController;
 import ancientegyptiansgame.listeners.EndingListener;
@@ -147,6 +147,11 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
     }
 
     public void updateCardAndMessage() {
+        boolean savedGame = ((AncientEgyptiansApp) FXGL.getApp()).getLoadingSavedGame();
+        if (savedGame){
+            gameFlowController.getGameStateManager().setIntroPhase(false);
+        }
+
         if (gameStateController.isIntroPhase()) {
             gameFlowController.handleIntroPhase(messageLabel);
         } else {

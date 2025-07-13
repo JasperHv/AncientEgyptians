@@ -1,6 +1,7 @@
 package ancientegyptiansgame;
 
 import com.almasb.fxgl.app.GameSettings;
+
 import ancientegyptiansgame.config.ConfigurationLoader;
 import ancientegyptiansgame.config.gamesettings.*;
 import ancientegyptiansgame.config.scoresettings.ScoreSettings;
@@ -12,6 +13,7 @@ import ancientegyptiansgame.observer.YearsInPowerObserver;
 import ancientegyptiansgame.ui.scenes.GameSceneFactory;
 import ancientegyptiansgame.ui.views.GameView;
 
+import com.almasb.fxgl.dsl.FXGL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.almasb.fxgl.app.GameApplication;
@@ -22,6 +24,14 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 public class AncientEgyptiansApp extends GameApplication {
     private static final Logger logger = LoggerFactory.getLogger(AncientEgyptiansApp.class);
     private GameView gameView;
+    private boolean isLoadingSavedGame = false;
+
+    public void setLoadingSavedGame(boolean loading) {
+        this.isLoadingSavedGame = loading;
+    }
+    public boolean getLoadingSavedGame() {
+        return isLoadingSavedGame;
+    }
 
     public static void main(String[] args) {
         logger.info("Welcome to AncientEgyptiansGame!");
@@ -59,7 +69,9 @@ public class AncientEgyptiansApp extends GameApplication {
             scoreObserver.addListener(gameView);
             yearsObserver.addListener(gameView);
 
-            gameConfig.initializeScoreAndYear(scoreConfig);
+            if (!isLoadingSavedGame) {
+                gameConfig.initializeScoreAndYear(scoreConfig);
+            }
 
             ModeConfiguration config = ModeConfiguration.getInstance();
 
@@ -71,8 +83,13 @@ public class AncientEgyptiansApp extends GameApplication {
                 vars.put(pillars.getName().toLowerCase(), value);
             }
 
-            scoreObserver.setScore(gameConfig.getInitialScoreCount());
-            yearsObserver.setYearsInPower(gameConfig.getInitialYearCount());
+            if (!isLoadingSavedGame) {
+                scoreObserver.setScore(gameConfig.getInitialScoreCount());
+                yearsObserver.setYearsInPower(gameConfig.getInitialYearCount());
+            }
+
+            // Reset flag after initialization
+            isLoadingSavedGame = false;
         } catch (IllegalStateException e) {
             logger.warn("ModeConfiguration not initialized yet. Pillars values will be set later.");
         }
@@ -87,5 +104,10 @@ public class AncientEgyptiansApp extends GameApplication {
         } else {
             logger.error("GameView is null in initUI() - this should not happen!");
         }
+    }
+
+    @Override
+    protected void onPreInit() {
+        FXGL.getPrimaryStage().setOnCloseRequest(event -> GameConfiguration.saveGame());
     }
 }
