@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 public class MainMenu extends FXGLMenu {
+    private static final String PAPYRUS_FONT = "Papyrus";
     public MainMenu() {
         super(MenuType.MAIN_MENU);
         getContentRoot().setPrefSize(1280, 720);
@@ -35,7 +36,7 @@ public class MainMenu extends FXGLMenu {
         )));
 
         Text title = new Text("REIGNS - Ancient Egyptians");
-        title.setFont(Font.font("Papyrus", 48));
+        title.setFont(Font.font(PAPYRUS_FONT, 48));
         title.setTranslateX((double) 1280 / 2 - 200);
         title.setTranslateY(150);
         title.setFill(Color.WHITE);
@@ -71,7 +72,7 @@ public class MainMenu extends FXGLMenu {
         modeBox.setTranslateY(200);
 
         Label message = new Label("Choose your saved game");
-        message.setFont(Font.font("Papyrus", 36));
+        message.setFont(Font.font(PAPYRUS_FONT, 36));
         message.setTextFill(Color.WHITE);
 
         message.setTranslateX((double) 1280 / 2 - 680);
@@ -97,7 +98,7 @@ public class MainMenu extends FXGLMenu {
         modeBox.setTranslateY(200);
 
         Label message = new Label("Choose your game mode");
-        message.setFont(Font.font("Papyrus", 36));
+        message.setFont(Font.font(PAPYRUS_FONT, 36));
         message.setTextFill(Color.WHITE);
 
         message.setTranslateX((double) 1280 / 2 - 680);
