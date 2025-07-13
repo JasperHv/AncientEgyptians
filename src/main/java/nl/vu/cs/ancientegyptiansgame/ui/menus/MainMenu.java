@@ -10,6 +10,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
+import nl.vu.cs.ancientegyptiansgame.logging.GameStateEntry;
+import nl.vu.cs.ancientegyptiansgame.logging.GameStateLogger;
+
+import java.util.List;
 
 public class MainMenu extends FXGLMenu {
     private static final String PAPYRUS_FONT = "Papyrus";
@@ -78,15 +82,24 @@ public class MainMenu extends FXGLMenu {
         message.setTranslateX((double) 1280 / 2 - 680);
         message.setTranslateY(0);
 
-        // This button should load a saved game, for now it starts a new game with "Very Easy Mode"
-        Button btnSavedGame = new Button("Saved game");
-        btnSavedGame.setPrefWidth(200);
-        btnSavedGame.setOnAction(e -> {
-            ModeConfiguration.initialize("Very Easy Mode");
-            FXGL.getGameController().startNewGame();
-        });
+        List<GameStateEntry> savedGames = GameStateLogger.loadGameStates();
+        if (savedGames.isEmpty()) {
+            Label noSavedGames = new Label("No saved games found");
+            noSavedGames.setFont(Font.font(PAPYRUS_FONT, 24));
+            noSavedGames.setTextFill(Color.WHITE);
+            modeBox.getChildren().addAll(message, noSavedGames);
+        } else {
+            // Display saved games as buttons, for now we will just show a single button
+            // This button should load a saved game, for now it starts a new game with "Very Easy Mode"
+            Button btnSavedGame = new Button("Saved game");
+            btnSavedGame.setPrefWidth(200);
+            btnSavedGame.setOnAction(e -> {
+                ModeConfiguration.initialize("Very Easy Mode");
+                FXGL.getGameController().startNewGame();
+            });
 
-        modeBox.getChildren().addAll(message, btnSavedGame);
+            modeBox.getChildren().addAll(message, btnSavedGame);
+        }
         getContentRoot().getChildren().add(modeBox);
     }
 
