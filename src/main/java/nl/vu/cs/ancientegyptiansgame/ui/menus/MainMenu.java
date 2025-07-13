@@ -156,6 +156,12 @@ public class MainMenu extends FXGLMenu {
     }
 
     private void loadSavedGame(GameStateEntry gameState) {
+        String modeName = gameState.getGameMode().getName();
+        ModeConfiguration.initialize(modeName);
+        ModeConfiguration.getInstance().updatePillarValuesWithLoadedGame(gameState.getPillars());
+        // Still needs to set the year and score in the game configuration
+        // And actually start the game with the loaded state
+
     }
 
     private void showGameModeMenu() {
