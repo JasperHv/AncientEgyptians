@@ -33,6 +33,10 @@ dependencies {
 test {
     useJUnitPlatform()
 
+    filter {
+        includeTestsMatching "ancientegyptiansgame.AllTestsSuite"
+    }
+
     testLogging {
         events "passed", "skipped", "failed"
     }
@@ -45,7 +49,7 @@ jacocoTestReport {
     reports {
         xml.required.set(true)      // for CI tools or SonarQube
         csv.required.set(false)
-        html.outputLocation.set(layout.buildDirectory.dir('jacocoHtml'))
+        html.outputLocation.set(layout.buildDirectory.dir('reports/jacoco/test/html'))
     }
 }
 jar {
@@ -59,7 +63,7 @@ jar {
     }
 }
 
-task printClasspath {
+tasks.register('printClasspath') {
     doLast {
         configurations.compileClassPath.each { println it }
     }

@@ -4,7 +4,6 @@
       "name": "test1",
       "configPath": "config/modes/test1.json"
     }
-    }
   ],
   "monarchs": ["Cleopatra", "Tutankhamun"],
   "goldenAgeEnding": {
