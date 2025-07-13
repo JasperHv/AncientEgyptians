@@ -89,6 +89,10 @@ public class ModeConfiguration {
         }
     }
 
+    public static boolean isInitialized() {
+        return instance != null;
+    }
+
     public PillarData getPillarData(Pillars pillar) {
         return pillarObserver.getPillarData(pillar);
     }

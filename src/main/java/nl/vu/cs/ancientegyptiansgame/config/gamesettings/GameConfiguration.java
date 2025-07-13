@@ -82,6 +82,10 @@ public class GameConfiguration {
     }
 
     public static void saveGame() {
+        if (!ModeConfiguration.isInitialized()) {
+            return;
+        }
+
         Map<String, Integer> pillarMap = new HashMap<>();
         for (Pillars pillar : Pillars.values()) {
             int value = ModeConfiguration.getInstance().getPillarData(pillar).getValue();
