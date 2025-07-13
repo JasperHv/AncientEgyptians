@@ -53,7 +53,7 @@ public class MainMenu extends FXGLMenu {
 
         Button btnLoadGame = new Button("Load Game");
         btnLoadGame.setPrefWidth(200);
-        btnLoadGame.setOnAction(e -> showGameModeMenu());
+        btnLoadGame.setOnAction(e -> showSavedGameMenu());
 
         Button btnExit = new Button("Exit");
         btnExit.setPrefWidth(200);
@@ -61,6 +61,32 @@ public class MainMenu extends FXGLMenu {
 
         menuBox.getChildren().addAll(btnNewGame, btnLoadGame, btnExit);
         getContentRoot().getChildren().add(menuBox);
+    }
+
+    private void showSavedGameMenu(){
+        getContentRoot().getChildren().clear();
+
+        VBox modeBox = new VBox(20);
+        modeBox.setTranslateX((double) 1280 / 2 - 100);
+        modeBox.setTranslateY(200);
+
+        Label message = new Label("Choose your saved game");
+        message.setFont(Font.font("Papyrus", 36));
+        message.setTextFill(Color.WHITE);
+
+        message.setTranslateX((double) 1280 / 2 - 680);
+        message.setTranslateY(0);
+
+        // This button should load a saved game, for now it starts a new game with "Very Easy Mode"
+        Button btnSavedGame = new Button("Saved game");
+        btnSavedGame.setPrefWidth(200);
+        btnSavedGame.setOnAction(e -> {
+            ModeConfiguration.initialize("Very Easy Mode");
+            FXGL.getGameController().startNewGame();
+        });
+
+        modeBox.getChildren().addAll(message, btnSavedGame);
+        getContentRoot().getChildren().add(modeBox);
     }
 
     private void showGameModeMenu() {
