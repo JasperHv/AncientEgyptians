@@ -3,7 +3,11 @@ package ancientegyptiansgame.config.gamesettings;
 import ancientegyptiansgame.config.scoresettings.ScoreConfig;
 import ancientegyptiansgame.config.scoresettings.ScoreSettings;
 import ancientegyptiansgame.data.model.Card;
+import ancientegyptiansgame.data.model.Mode;
 import ancientegyptiansgame.data.model.Monarch;
+import ancientegyptiansgame.data.model.Pillars;
+import ancientegyptiansgame.logging.GameStateEntry;
+import ancientegyptiansgame.logging.GameStateLogger;
 import ancientegyptiansgame.observer.ScoreObserver;
 import ancientegyptiansgame.observer.YearsInPowerObserver;
 
@@ -75,5 +79,32 @@ public class GameConfiguration {
 
     public YearsInPowerObserver getYearsInPowerObserver() {
         return yearsInPowerObserver;
+    }
+
+    public static void saveGame() {
+        if (!ModeConfiguration.isInitialized()) {
+            return;
+        }
+
+        Map<String, Integer> pillarMap = new HashMap<>();
+        for (Pillars pillar : Pillars.values()) {
+            int value = ModeConfiguration.getInstance().getPillarData(pillar).getValue();
+            pillarMap.put(pillar.name().toLowerCase(), value);
+        }
+
+        int year = GameConfiguration.getInstance().getYearsInPowerObserver().getYearsInPower();
+        int score = GameConfiguration.getInstance().getScoreObserver().getScore();
+
+        Mode currentMode = ModeConfiguration.getInstance().getCurrentMode();
+
+        GameStateEntry gameState = new GameStateEntry(
+                currentMode,
+                pillarMap,
+                year,
+                score,
+                System.currentTimeMillis()
+        );
+
+        GameStateLogger.logGameState(gameState);
     }
 }
