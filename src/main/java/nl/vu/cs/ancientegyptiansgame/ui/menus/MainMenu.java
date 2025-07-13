@@ -1,8 +1,12 @@
 package nl.vu.cs.ancientegyptiansgame.ui.menus;
 
-import javafx.geometry.Pos;
+import nl.vu.cs.ancientegyptiansgame.AncientEgyptiansApp;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import nl.vu.cs.ancientegyptiansgame.config.gamesettings.ModeConfiguration;
+import nl.vu.cs.ancientegyptiansgame.logging.GameStateEntry;
+import nl.vu.cs.ancientegyptiansgame.logging.GameStateLogger;
+
+import javafx.geometry.Pos;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
@@ -12,8 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
-import nl.vu.cs.ancientegyptiansgame.logging.GameStateEntry;
-import nl.vu.cs.ancientegyptiansgame.logging.GameStateLogger;
 
 import java.util.List;
 
@@ -125,11 +127,11 @@ public class MainMenu extends FXGLMenu {
 
                 Label yearLabel = new Label("Year " + gameState.getYear());
                 yearLabel.setFont(Font.font(PAPYRUS_FONT, 16));
-                yearLabel.setTextFill(Color.LIGHTGRAY);
+                yearLabel.setTextFill(Color.WHITE);
 
                 Label scoreLabel = new Label("Score " + gameState.getScore());
                 scoreLabel.setFont(Font.font(PAPYRUS_FONT, 16));
-                scoreLabel.setTextFill(Color.LIGHTGRAY);
+                scoreLabel.setTextFill(Color.WHITE);
 
                 rightSide.getChildren().addAll(modeLabel, yearLabel, scoreLabel);
 
@@ -157,18 +159,21 @@ public class MainMenu extends FXGLMenu {
     }
 
     private void loadSavedGame(GameStateEntry gameState) {
+        // Set flag to prevent reinitialization
+        ((AncientEgyptiansApp) FXGL.getApp()).setLoadingSavedGame(true);
+
         // Load ModeConfiguration with the saved game mode & pillarValues
         String modeName = gameState.getGameMode().getName();
         ModeConfiguration.initialize(modeName);
-        ModeConfiguration.getInstance().updatePillarValuesWithLoadedGame(gameState.getPillars()); // Get the GameConfiguration instance
+        ModeConfiguration.getInstance().updatePillarValuesWithLoadedGame(gameState.getPillars());
 
+        // Set saved values in GameConfiguration
         GameConfiguration gameConfig = GameConfiguration.getInstance();
-
-        // Set the score from saved game
         gameConfig.getScoreObserver().setScore(gameState.getScore());
         gameConfig.getYearsInPowerObserver().setYearsInPower(gameState.getYear());
-        
-        // TODO: Start the game with the loaded configuration
+
+        // Now start the game - initGameVars() will skip reinitialization
+        FXGL.getGameController().startNewGame();
     }
 
     private void showGameModeMenu() {
