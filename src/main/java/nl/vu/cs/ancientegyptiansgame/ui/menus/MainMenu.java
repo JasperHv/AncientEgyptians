@@ -26,7 +26,7 @@ public class MainMenu extends FXGLMenu {
         mainLabel.setFont(new Font("Arial", 30));
         getContentRoot().getChildren().add(mainLabel);
 
-        initButtons();
+        showMainMenu();
     }
 
     private void initUI() {
@@ -47,7 +47,9 @@ public class MainMenu extends FXGLMenu {
         getContentRoot().getChildren().add(title);
     }
 
-    private void initButtons() {
+    private void showMainMenu() {
+        getContentRoot().getChildren().clear();
+
         VBox menuBox = new VBox(20);
         menuBox.setTranslateX((double) 1280 / 2 - 100);
         menuBox.setTranslateY(300);
@@ -110,6 +112,13 @@ public class MainMenu extends FXGLMenu {
                 modeBox.getChildren().add(savedGameButton);
             }
         }
+
+        // Add a go-back button
+        Button backButton = new Button("Back to Main Menu");
+        backButton.setPrefWidth(200);
+        backButton.setOnAction(e -> showMainMenu());
+        modeBox.getChildren().add(backButton);
+
         getContentRoot().getChildren().add(modeBox);
     }
 
@@ -166,6 +175,13 @@ public class MainMenu extends FXGLMenu {
         });
 
         modeBox.getChildren().addAll(message, btnVeryEasy,btnEasy, btnMedium, btnHard, btnVeryHard);
+
+        // Add a go-back button
+        Button backButton = new Button("Back to Main Menu");
+        backButton.setPrefWidth(200);
+        backButton.setOnAction(e -> showMainMenu());
+        modeBox.getChildren().add(backButton);
+
         getContentRoot().getChildren().add(modeBox);
     }
 }
