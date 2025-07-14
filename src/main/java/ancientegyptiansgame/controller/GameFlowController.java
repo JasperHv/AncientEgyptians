@@ -132,6 +132,9 @@ public class GameFlowController {
             if (lastCommand.getCommandType().equals("IntroSwipeCommand")) {
                 // Handle the specific case for intro swipes
                 // This is the first card and involves chosing a Pharaoh -> reset entire game (not actully resetting, just reloading the choose-pharaoh card)
+                savedCommands.remove(savedCommands.size() - 1);
+                // TODO show the choose-pharaoh card again
+                // TODO reset the initial game state (pillar values)
             }
             CommandLogEntry secondLastCommand = savedCommands.get(savedCommands.size() - 2);
             if (secondLastCommand.getCommandType().equals("IntroSwipeCommand")) {
@@ -140,7 +143,7 @@ public class GameFlowController {
                  score 0 and years in power 0 without showing choose-pharaoh card again
                  --> basically same as normal reset but with score and YiP to 0 */
             }
-
+            // Else we are redoing a normal game action, see comments above
 
             // Reset to the previous command (last command - 1)
             /* savedCommands.remove(savedCommands.size() - 1);
