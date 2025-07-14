@@ -1,12 +1,18 @@
 package ancientegyptiansgame.logging;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class IntroCommandLogEntry extends CommandLogEntry {
-    @JsonProperty("chosenCharacter")
     private final String chosenCharacter;
 
-    public IntroCommandLogEntry(String cardTitle, String swipeDirection, String chosenCharacter, long timestamp) {
+    @JsonCreator
+    public IntroCommandLogEntry(
+            @JsonProperty("cardTitle") String cardTitle,
+            @JsonProperty("swipeDirection") String swipeDirection,
+            @JsonProperty("chosenCharacter") String chosenCharacter,
+            @JsonProperty("timestamp") long timestamp
+    ) {
         super("IntroSwipeCommand", cardTitle, swipeDirection, timestamp);
         this.chosenCharacter = chosenCharacter;
     }

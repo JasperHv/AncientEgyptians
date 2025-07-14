@@ -1,6 +1,18 @@
 package ancientegyptiansgame.logging;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "commandType"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = GameCommandLogEntry.class, name = "GameSwipeCommand"),
+        @JsonSubTypes.Type(value = IntroCommandLogEntry.class, name = "IntroSwipeCommand")
+})
 
 public abstract class CommandLogEntry {
     @JsonProperty("commandType")
