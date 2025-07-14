@@ -115,10 +115,39 @@ public class GameFlowController {
             FXGL.getDialogService().showMessageBox("No action to redo.");
             return;
         } else {
+            // What to actually do here?
+            /*
+             - reset the score and years in power to previous values
+             - reset the pillarValues to previous values
+             - show the last card again
+             - update the UI accordingly
+            */
+
             log.info("Redoing last action...");
             for (CommandLogEntry entry : savedCommands) {
                 log.info("Card Title: {}", entry.getCardTitle());
             }
+            CommandLogEntry lastCommand = savedCommands.get(savedCommands.size() - 1);
+            log.info("Last Card Title: {}", lastCommand.getCardTitle());
+            if (lastCommand.getCommandType().equals("IntroSwipeCommand")) {
+                // Handle the specific case for intro swipes
+                // This is the first card and involves chosing a Pharaoh -> reset entire game (not actully resetting, just reloading the choose-pharaoh card)
+            }
+            CommandLogEntry secondLastCommand = savedCommands.get(savedCommands.size() - 2);
+            if (secondLastCommand.getCommandType().equals("IntroSwipeCommand")) {
+                // Handle the case where the second last command is also an intro swipe
+                /* This means we are redoing the first card, so we need to reset the game state to
+                 score 0 and years in power 0 without showing choose-pharaoh card again
+                 --> basically same as normal reset but with score and YiP to 0 */
+            }
+
+
+            // Reset to the previous command (last command - 1)
+            /* savedCommands.remove(savedCommands.size() - 1);
+            log.info("Delete last command...");
+            for (CommandLogEntry entry : savedCommands) {
+                log.info("New Last Card Title: {}", entry.getCardTitle());
+            }*/
         }
         // This method can be used to redo the last action in the game.
     }
