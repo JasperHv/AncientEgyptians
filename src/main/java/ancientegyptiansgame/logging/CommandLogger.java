@@ -45,21 +45,8 @@ public class CommandLogger {
         }
     }
 
-    public static List<CommandLogEntry> loadCommands() {
-        try (InputStream input = GameStateLogger.class.getResourceAsStream("/configuration/command_log.json")) {
-            if (input == null) {
-                logger.log(Level.WARNING, "Command file not found at /configuration/command_log.json");
-                return new ArrayList<>();
-            }
-
-            ObjectMapper loadMapper = new ObjectMapper();
-            CommandLogEntry[] commandLogEntries = loadMapper.readValue(input, CommandLogEntry[].class);
-            return Arrays.asList(commandLogEntries);
-
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error loading command from file", e);
-            return new ArrayList<>();
-        }
+    public static List<CommandLogEntry> getLogEntries() {
+        return new ArrayList<>(logEntries);
     }
 }
 
