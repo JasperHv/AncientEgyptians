@@ -36,6 +36,15 @@ public class CommandLogger {
         }
     }
 
+    public static void clearLogFile() {
+        try {
+            logEntries.clear();
+            mapper.writeValue(new File(LOG_FILE), logEntries);
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Failed to clear command log file", e);
+        }
+    }
+
     public static List<CommandLogEntry> loadCommands() {
         try (InputStream input = GameStateLogger.class.getResourceAsStream("/configuration/command_log.json")) {
             if (input == null) {

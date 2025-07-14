@@ -1,5 +1,6 @@
 package ancientegyptiansgame;
 
+import ancientegyptiansgame.logging.CommandLogger;
 import com.almasb.fxgl.app.GameSettings;
 
 import ancientegyptiansgame.config.ConfigurationLoader;
@@ -101,6 +102,8 @@ public class AncientEgyptiansApp extends GameApplication {
     @Override
     protected void initUI() {
         getGameScene().setBackgroundRepeat("background.png");
+        //CommandLogger.clearLogFile(); -- This is commented out to avoid clearing the log file on every run for development purposes
+
         if (gameView != null) {
             getGameScene().addUINodes(gameView);
             logger.info("GameView added to UI");
