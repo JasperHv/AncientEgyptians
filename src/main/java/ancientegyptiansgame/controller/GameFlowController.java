@@ -1,5 +1,7 @@
 package ancientegyptiansgame.controller;
 
+import ancientegyptiansgame.logging.*;
+import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import ancientegyptiansgame.config.ConfigurationLoader;
@@ -12,10 +14,14 @@ import ancientegyptiansgame.data.model.Pillars;
 import ancientegyptiansgame.ui.views.CardView;
 
 import javafx.scene.control.Label;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 public class GameFlowController {
 
+    private static final Logger log = LoggerFactory.getLogger(GameFlowController.class);
     private final CardView cardView;
     private final GameStateController gameStateController;
     private CardDeck cardDeck;
@@ -104,6 +110,16 @@ public class GameFlowController {
     }
 
     public void redoLastAction() {
+        List<CommandLogEntry> savedCommands = CommandLogger.getLogEntries();
+        if (savedCommands.isEmpty()) {
+            FXGL.getDialogService().showMessageBox("No action to redo.");
+            return;
+        } else {
+            log.info("Redoing last action...");
+            for (CommandLogEntry entry : savedCommands) {
+                log.info("Card Title: {}", entry.getCardTitle());
+            }
+        }
         // This method can be used to redo the last action in the game.
     }
 }
