@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,23 @@ public class CommandLogger {
             mapper.writeValue(new File(LOG_FILE), logEntries);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error saving command log to file", e);
+        }
+    }
+
+    public static List<CommandLogEntry> loadCommands() {
+        try (InputStream input = GameStateLogger.class.getResourceAsStream("/configuration/command_log.json")) {
+            if (input == null) {
+                logger.log(Level.WARNING, "Command file not found at /configuration/command_log.json");
+                return new ArrayList<>();
+            }
+
+            ObjectMapper loadMapper = new ObjectMapper();
+            CommandLogEntry[] commandLogEntries = loadMapper.readValue(input, CommandLogEntry[].class);
+            return Arrays.asList(commandLogEntries);
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error loading command from file", e);
+            return new ArrayList<>();
         }
     }
 }
