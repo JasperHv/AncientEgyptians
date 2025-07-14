@@ -186,4 +186,8 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
 
         FXGL.getGameScene().addUINode(screen);
     }
+
+    public GameFlowController getGameFlowController() {
+        return gameFlowController;
+    }
 }

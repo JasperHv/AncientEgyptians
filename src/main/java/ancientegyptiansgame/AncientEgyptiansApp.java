@@ -14,6 +14,9 @@ import ancientegyptiansgame.ui.scenes.GameSceneFactory;
 import ancientegyptiansgame.ui.views.GameView;
 
 import com.almasb.fxgl.dsl.FXGL;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.almasb.fxgl.app.GameApplication;
@@ -101,6 +104,23 @@ public class AncientEgyptiansApp extends GameApplication {
         if (gameView != null) {
             getGameScene().addUINodes(gameView);
             logger.info("GameView added to UI");
+
+            // Add Undo button globally in the top-right
+            Button undoButton = new Button("Undo");
+            undoButton.setOnAction(e -> {
+                gameView.getGameFlowController().redoLastAction();
+                gameView.updateCardAndMessage();
+            });
+            undoButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-padding: 10px; -fx-border-radius: 5px; -fx-border-color: white");
+            undoButton.setPrefWidth(100);
+
+            StackPane.setAlignment(undoButton, Pos.TOP_RIGHT);
+            undoButton.setTranslateX(1175);
+            undoButton.setTranslateY(10);
+
+            FXGL.getGameScene().addUINode(undoButton);
+            logger.info("Redo button added to global UI");
+
         } else {
             logger.error("GameView is null in initUI() - this should not happen!");
         }

@@ -102,4 +102,8 @@ public class GameFlowController {
     public GameStateController getGameStateManager() {
         return gameStateController;
     }
+
+    public void redoLastAction() {
+        // This method can be used to redo the last action in the game.
+    }
 }
