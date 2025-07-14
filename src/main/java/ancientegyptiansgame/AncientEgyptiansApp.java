@@ -1,6 +1,5 @@
 package ancientegyptiansgame;
 
-import ancientegyptiansgame.logging.CommandLogger;
 import com.almasb.fxgl.app.GameSettings;
 
 import ancientegyptiansgame.config.ConfigurationLoader;
