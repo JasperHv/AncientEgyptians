@@ -165,6 +165,9 @@ public class GameFlowController {
                     /* This means we are redoing the first card, so we need to reset the game state to
                      score 0 and years in power 0 without showing choose-pharaoh card again
                      --> basically same as normal reset but with score and YiP to 0 */
+                    // For now, we just remove the last command
+                    savedCommands.remove(savedCommands.size() - 1);
+                    CommandLogger.removeLogEntry();
                 } else {
                     log.info("Handling normal game action redo");
                     // Handle the case where the second last command is a normal game action
