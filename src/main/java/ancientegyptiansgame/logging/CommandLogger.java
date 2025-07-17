@@ -46,5 +46,16 @@ public class CommandLogger {
     public static List<CommandLogEntry> getLogEntries() {
         return new ArrayList<>(logEntries);
     }
+
+    public static int getLogEntriesSize() {
+        return logEntries.size();
+    }
+
+    public static void removeLogEntry() {
+        if (!logEntries.isEmpty()) {
+            logEntries.remove(logEntries.size() - 1);
+            saveLogToFile();
+        }
+    }
 }
 
