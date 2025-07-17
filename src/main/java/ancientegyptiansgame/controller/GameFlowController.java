@@ -110,11 +110,16 @@ public class GameFlowController {
     }
 
     public void redoLastAction() {
+        log.info("=== ENTERING redoLastAction method ===");
         List<CommandLogEntry> savedCommands = CommandLogger.getLogEntries();
+        log.info("Retrieved savedCommands list, size: {}", CommandLogger.getLogEntriesSize());
         if (savedCommands.isEmpty()) {
+            log.info("savedCommands is empty, showing message box");
             FXGL.getDialogService().showMessageBox("No action to redo.");
+            log.info("=== EXITING redoLastAction method (empty list) ===");
             return;
         } else {
+            log.info("savedCommands is NOT empty, proceeding with redo logic");
             // What to actually do here?
             /*
              - reset the score and years in power to previous values
@@ -124,25 +129,47 @@ public class GameFlowController {
             */
 
             log.info("Redoing last action...");
+            log.info("Total saved commands: {}", CommandLogger.getLogEntriesSize());
             for (CommandLogEntry entry : savedCommands) {
                 log.info("Card Title: {}", entry.getCardTitle());
             }
+
             CommandLogEntry lastCommand = savedCommands.get(savedCommands.size() - 1);
             log.info("Last Card Title: {}", lastCommand.getCardTitle());
+            log.info("Last Command Type: {}", lastCommand.getCommandType());
+
             if (lastCommand.getCommandType().equals("IntroSwipeCommand")) {
+                log.info("Handling IntroSwipeCommand case");
                 // Handle the specific case for intro swipes
-                // This is the first card and involves chosing a Pharaoh -> reset entire game (not actully resetting, just reloading the choose-pharaoh card)
+                // This is the first card and involves choosing a Pharaoh -> reset entire game (not actually resetting, just reloading the choose-pharaoh card)
+                log.info("BEFORE removal - savedCommands size: {}", CommandLogger.getLogEntriesSize());
                 savedCommands.remove(savedCommands.size() - 1);
+                CommandLogger.removeLogEntry();
+                log.info("AFTER removal - savedCommands size: {}", CommandLogger.getLogEntriesSize());
+                log.info("Total saved commands: {}", CommandLogger.getLogEntriesSize());
+
                 // TODO show the choose-pharaoh card again
                 // TODO reset the initial game state (pillar values)
+                log.info("=== EXITING redoLastAction method (IntroSwipeCommand) ===");
+                return;
             }
-            CommandLogEntry secondLastCommand = savedCommands.get(savedCommands.size() - 2);
-            if (secondLastCommand.getCommandType().equals("IntroSwipeCommand")) {
-                // Handle the case where the second last command is also an intro swipe
-                /* This means we are redoing the first card, so we need to reset the game state to
-                 score 0 and years in power 0 without showing choose-pharaoh card again
-                 --> basically same as normal reset but with score and YiP to 0 */
+
+            log.info("Checking if there's a second last command...");
+            if (savedCommands.size() >= 2) {
+                CommandLogEntry secondLastCommand = savedCommands.get(savedCommands.size() - 2);
+                log.info("Second Last Command Type: {}", secondLastCommand.getCommandType());
+
+                if (secondLastCommand.getCommandType().equals("IntroSwipeCommand")) {
+                    log.info("Handling case where second last command is IntroSwipeCommand");
+                    // Handle the case where the second last command is also an intro swipe
+                    /* This means we are redoing the first card, so we need to reset the game state to
+                     score 0 and years in power 0 without showing choose-pharaoh card again
+                     --> basically same as normal reset but with score and YiP to 0 */
+                }
+            } else {
+                log.info("No second last command available (savedCommands size < 2)");
             }
+
             // Else we are redoing a normal game action, see comments above
 
             // Reset to the previous command (last command - 1)
@@ -152,6 +179,7 @@ public class GameFlowController {
                 log.info("New Last Card Title: {}", entry.getCardTitle());
             }*/
         }
+        log.info("=== EXITING redoLastAction method (end of method) ===");
         // This method can be used to redo the last action in the game.
     }
 }
