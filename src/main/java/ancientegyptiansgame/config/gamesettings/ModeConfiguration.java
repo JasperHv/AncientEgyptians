@@ -110,6 +110,15 @@ public class ModeConfiguration {
         }
     }
 
+    public void resetPillarValues() {
+        for (Pillars pillar : Pillars.values()) {
+            PillarData pillarData = pillarObserver.getPillarData(pillar);
+            if (pillarData != null) {
+                pillarData.setValue(1);
+            }
+        }
+    }
+
     public static boolean isInitialized() {
         return instance != null;
     }

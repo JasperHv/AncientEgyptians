@@ -145,6 +145,7 @@ public class GameFlowController {
                 log.info("BEFORE removal - savedCommands size: {}", CommandLogger.getLogEntriesSize());
                 savedCommands.remove(savedCommands.size() - 1);
                 CommandLogger.removeLogEntry();
+                ModeConfiguration.getInstance().resetPillarValues();
                 log.info("AFTER removal - savedCommands size: {}", CommandLogger.getLogEntriesSize());
                 log.info("Total saved commands: {}", CommandLogger.getLogEntriesSize());
 
