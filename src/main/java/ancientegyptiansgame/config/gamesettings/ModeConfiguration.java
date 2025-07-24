@@ -11,6 +11,7 @@ import ancientegyptiansgame.observer.PillarObserver;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ModeConfiguration {
     private static ModeConfiguration instance;
@@ -18,12 +19,29 @@ public class ModeConfiguration {
     private GameConfiguration gameConfig;
     private final PillarObserver pillarObserver;
     private final Mode currentMode;
+    private ConfigurationLoader configurationLoader;
+    private Function<String, InputStream> resourceLoader;
 
     private ModeConfiguration(String modeName) {
         this.pillarObserver = new PillarObserver();
-        ConfigurationLoader mainLoader = ConfigurationLoader.getInstance();
+        this.configurationLoader = ConfigurationLoader.getInstance();
+        this.resourceLoader = path -> getClass().getResourceAsStream("/" + path);
+        
+        Mode selectedMode = configurationLoader.getModes().stream()
+                .filter(m -> m.getName().equalsIgnoreCase(modeName))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No mode found for: " + modeName));
 
-        Mode selectedMode = mainLoader.getModes().stream()
+        this.currentMode = selectedMode;
+        loadModeConfig(selectedMode.getConfigPath());
+    }
+
+    private ModeConfiguration(String modeName, ConfigurationLoader configLoader, Function<String, InputStream> resourceLoader) {
+        this.pillarObserver = new PillarObserver();
+        this.configurationLoader = configLoader;
+        this.resourceLoader = resourceLoader;
+
+        Mode selectedMode = configLoader.getModes().stream()
                 .filter(m -> m.getName().equalsIgnoreCase(modeName))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No mode found for: " + modeName));
@@ -33,13 +51,19 @@ public class ModeConfiguration {
     }
 
     private void loadModeConfig(String modeConfigPath) {
-        try (InputStream input = getClass().getResourceAsStream("/" + modeConfigPath)) {
+        try (InputStream input = resourceLoader.apply(modeConfigPath)) {
             if (input == null) {
                 throw new ConfigurationNotFoundException("Mode config file not found: " + modeConfigPath);
             }
 
             ObjectMapper mapper = new ObjectMapper();
             gameConfig = mapper.readValue(input, GameConfiguration.class);
+            
+            // Validate that required fields are present
+            if (gameConfig.getMonarchInitialValues() == null || gameConfig.getMonarchInitialValues().isEmpty()) {
+                throw new ConfigurationNotFoundException("Mode config must contain monarchInitialValues: " + modeConfigPath);
+            }
+            
             GameConfiguration.setInstance(gameConfig);
 
             // Initialize pillars with default value (e.g., 1)
@@ -58,6 +82,16 @@ public class ModeConfiguration {
         }
     }
 
+    public static void initialize(String modeName, ConfigurationLoader configLoader, Function<String, InputStream> resourceLoader) {
+        if (instance == null) {
+            instance = new ModeConfiguration(modeName, configLoader, resourceLoader);
+        }
+    }
+
+    public static void reset() {
+        instance = null;
+    }
+
     public static ModeConfiguration getInstance() {
         if (instance == null) {
             throw new IllegalStateException("ModeConfiguration not initialized. Call initialize(modeName) first.");
@@ -66,6 +100,10 @@ public class ModeConfiguration {
     }
 
     public void updatePillarValues() {
+        if (gameConfig == null) {
+            throw new IllegalStateException("Game configuration is not set.");
+        }
+        
         Monarch selectedMonarch = gameConfig.getSelectedMonarch();
         if (selectedMonarch == null) {
             throw new IllegalStateException("Selected monarch is not set in game configuration.");
@@ -124,5 +162,17 @@ public class ModeConfiguration {
 
     public Mode getCurrentMode() {
         return currentMode;
+    }
+
+    public Map<String, Map<String, Integer>> getAllMonarchInitialValues() {
+        return gameConfig.getMonarchInitialValues();
+    }
+
+    public void setGameConfigForTest(GameConfiguration config) {
+        this.gameConfig = config;
+    }
+
+    public void resetPillarValues() {
+        updatePillarValues();
     }
 }
