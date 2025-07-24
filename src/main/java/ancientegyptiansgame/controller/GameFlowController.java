@@ -1,6 +1,9 @@
 package ancientegyptiansgame.controller;
 
+import ancientegyptiansgame.data.model.PillarData;
 import ancientegyptiansgame.logging.*;
+import ancientegyptiansgame.observer.ScoreObserver;
+import ancientegyptiansgame.observer.YearsInPowerObserver;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
@@ -197,6 +200,11 @@ public class GameFlowController {
                     // This means we are redoing a normal game action, so we need to reset the game state
                     // to the previous values (score, years in power, pillar values)
                     // TODO implement this logic
+                    GameCommandLogEntry secondLastGameCommand = (GameCommandLogEntry) secondLastCommand;
+                    int prevScore = secondLastGameCommand.getScoreCount();
+                    int prevYear = secondLastGameCommand.getYearCount();
+                    resetScoreAndYear(prevScore, prevYear);
+
                     savedCommands.remove(savedCommands.size() - 1);
                     CommandLogger.removeLogEntry();
                 }
@@ -215,5 +223,14 @@ public class GameFlowController {
         }
         log.info("=== EXITING redoLastAction method (end of method) ===");
         // This method can be used to redo the last action in the game.
+    }
+
+    private void resetScoreAndYear(int score, int year) {
+        GameConfiguration gameConfiguration = GameConfiguration.getInstance();
+        ScoreObserver scoreObserver = gameConfiguration.getScoreObserver();
+        YearsInPowerObserver yearsObserver = gameConfiguration.getYearsInPowerObserver();
+
+        scoreObserver.setScore(score);
+        yearsObserver.setYearsInPower(year);
     }
 }
