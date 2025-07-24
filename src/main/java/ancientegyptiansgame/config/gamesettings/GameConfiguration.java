@@ -53,6 +53,9 @@ public class GameConfiguration {
         }
         this.selectedMonarch = new Monarch(monarchName, initialValues);
     }
+    public void resetSelectedMonarch() {
+        this.selectedMonarch = null;
+    }
 
     public Map<String, Map<String, Integer>> getMonarchInitialValues() {
         return monarchInitialValues;

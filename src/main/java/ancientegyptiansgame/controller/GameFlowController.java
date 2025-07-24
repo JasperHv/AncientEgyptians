@@ -6,6 +6,7 @@ import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import ancientegyptiansgame.config.ConfigurationLoader;
 import ancientegyptiansgame.config.gamesettings.GameConfiguration;
+import ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import ancientegyptiansgame.config.scoresettings.ScoreSettings;
 
 import ancientegyptiansgame.data.model.Card;
@@ -145,6 +146,7 @@ public class GameFlowController {
                 log.info("BEFORE removal - savedCommands size: {}", CommandLogger.getLogEntriesSize());
                 savedCommands.remove(savedCommands.size() - 1);
                 CommandLogger.removeLogEntry();
+                GameConfiguration.getInstance().resetSelectedMonarch();
                 ModeConfiguration.getInstance().resetPillarValues();
                 log.info("AFTER removal - savedCommands size: {}", CommandLogger.getLogEntriesSize());
                 log.info("Total saved commands: {}", CommandLogger.getLogEntriesSize());
