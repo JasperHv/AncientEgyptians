@@ -32,8 +32,42 @@ public class ModeConfiguration {
         loadModeConfig(selectedMode.getConfigPath());
     }
 
+    // Test-only constructor for compatibility with existing tests
+    private ModeConfiguration(String modeName, ConfigurationLoader configLoader, java.util.function.Function<String, InputStream> resourceLoader) {
+        this.pillarObserver = new PillarObserver();
+
+        Mode selectedMode = configLoader.getModes().stream()
+                .filter(m -> m.getName().equalsIgnoreCase(modeName))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No mode found for: " + modeName));
+
+        this.currentMode = selectedMode;
+        loadModeConfigWithLoader(selectedMode.getConfigPath(), resourceLoader);
+    }
+
     private void loadModeConfig(String modeConfigPath) {
         try (InputStream input = getClass().getResourceAsStream("/" + modeConfigPath)) {
+            if (input == null) {
+                throw new ConfigurationNotFoundException("Mode config file not found: " + modeConfigPath);
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            gameConfig = mapper.readValue(input, GameConfiguration.class);
+            GameConfiguration.setInstance(gameConfig);
+
+            // Initialize pillars with default value (e.g., 1)
+            for (Pillars pillar : Pillars.values()) {
+                pillarObserver.addPillar(pillar, 1);
+            }
+
+        } catch (Exception e) {
+            throw new ConfigurationNotFoundException("Error loading mode config: " + e.getMessage(), e);
+        }
+    }
+
+    // Test-only method for loading config with custom resource loader
+    private void loadModeConfigWithLoader(String modeConfigPath, java.util.function.Function<String, InputStream> resourceLoader) {
+        try (InputStream input = resourceLoader.apply(modeConfigPath)) {
             if (input == null) {
                 throw new ConfigurationNotFoundException("Mode config file not found: " + modeConfigPath);
             }
@@ -58,6 +92,13 @@ public class ModeConfiguration {
         }
     }
 
+    // Test-only method for compatibility with existing tests
+    public static void initialize(String modeName, ConfigurationLoader configLoader, java.util.function.Function<String, InputStream> resourceLoader) {
+        if (instance == null) {
+            instance = new ModeConfiguration(modeName, configLoader, resourceLoader);
+        }
+    }
+
     public static ModeConfiguration getInstance() {
         if (instance == null) {
             throw new IllegalStateException("ModeConfiguration not initialized. Call initialize(modeName) first.");
@@ -66,6 +107,10 @@ public class ModeConfiguration {
     }
 
     public void updatePillarValues() {
+        if (gameConfig == null) {
+            throw new IllegalStateException("Game configuration not loaded");
+        }
+        
         Monarch selectedMonarch = gameConfig.getSelectedMonarch();
         if (selectedMonarch == null) {
             throw new IllegalStateException("Selected monarch is not set in game configuration.");
@@ -124,5 +169,24 @@ public class ModeConfiguration {
 
     public Mode getCurrentMode() {
         return currentMode;
+    }
+
+    // Test-only methods for compatibility with existing tests
+    public static void reset() {
+        instance = null;
+    }
+
+    public Map<String, Map<String, Integer>> getAllMonarchInitialValues() {
+        if (gameConfig == null) {
+            throw new IllegalStateException("Game configuration not loaded");
+        }
+        return gameConfig.getMonarchInitialValues();
+    }
+
+    public void setGameConfigForTest(GameConfiguration config) {
+        this.gameConfig = config;
+        if (config != null) {
+            GameConfiguration.setInstance(config);
+        }
     }
 }
