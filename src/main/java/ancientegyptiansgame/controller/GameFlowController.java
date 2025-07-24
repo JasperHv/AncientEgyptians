@@ -118,7 +118,12 @@ public class GameFlowController {
     }
 
     public void resetGameCard(Label messageLabel) {
-        Card currentCard = gameStateController.getCurrentGameCard();
+        List<CommandLogEntry> savedCommands = CommandLogger.getLogEntries();
+        CommandLogEntry secondLastCommand = savedCommands.get(savedCommands.size() - 2);
+        GameCommandLogEntry secondLastGameCommand = (GameCommandLogEntry) secondLastCommand;
+        String cardTitle = secondLastGameCommand.getCardTitle();
+        log.info("Resetting game card to: {}", cardTitle);
+        Card currentCard = gameStateController.getCardByTitle(cardTitle);
         if (currentCard == null) {
             return;
         }

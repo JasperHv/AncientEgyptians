@@ -61,6 +61,22 @@ public class CardDeck implements Iterable<Card> {
     }
 
     /**
+     * Retrieves a card from the deck by its title.
+     * @param cardTitle The title of the card to find.
+     * @return The Card with the matching title, or null if not found.
+     */
+    public Card getCardByTitle(String cardTitle) {
+        if (cardTitle == null) {
+            return null;
+        }
+
+        return cards.stream()
+                .filter(card -> cardTitle.equals(card.getTitle()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
      * Checks if the deck is empty.
      * @return true if the deck is empty, otherwise false.
      */

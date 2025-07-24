@@ -174,6 +174,11 @@ public class GameStateController {
         return currentCard;
     }
 
+    public Card getCardByTitle(String cardTile){
+        return cardDeck.getCardByTitle(cardTile);
+    }
+
+
     public ScoreSettings getScoreSettings() {
         return scoreSettings;
     }
