@@ -1,6 +1,8 @@
 package ancientegyptiansgame.controller;
 
-import ancientegyptiansgame.data.model.PillarData;
+import ancientegyptiansgame.data.enums.SwipeSide;
+import ancientegyptiansgame.data.model.*;
+import ancientegyptiansgame.handlers.HandleInfluencePillars;
 import ancientegyptiansgame.logging.*;
 import ancientegyptiansgame.observer.ScoreObserver;
 import ancientegyptiansgame.observer.YearsInPowerObserver;
@@ -12,9 +14,6 @@ import ancientegyptiansgame.config.gamesettings.GameConfiguration;
 import ancientegyptiansgame.config.gamesettings.ModeConfiguration;
 import ancientegyptiansgame.config.scoresettings.ScoreSettings;
 
-import ancientegyptiansgame.data.model.Card;
-import ancientegyptiansgame.data.model.CardDeck;
-import ancientegyptiansgame.data.model.Pillars;
 import ancientegyptiansgame.ui.views.CardView;
 
 import javafx.scene.control.Label;
@@ -191,7 +190,13 @@ public class GameFlowController {
                     /* This means we are redoing the first card, so we need to reset the game state to
                      score 0 and years in power 0 without showing choose-pharaoh card again
                      --> basically same as normal reset but with score and YiP to 0 */
-                    // For now, we just remove the last command
+
+                    // Reset the score and years in power to 0
+                    resetScoreAndYear(0,0);
+                    // Reset the pillar values to their initial values
+                    ModeConfiguration.getInstance().updatePillarValues();
+
+                    // Remove the last command (the one we are redoing)
                     savedCommands.remove(savedCommands.size() - 1);
                     CommandLogger.removeLogEntry();
                 } else {
@@ -200,10 +205,22 @@ public class GameFlowController {
                     // This means we are redoing a normal game action, so we need to reset the game state
                     // to the previous values (score, years in power, pillar values)
                     // TODO implement this logic
+
+                    // Reset the score and years in power to the previous values
                     GameCommandLogEntry secondLastGameCommand = (GameCommandLogEntry) secondLastCommand;
                     int prevScore = secondLastGameCommand.getScoreCount();
                     int prevYear = secondLastGameCommand.getYearCount();
                     resetScoreAndYear(prevScore, prevYear);
+
+                    // Reset the pillar values to the previous values
+                    GameCommandLogEntry lastGameCommand = (GameCommandLogEntry) lastCommand;
+                    List<Influence> prevInfluences = lastGameCommand.getInfluence();
+
+                    SwipeSide originalSide = SwipeSide.valueOf(lastGameCommand.getSwipeDirection());
+                    SwipeSide reverseSide = (originalSide == SwipeSide.LEFT) ? SwipeSide.RIGHT : SwipeSide.LEFT;
+
+                    HandleInfluencePillars handleInfluencePillars = new HandleInfluencePillars();
+                    handleInfluencePillars.applyInfluence(reverseSide, prevInfluences);
 
                     savedCommands.remove(savedCommands.size() - 1);
                     CommandLogger.removeLogEntry();
