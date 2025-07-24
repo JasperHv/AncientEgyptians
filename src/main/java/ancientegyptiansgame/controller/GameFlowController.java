@@ -115,6 +115,18 @@ public class GameFlowController {
         updateMessage(messageLabel, currentCard.getScenario());
     }
 
+    public void resetGameCard(Label messageLabel) {
+        Card currentCard = gameStateController.getCurrentGameCard();
+        if (currentCard == null) {
+            return;
+        }
+        // TODO Implement logic to display previous card
+        String pillar = currentCard.getPillar().toLowerCase();
+        String imageName = Pillars.fromName(pillar).getCardImage();
+        cardView.updateCard(imageName);
+        updateMessage(messageLabel, currentCard.getScenario());
+    }
+
     public GameStateController getGameStateManager() {
         return gameStateController;
     }
@@ -185,7 +197,6 @@ public class GameFlowController {
                     // This means we are redoing a normal game action, so we need to reset the game state
                     // to the previous values (score, years in power, pillar values)
                     // TODO implement this logic
-                    // For now, we just remove the last command
                     savedCommands.remove(savedCommands.size() - 1);
                     CommandLogger.removeLogEntry();
                 }

@@ -164,7 +164,7 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
             gameFlowController.resetIntroCard(messageLabel);
         }
         else {
-            // Reset the game card
+            gameFlowController.resetGameCard(messageLabel);
         }
     }
 
