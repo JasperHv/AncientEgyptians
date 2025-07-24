@@ -159,6 +159,15 @@ public class GameView extends Parent implements ScoreListener, YearsInPowerListe
         }
     }
 
+    public void showPreviousCard() {
+        if (gameStateController.isIntroPhase()) {
+            gameFlowController.resetIntroCard(messageLabel);
+        }
+        else {
+            // Reset the game card
+        }
+    }
+
     public void onCardSwiped(SwipeSide side) {
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), messageLabel);
         fadeOut.setFromValue(1.0);

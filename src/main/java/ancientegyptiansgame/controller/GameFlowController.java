@@ -93,6 +93,15 @@ public class GameFlowController {
         updateMessage(messageLabel, cardName);
     }
 
+    public void resetIntroCard(Label messageLabel) {
+        int currentIntroCardIndex = gameStateController.getIntroCardIndex();
+        gameStateController.setIntroCardIndex(currentIntroCardIndex - 1);
+        int introCardIndexNew = gameStateController.getIntroCardIndex();
+        String cardName = gameStateController.getIntroCards().get(introCardIndexNew);
+        cardView.updateCard(cardName + ".png");
+        updateMessage(messageLabel, cardName);
+    }
+
     public void handleGamePhase(Label messageLabel) {
         Card currentCard = gameStateController.getCurrentGameCard();
 
@@ -148,12 +157,11 @@ public class GameFlowController {
                 CommandLogger.removeLogEntry();
                 GameConfiguration.getInstance().resetSelectedMonarch();
                 ModeConfiguration.getInstance().resetPillarValues();
+
                 log.info("AFTER removal - savedCommands size: {}", CommandLogger.getLogEntriesSize());
                 log.info("Total saved commands: {}", CommandLogger.getLogEntriesSize());
-
-                // TODO show the choose-pharaoh card again
-                // TODO reset the initial game state (pillar values)
                 log.info("=== EXITING redoLastAction method (IntroSwipeCommand) ===");
+
                 return;
             }
 

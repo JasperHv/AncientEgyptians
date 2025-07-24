@@ -111,6 +111,7 @@ public class AncientEgyptiansApp extends GameApplication {
             Button undoButton = new Button("Undo");
             undoButton.setOnAction(e -> {
                 gameView.getGameFlowController().redoLastAction();
+                gameView.undoCard();
             });
             undoButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-padding: 10px; -fx-border-radius: 5px; -fx-border-color: white");
             undoButton.setPrefWidth(100);
